@@ -1,0 +1,84 @@
+/* app.component.scss */
+
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* HEADER */
+.app-header {
+  height: 56px;
+  background: #1f5f3b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+}
+
+.title {
+  flex: 1;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.logo {
+  height: 32px;
+}
+
+/* LAYOUT */
+.layout-container {
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+
+/* LEFT NAV */
+.left-sidenav {
+  width: 260px;
+  background: linear-gradient(180deg, #1f5f3b, #174b2f);
+  color: #fff;
+  padding: 8px;
+}
+
+/* NAV ITEMS */
+.nav-item,
+.submenu-item {
+  width: 100%;
+  justify-content: flex-start;
+  color: #fff;
+}
+
+.submenu {
+  padding-left: 16px;
+}
+
+.arrow {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+.arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* MAIN CONTENT */
+.content-wrapper {
+  padding: 16px;
+  overflow-x: hidden;   /* 🔑 KILLS horizontal scrollbar */
+  overflow-y: auto;
+  background: #f5f6f7;
+}
+
+/* CHAT */
+.chat-sidenav {
+  width: 360px;
+}
+
+/* FLOATING CHAT BUTTON */
+.chat-btn-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
