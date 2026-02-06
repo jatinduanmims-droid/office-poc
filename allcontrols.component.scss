@@ -20,7 +20,7 @@
   display: flex;
   gap: 1.5rem;
   flex: 1;
-  align-items: flex-start; /* prevent vertical stretch */
+  align-items: flex-start;
 }
 
 /* Donut card */
@@ -100,8 +100,8 @@
    =============================== */
 
 .controls-panel {
-  width: 400px;              /* increased width */
-  max-height: 520px;         /* increased height */
+  width: 460px;            /* WIDER CONTROLS LIST */
+  max-height: 520px;
 
   display: flex;
   flex-direction: column;
@@ -119,10 +119,10 @@
   font-size: 0.95rem;
 }
 
-/* Controls table */
+/* Controls table (scrollable – preserved) */
 .controls-panel .grid-table {
   display: block;
-  max-height: 420px;         /* more rows visible */
+  max-height: 420px;
   overflow-y: auto;
 
   border: 1px solid #e0e0e0;
@@ -151,10 +151,11 @@
 
 .chart-panel {
   flex: 1;
+  max-width: 65%;          /* CHART LESS DOMINANT */
 
   background: #ffffff;
   border-radius: 6px;
-  padding: 0.75rem 1rem;   /* slightly tighter */
+  padding: 0.75rem 1rem;
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
@@ -171,7 +172,7 @@
   color: #555;
 }
 
-/* Line chart (reduced dominance) */
+/* Line chart */
 .line-chart {
   width: 100% !important;
   height: 260px !important;
