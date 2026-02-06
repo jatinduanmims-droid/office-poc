@@ -1,71 +1,73 @@
-/* ===== PAGE LAYOUT ===== */
-.dashboard-wrapper {
-  padding: 16px 24px;
+:host {
+  display: block;
+  padding: 1rem 1.25rem; /* gap from left/right like a card */
   box-sizing: border-box;
 }
 
-/* Each section acts like a card block */
-.dashboard-section {
-  margin-bottom: 20px;
-}
-
-/* ===== TABLE CARD ===== */
+/* ================= CARD WRAPPER ================= */
 .table-card {
   background: #ffffff;
   border-radius: 6px;
+  padding: 0.75rem 0.75rem 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  padding: 12px;
+  margin-top: 1rem;
 }
 
-/* Header inside card */
+/* Header (Show All button) */
 .table-card-header {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
-/* ===== TABLE SAFETY ===== */
-:host ::ng-deep .compact-table {
+/* ================= PRIME TABLE FIXES ================= */
+
+/* Prevent horizontal scrollbar */
+:host ::ng-deep .p-datatable-wrapper {
+  overflow-x: hidden !important;
+}
+
+/* Let table naturally size */
+:host ::ng-deep .p-datatable {
   width: 100%;
 }
 
-:host ::ng-deep .compact-table .p-datatable-wrapper {
-  overflow-x: auto;
+/* Header cells */
+:host ::ng-deep .p-datatable thead th {
+  white-space: nowrap;
+  text-align: center;
+  font-weight: 600;
+  padding: 0.4rem 0.5rem;
 }
 
-/* Keep existing table look intact */
-:host ::ng-deep .p-datatable-thead > tr > th,
-:host ::ng-deep .p-datatable-tbody > tr > td {
-  padding: 8px 10px;
+/* Body cells */
+:host ::ng-deep .p-datatable tbody td {
+  padding: 0.45rem 0.5rem;
   white-space: nowrap;
 }
 
-/* ===== FILTER ===== */
+/* Filter row */
 .filter-wrapper {
   display: flex;
   align-items: center;
-  gap: 6px;
-  border: 1px solid #d0d0d0;
-  border-radius: 4px;
-  padding: 2px 6px;
-  background: #fafafa;
+  gap: 0.25rem;
 }
 
 .filter-wrapper i {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: #666;
 }
 
-:host ::ng-deep .filter-input .p-inputtext {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.8rem;
+/* Inputs should not expand width */
+:host ::ng-deep .p-column-filter input {
+  width: 100%;
+  min-width: 0;
 }
 
-/* ===== SLA ICON ===== */
+/* ================= SLA ICONS ================= */
 .sla-icon {
-  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .sla-ok {
@@ -76,12 +78,16 @@
   color: #c62828;
 }
 
-/* ===== MODAL ===== */
+/* ================= CENTER ALIGN ================= */
+.center-cell {
+  text-align: center;
+}
+
+/* ================= MODAL ================= */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.35);
   z-index: 998;
 }
 
@@ -94,8 +100,21 @@
   max-height: 90vh;
   background: #fff;
   border-radius: 6px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   overflow-y: auto;
   z-index: 999;
-  padding: 16px;
+  padding: 1rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1200px) {
+  :host {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 992px) {
+  :host ::ng-deep .p-datatable thead th,
+  :host ::ng-deep .p-datatable tbody td {
+    font-size: 0.75rem;
+  }
 }
