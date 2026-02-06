@@ -3,53 +3,57 @@
   width: 100%;
 }
 
-/* =========================
-   TOP KPI SECTION
-   ========================= */
+/* ================= TOP KPI SECTION ================= */
 
 .dashboard-kpi-section {
   display: flex;
+  align-items: flex-start; /* IMPORTANT */
   gap: 1.5rem;
-  align-items: flex-start;
-  width: 100%;
   padding: 0 1rem;
 }
 
-/* =========================
-   DONUT CARDS ROW
-   ========================= */
+/* ================= DONUT ROW ================= */
 
 .donut-cards {
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
   flex: 1;
+  align-items: flex-start; /* PREVENT STRETCH */
 }
 
-/* Each donut card */
+/* ================= DONUT CARD ================= */
+
 .donut-card {
-  flex: 1;
+  width: 280px;              /* LOCK WIDTH */
+  min-width: 280px;
+  height: 320px;             /* LOCK HEIGHT */
   background: #ffffff;
   border-radius: 6px;
   padding: 1rem;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* Chart canvas — CRITICAL */
+/* ================= DONUT CANVAS ================= */
+
 .donut-canvas {
-  display: block;
   width: 100% !important;
-  height: 180px !important;
+  height: 180px !important;  /* LOCKED → NO DISTORTION */
+  max-height: 180px;
   margin: 0 auto;
 }
 
-/* Legends */
+/* ================= LEGEND ================= */
+
 .donut-legend {
-  margin-top: 0.75rem;
-  font-size: 0.85rem;
   display: flex;
   justify-content: space-between;
+  font-size: 0.85rem;
 }
 
 .success {
@@ -62,12 +66,11 @@
   font-weight: 600;
 }
 
-/* =========================
-   FAILED CONTROLS PANEL
-   ========================= */
+/* ================= FAILED CONTROLS ================= */
 
 .failed-controls {
   width: 340px;
+  min-width: 340px;
   background: #ffffff;
   border-radius: 6px;
   padding: 1rem;
@@ -75,9 +78,7 @@
   border-left: 4px solid #d32f2f;
 }
 
-/* =========================
-   MAIN SECTION
-   ========================= */
+/* ================= MAIN SECTION ================= */
 
 .dashboard-main {
   display: flex;
@@ -95,7 +96,6 @@
 }
 
 .line-chart {
-  display: block;
   width: 100% !important;
   height: 320px !important;
 }
