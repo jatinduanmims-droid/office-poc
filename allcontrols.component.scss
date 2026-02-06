@@ -1,1 +1,81 @@
+.dashboard-kpi-section {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.donut-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 1.4fr 2fr;
+  gap: 24px;
+}
+
+.donut-card,
+.failed-controls,
+.controls-panel,
+.chart-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.donut-canvas {
+  max-height: 160px;
+}
+
+.donut-legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.success { color: #2e7d32; }
+.failed { color: #d32f2f; }
+
+.failed-controls {
+  border-left: 4px solid #d32f2f;
+}
+
+.search-field {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.control-name {
+  padding: 12px;
+}
+
+.clickable {
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.clickable:hover {
+  background: #f1f5f9;
+}
+
+.selected {
+  background: #e0f2fe;
+  font-weight: 500;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-kpi-section,
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+
+  .donut-cards {
+    grid-template-columns: 1fr;
+  }
+}
 /* Use the redesigned SCSS I already shared */
