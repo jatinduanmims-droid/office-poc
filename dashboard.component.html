@@ -1,106 +1,47 @@
-<app-email-stats
-  (statClicked)="handleStatClick($event)"
-  (barClicked)="handleStatClick($event)"
-  [totalToday]="(stats.totalEmailsToday | async) ?? 0"
-  [urgentToday]="(stats.urgentEmailsToday | async) ?? 0"
-  [amendmentsToday]="(stats.amendmentsToday | async) ?? 0"
-  [issuanceToday]="(stats.issuanceToday | async) ?? 0">
-</app-email-stats>
+<div class="dashboard-page">
 
-<mat-card class="table-card">
+  <!-- ================= EMAIL STATS (TOP HALF) ================= -->
+  <app-email-stats></app-email-stats>
 
-  <div class="table-card-header">
-    <button mat-button class="custom-save" (click)="resetFilters()">
-      Show All
-    </button>
-  </div>
+  <!-- ================= TABLE SECTION ================= -->
+  <mat-card class="table-card">
+    <mat-card-content>
 
-  <p-table
-    [value]="displayedEmails"
-    [loading]="loading"
-    [filterDelay]="300"
-    [paginator]="true"
-    [rows]="10"
-    [totalRecords]="totalEmails"
-    (onPage)="handlePage($event)"
-    [scrollable]="true"
-    scrollHeight="auto"
-    responsiveLayout="scroll"
-    class="compact-table custom-header">
+      <div class="table-toolbar">
+        <button mat-raised-button color="primary" class="show-all-btn">
+          Show All
+        </button>
+      </div>
 
-    <!-- HEADER -->
-    <ng-template pTemplate="header">
-      <tr>
-        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
-          <div class="flex items-center justify-center text-center">
-            {{ col.header }}
-            <p-sortIcon [field]="col.field"></p-sortIcon>
-          </div>
-        </th>
-      </tr>
+      <table class="grid-table">
+        <thead>
+          <tr>
+            <th>Sender</th>
+            <th>Operation</th>
+            <th>Received On</th>
+            <th>Classification</th>
+            <th>LC Reference Number</th>
+            <th>Approval Date</th>
+            <th>SLA Date</th>
+            <th>SLA Met</th>
+          </tr>
+        </thead>
 
-      <!-- FILTERS -->
-      <tr>
-        <th *ngFor="let col of cols">
-          <div class="filter-wrapper">
-            <i class="pi pi-search"></i>
-            <p-columnFilter
-              [field]="col.field"
-              type="text"
-              [showMenu]="false"
-              class="filter-input">
-            </p-columnFilter>
-          </div>
-        </th>
-      </tr>
-    </ng-template>
+        <tbody>
+          <tr *ngFor="let row of tableData">
+            <td>{{ row.sender }}</td>
+            <td>{{ row.operation }}</td>
+            <td>{{ row.receivedOn }}</td>
+            <td>{{ row.classification }}</td>
+            <td>{{ row.lcReference }}</td>
+            <td>{{ row.approvalDate }}</td>
+            <td>{{ row.slaDate }}</td>
+            <td>{{ row.slaMet }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <!-- BODY -->
-    <ng-template pTemplate="body" let-row>
-      <tr>
-        <td
-          *ngFor="let col of cols"
-          (click)="openDetail(row)"
-          [ngClass]="{ 'center-cell': col.align === 'center' }">
+    </mat-card-content>
+  </mat-card>
 
-          <!-- DATE FIELDS -->
-          <ng-container
-            *ngIf="
-              col.field === 'EMAIL_RECEIVEDTIME' ||
-              col.field === 'APPROVEDATE' ||
-              col.field === 'SLA_DATE';
-              else nonDateCell
-            ">
-            {{ row[col.field] | date:'dd-MMM-yy' | uppercase }}
-          </ng-container>
-
-          <!-- NON-DATE -->
-          <ng-template #nonDateCell>
-            <ng-container *ngIf="col.field === 'SLA_MET'; else defaultCell">
-              <span
-                class="sla-icon"
-                [ngClass]="row[col.field] === 'Y' ? 'sla-ok' : 'sla-nok'">
-                {{ row[col.field] === 'Y' ? '✓' : '✕' }}
-              </span>
-            </ng-container>
-
-            <ng-template #defaultCell>
-              {{ row[col.field] }}
-            </ng-template>
-          </ng-template>
-
-        </td>
-      </tr>
-    </ng-template>
-
-  </p-table>
-</mat-card>
-
-<div class="modal-backdrop" *ngIf="selectedRow" (click)="closeDetail()"></div>
-
-<div class="modal-window" *ngIf="selectedRow">
-  <app-email-detail
-    [rowId]="selectedRow.ROW_ID"
-    (close)="closeDetail()">
-  </app-email-detail>
 </div>
