@@ -1,79 +1,110 @@
-/* ================= PAGE WRAPPER ================= */
-.dashboard-container {
-  padding: 16px 24px;
-  background: #f5f6f7;
+/* =====================================================
+   ROOT SAFETY
+   ===================================================== */
+
+:host {
+  display: block;
+  width: 100%;
 }
 
-/* ================= TOP KPI / DONUT SECTION ================= */
-.dashboard-kpi-section {
-  display: flex;
-  gap: 16px;
+/* Prevent horizontal jump when sidenav toggles */
+.mat-drawer-container {
+  overflow-x: hidden;
+}
+
+.mat-drawer-content {
+  margin-left: 0 !important;
+}
+
+/* =====================================================
+   MAIN PAGE WRAPPER
+   ===================================================== */
+
+.dashboard-container {
+  width: 100%;
+  padding: 16px 24px;            /* GAP from sidebar + screen */
+  background: #f5f6f7;           /* subtle app background */
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   STATS / TOP SECTION
+   ===================================================== */
+
+.stats-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   margin-bottom: 16px;
 }
 
-/* Donut cards stay in ONE LINE always */
-.donut-cards {
+.email-stats {
   display: flex;
-  flex: 1;
-  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.donut-card {
+.stat-item {
   flex: 1;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
 
-.donut-card h4 {
-  margin-bottom: 8px;
-  font-size: 0.95rem;
+.stat-value {
+  font-size: 1.2rem;
   font-weight: 600;
+  cursor: pointer;
 }
 
-.donut-canvas {
-  max-height: 160px;
-}
-
-.donut-legend {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
+.stat-label {
   font-size: 0.75rem;
+  color: #555;
+  margin-top: 4px;
 }
 
-.donut-legend .success {
-  color: #2e7d32;
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: #e0e0e0;
 }
 
-.donut-legend .failed {
-  color: #d32f2f;
+/* =====================================================
+   CHARTS IN STATS SECTION
+   ===================================================== */
+
+.chart-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 12px;
 }
 
-/* ================= FAILED CONTROLS ================= */
-.failed-controls {
-  width: 300px;
+.chart-box {
   background: #ffffff;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  padding: 8px;
 }
 
-.failed-controls h4 {
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+.chart-canvas {
+  width: 100% !important;
+  height: 240px !important;
 }
 
-/* ================= MAIN CONTENT ================= */
+/* =====================================================
+   MAIN DASHBOARD (TABLE + CHART)
+   ===================================================== */
+
 .dashboard-main {
   display: grid;
-  grid-template-columns: 45% 55%;
+  grid-template-columns: 42% 58%;   /* wider table, smaller chart */
   gap: 16px;
+  margin-top: 16px;
 }
 
-/* ================= CONTROLS LIST ================= */
+/* =====================================================
+   CONTROLS LIST / TABLE PANEL
+   ===================================================== */
+
 .controls-panel {
   background: #ffffff;
   border-radius: 8px;
@@ -88,32 +119,43 @@
   margin-bottom: 8px;
 }
 
-.controls-panel table {
+.grid-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 0.8rem;
 }
 
-.controls-panel tbody {
+.grid-table thead th {
+  text-align: left;
+  font-weight: 600;
+  color: #2e7d32;
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.grid-table tbody {
   display: block;
-  max-height: 360px;
+  max-height: 260px;   /* scrollable like earlier */
   overflow-y: auto;
 }
 
-.controls-panel thead,
-.controls-panel tbody tr {
+.grid-table thead,
+.grid-table tbody tr {
   display: table;
   width: 100%;
   table-layout: fixed;
 }
 
-.control-name {
-  padding: 8px;
-  cursor: pointer;
-  font-size: 0.85rem;
+.grid-table td {
+  padding: 6px;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.control-name:hover {
-  background: #f1f5f1;
+.control-name.clickable {
+  cursor: pointer;
 }
 
 .control-name.selected {
@@ -121,7 +163,10 @@
   font-weight: 600;
 }
 
-/* ================= SLA CHART ================= */
+/* =====================================================
+   CHART PANEL (RIGHT SIDE)
+   ===================================================== */
+
 .chart-panel {
   background: #ffffff;
   border-radius: 8px;
@@ -130,32 +175,49 @@
 }
 
 .chart-panel h3 {
+  margin: 0 0 8px 0;
   font-size: 0.95rem;
-  margin-bottom: 8px;
 }
 
 .chart-panel .sub {
-  font-weight: 400;
-  color: #666;
+  font-weight: normal;
+  color: #555;
 }
 
 .line-chart {
-  height: 340px;
+  width: 100% !important;
+  height: 300px !important;  /* reduced from earlier oversized chart */
 }
 
-/* ================= RESPONSIVE SAFETY ================= */
-@media (max-width: 1280px) {
+/* =====================================================
+   BUTTON
+   ===================================================== */
+
+button.custom-save {
+  background: #008859;
+  color: #fff;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 0.75rem;
+}
+
+/* =====================================================
+   RESPONSIVE (SAFE)
+   ===================================================== */
+
+@media (max-width: 1200px) {
   .dashboard-main {
-    grid-template-columns: 48% 52%;
+    grid-template-columns: 45% 55%;
   }
 }
 
-@media (max-width: 1024px) {
-  .dashboard-kpi-section {
-    flex-direction: column;
-  }
-
+@media (max-width: 960px) {
   .dashboard-main {
     grid-template-columns: 1fr;
+  }
+
+  .chart-canvas,
+  .line-chart {
+    height: 260px !important;
   }
 }
