@@ -1,55 +1,73 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 /* =========================
-   DONUT SECTION
+   TOP KPI SECTION
    ========================= */
 
-.dashboard-container-donut {
+.dashboard-kpi-section {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
   width: 100%;
   padding: 0 1rem;
 }
 
-.donut-charts-wrapper {
+/* =========================
+   DONUT CARDS ROW
+   ========================= */
+
+.donut-cards {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  flex: 1;
 }
 
-/* Individual donut cards */
+/* Each donut card */
 .donut-card {
   flex: 1;
   background: #ffffff;
   border-radius: 6px;
   padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Donut canvas */
+/* Chart canvas — CRITICAL */
 .donut-canvas {
-  width: 100%;
-  max-width: 180px;
+  display: block;
+  width: 100% !important;
+  height: 180px !important;
   margin: 0 auto;
 }
 
-/* Donut legend */
+/* Legends */
 .donut-legend {
   margin-top: 0.75rem;
   font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
 }
 
-.legend-success {
+.success {
   color: #2e7d32;
   font-weight: 600;
 }
 
+.failed {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
 /* =========================
-   FAILED CONTROLS
+   FAILED CONTROLS PANEL
    ========================= */
 
-.failed-controls-section {
-  width: 100%;
-  max-width: 360px;
+.failed-controls {
+  width: 340px;
   background: #ffffff;
   border-radius: 6px;
   padding: 1rem;
@@ -58,12 +76,26 @@
 }
 
 /* =========================
-   SAFETY NET
+   MAIN SECTION
    ========================= */
 
-/* Never allow column layout */
-@media (min-width: 768px) {
-  .donut-charts-wrapper {
-    flex-direction: row;
-  }
+.dashboard-main {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+.controls-panel {
+  width: 360px;
+}
+
+.chart-panel {
+  flex: 1;
+}
+
+.line-chart {
+  display: block;
+  width: 100% !important;
+  height: 320px !important;
 }
