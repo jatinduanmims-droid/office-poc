@@ -1,0 +1,154 @@
+:host {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0 24px; // FIX: remove excessive white space
+}
+
+/* ================= TABLE ================= */
+
+:host ::ng-deep .compact-table .p-datatable {
+  table-layout: fixed !important;
+}
+
+:host ::ng-deep .compact-table .p-datatable th,
+:host ::ng-deep .compact-table .p-datatable td {
+  padding: 6px 8px !important;
+  min-width: 0 !important;
+}
+
+/* Filter inputs */
+:host ::ng-deep .compact-table p-column-filter .p-inputtext {
+  padding: 4px 6px !important;
+  font-size: 0.85rem;
+}
+
+/* ================= CARD ================= */
+
+.table-card {
+  background: #ffffff;
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Header cells */
+.table-card ::ng-deep .compact-table .p-datatable-thead > tr > th {
+  color: #2e7d32;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ================= FILTER ================= */
+
+.filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.filter-wrapper .pi-search {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.filter-wrapper ::ng-deep .p-inputtext {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.8rem;
+}
+
+/* ================= SLA ICON ================= */
+
+.sla-icon {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.sla-ok {
+  color: #4caf50;
+}
+
+.sla-nok {
+  color: #f44336;
+}
+
+/* ================= TABLE BODY ================= */
+
+.table-card ::ng-deep .p-datatable-tbody > tr > td {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 10px;
+}
+
+.fixed-col {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.center-cell {
+  text-align: center !important;
+}
+
+/* ================= BUTTON ================= */
+
+.custom-save {
+  background-color: #008859 !important;
+  color: #fff !important;
+  width: 100px;
+  height: 36px;
+  border-radius: 6px;
+}
+
+/* ================= MODAL ================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  z-index: 998;
+}
+
+.modal-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: 16px;
+  overflow-y: auto;
+  z-index: 999;
+  animation: fadeInScale 0.2s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 960px) {
+  :host {
+    padding: 0 12px;
+  }
+}
