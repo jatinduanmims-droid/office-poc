@@ -1,2 +1,106 @@
-<PLACEHOLDER_HTML>
-<!-- Use the redesigned HTML I already shared -->
+<!-- ================= TOP KPI SECTION ================= -->
+<div class="dashboard-kpi-section">
+
+  <div class="donut-cards">
+
+    <div class="donut-card">
+      <h4>Trade Controls</h4>
+      <canvas baseChart
+        [data]="tradeDonutData"
+        [labels]="donutLabels"
+        [type]="'doughnut'"
+        [options]="donutOptions"
+        class="donut-canvas">
+      </canvas>
+      <div class="donut-legend">
+        <span class="success">Successful: {{ tradeSuccessCount }}</span>
+        <span class="failed">Unsuccessful: {{ tradeFailureCount }}</span>
+      </div>
+    </div>
+
+    <div class="donut-card">
+      <h4>Loan Controls</h4>
+      <canvas baseChart
+        [data]="loanDonutData"
+        [labels]="donutLabels"
+        [type]="'doughnut'"
+        [options]="donutOptions"
+        class="donut-canvas">
+      </canvas>
+      <div class="donut-legend">
+        <span class="success">Successful: {{ loanSuccessCount }}</span>
+        <span class="failed">Unsuccessful: {{ loanFailureCount }}</span>
+      </div>
+    </div>
+
+    <div class="donut-card">
+      <h4>Supply Chain Controls</h4>
+      <canvas baseChart
+        [data]="supplyDonutData"
+        [labels]="donutLabels"
+        [type]="'doughnut'"
+        [options]="donutOptions"
+        class="donut-canvas">
+      </canvas>
+      <div class="donut-legend">
+        <span class="success">Successful: {{ supplySuccessCount }}</span>
+        <span class="failed">Unsuccessful: {{ supplyFailureCount }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="failed-controls">
+    <h4>Failed Controls (Today)</h4>
+    <table class="grid-table">
+      <tbody>
+        <tr *ngFor="let ctrl of failedControlsToday">
+          <td class="control-name">{{ ctrl }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="dashboard-main">
+
+  <div class="controls-panel">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search Controls</mat-label>
+      <input matInput [(ngModel)]="searchTerm" placeholder="Search by name">
+    </mat-form-field>
+
+    <table class="grid-table">
+      <thead>
+        <tr>
+          <th class="control-header">Controls List</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ctrl of filteredControls">
+          <td class="control-name clickable"
+              (click)="onSelectControl(ctrl)"
+              [class.selected]="selectedControl === ctrl">
+            {{ ctrl.name }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-panel" *ngIf="selectedControl">
+    <h3>
+      SLA Trend for:
+      <span class="sub">{{ selectedControl.name }}</span>
+    </h3>
+    <canvas baseChart
+      [data]="lineChartData"
+      [options]="lineChartOptions"
+      [type]="'line'"
+      [plugins]="chartPlugins"
+      class="line-chart">
+    </canvas>
+  </div>
+
+</div>
