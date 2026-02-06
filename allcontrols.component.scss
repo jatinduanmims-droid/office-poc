@@ -1,160 +1,72 @@
-/* =====================================================
-   COMPONENT ROOT (DO NOT CONSTRAIN)
-===================================================== */
+/* =========================
+   DONUT DASHBOARD LAYOUT
+   ========================= */
 
-:host {
-  display: block;
+.dashboard-container-donut {
   width: 100%;
-  margin: 0;
-  padding: 0 1rem; /* safe spacing for laptop + desktop */
+  padding: 0 1.5rem;
 }
 
-/* =====================================================
-   KPI / DONUT ROW
-===================================================== */
-
+/* FORCE horizontal layout ALWAYS */
 .donut-charts-wrapper {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 1.5rem;
   align-items: stretch;
+  justify-content: space-between;
 }
 
+/* Each donut card */
 .donut-card {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 260px; /* prevents collapse */
   background: #ffffff;
-  border-radius: 8px;
-  padding: 12px;
-  text-align: center;
+  border-radius: 6px;
+  padding: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
 
-.donut-card strong {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
+/* Donut canvas sizing */
 .donut-canvas {
-  max-height: 160px; /* chart safety */
+  max-width: 180px;
+  margin: 0 auto;
 }
 
+/* Donut legends */
 .donut-legend {
-  margin-top: 6px;
+  margin-top: 0.75rem;
   font-size: 0.85rem;
 }
 
 .legend-success {
   color: #2e7d32;
+  font-weight: 600;
 }
 
-/* =====================================================
-   FAILED CONTROLS (RIGHT PANEL)
-===================================================== */
+/* =========================
+   FAILED CONTROLS CARD
+   ========================= */
 
 .failed-controls-section {
-  width: 320px; /* explicit, intentional */
-  background: #ffffff;
-  border-left: 3px solid #d32f2f;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  min-width: 320px;
+  max-width: 360px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #d32f2f;
 }
 
-.failed-controls-section h4 {
-  margin: 0 0 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
+/* =========================
+   SAFETY: BLOCK BAD RULES
+   ========================= */
 
-/* =====================================================
-   CONTROLS LIST + SLA CHART
-===================================================== */
-
-.grid-chart-container {
-  display: flex;
-  gap: 24px;
-  margin-top: 24px;
-}
-
-/* Controls list (LEFT) */
-.table-wrapper {
-  width: 35%;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-/* SLA chart (RIGHT) */
-.chart-wrapper {
-  width: 65%;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 16px;
-  min-height: 340px; /* prevents collapse */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-.chart-wrapper h3 {
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-/* =====================================================
-   CONTROLS LIST INTERACTION
-===================================================== */
-
-.control-name {
-  padding: 6px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.15s ease;
-}
-
-.control-name:hover {
-  background: rgba(0, 136, 89, 0.08);
-}
-
-.control-name.selected {
-  background: rgba(0, 136, 89, 0.15);
-  font-weight: 500;
-}
-
-/* =====================================================
-   TABLE SAFETY
-===================================================== */
-
-.grid-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.grid-table td {
-  padding: 6px 4px;
-  font-size: 0.9rem;
-}
-
-/* =====================================================
-   RESPONSIVE (STACK ONLY — NO REFLOW LOGIC)
-===================================================== */
-
-@media (max-width: 1100px) {
+/* Prevent any media query from stacking donuts */
+@media (max-width: 2000px) {
   .donut-charts-wrapper {
-    flex-wrap: wrap;
-  }
-
-  .failed-controls-section {
-    width: 100%;
-  }
-
-  .grid-chart-container {
-    flex-direction: column;
-  }
-
-  .table-wrapper,
-  .chart-wrapper {
-    width: 100%;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
   }
 }
