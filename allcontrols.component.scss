@@ -18,13 +18,12 @@
 /* Donut row */
 .donut-cards {
   display: flex;
-  flex-direction: row;
   gap: 1.5rem;
   flex: 1;
-  align-items: flex-start; /* CRITICAL: prevent stretch */
+  align-items: flex-start; /* prevent vertical stretch */
 }
 
-/* Individual donut card */
+/* Donut card */
 .donut-card {
   width: 280px;
   min-width: 280px;
@@ -42,13 +41,13 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Donut canvas (Chart.js fix) */
+/* Donut canvas (Chart.js safe) */
 .donut-canvas {
   width: 100% !important;
   height: 180px !important;
   max-height: 180px;
-  display: block;
   margin: 0 auto;
+  display: block;
 }
 
 /* Donut legend */
@@ -85,7 +84,7 @@
 }
 
 /* ===============================
-   MAIN LOWER SECTION
+   LOWER DASHBOARD SECTION
    =============================== */
 
 .dashboard-main {
@@ -101,21 +100,29 @@
    =============================== */
 
 .controls-panel {
-  width: 360px;
-  max-height: 420px;
+  width: 400px;              /* increased width */
+  max-height: 520px;         /* increased height */
 
   display: flex;
   flex-direction: column;
 }
 
+/* Search field */
 .search-field {
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
-/* Controls list table */
+/* Bigger search input */
+.search-field ::ng-deep .mat-form-field-flex {
+  height: 52px;
+  font-size: 0.95rem;
+}
+
+/* Controls table */
 .controls-panel .grid-table {
   display: block;
-  max-height: 340px;
+  max-height: 420px;         /* more rows visible */
   overflow-y: auto;
 
   border: 1px solid #e0e0e0;
@@ -139,7 +146,7 @@
 }
 
 /* ===============================
-   SLA CHART PANEL
+   SLA GRAPH PANEL
    =============================== */
 
 .chart-panel {
@@ -147,7 +154,7 @@
 
   background: #ffffff;
   border-radius: 6px;
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;   /* slightly tighter */
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
@@ -164,8 +171,8 @@
   color: #555;
 }
 
-/* Line chart (lock height) */
+/* Line chart (reduced dominance) */
 .line-chart {
   width: 100% !important;
-  height: 320px !important;
+  height: 260px !important;
 }
