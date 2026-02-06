@@ -1,0 +1,119 @@
+<!-- src/app/app.component.html -->
+
+<header class="app-header">
+  <button
+    mat-icon-button
+    (click)="toggleLeftPanel()"
+    class="hamburger">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <h1 class="title">
+    C4 CONTROLS AGENT
+  </h1>
+
+  <img
+    src="/assets/BNPP_LOGO_FR_H_DIGI_RVBB.png"
+    alt="BNP Paribas"
+    class="logo">
+</header>
+
+<!-- Chat floating button -->
+<div class="chat-btn-wrapper">
+  <button
+    mat-icon-button
+    (click)="openChatBot()"
+    aria-label="Open chatbot"
+    class="chat-btn">
+    <mat-icon>chat</mat-icon>
+  </button>
+</div>
+
+<!-- MAIN LAYOUT -->
+<mat-sidenav-container class="layout-container">
+
+  <!-- LEFT NAV -->
+  <mat-sidenav
+    mode="side"
+    [opened]="leftPanelOpen"
+    class="left-sidenav">
+
+    <button
+      mat-button
+      routerLink="/emails"
+      routerLinkActive="active-link"
+      class="nav-item">
+      <mat-icon>home</mat-icon>
+      Home
+    </button>
+
+    <button
+      mat-button
+      (click)="toggleTradeMenu()"
+      class="nav-item">
+      <mat-icon>settings</mat-icon>
+      Trade Controls
+      <mat-icon
+        class="arrow"
+        [class.rotated]="tradeMenuOpen">
+        expand_more
+      </mat-icon>
+    </button>
+
+    <div *ngIf="tradeMenuOpen" class="submenu">
+      <button
+        mat-button
+        routerLink="/dashboard"
+        routerLinkActive="active-submenu"
+        class="submenu-item">
+        Incoming Requests Management
+      </button>
+
+      <button
+        mat-button
+        routerLink="/lc-maturity"
+        routerLinkActive="active-submenu"
+        class="submenu-item">
+        L/C Maturity Follow Up
+      </button>
+
+      <button
+        mat-button
+        routerLink="/docs-lc"
+        routerLinkActive="active-submenu"
+        class="submenu-item">
+        Docs Deadline Follow-up (LC)
+      </button>
+
+      <button
+        mat-button
+        routerLink="/docs-sblc"
+        routerLinkActive="active-submenu"
+        class="submenu-item">
+        Docs Deadline Follow-up (SBLC)
+      </button>
+    </div>
+
+  </mat-sidenav>
+
+  <!-- MAIN CONTENT -->
+  <mat-sidenav-content class="content-wrapper">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+  <!-- CHAT PANEL -->
+  <mat-sidenav
+    #chatSidenav
+    position="end"
+    mode="over"
+    class="chat-sidenav"
+    [autoFocus]="false"
+    (keydown.escape)="closeChatBot()">
+
+    <app-chatbot-dialog
+      (closePanel)="closeChatBot()">
+    </app-chatbot-dialog>
+
+  </mat-sidenav>
+
+</mat-sidenav-container>
