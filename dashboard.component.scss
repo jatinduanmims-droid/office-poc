@@ -1,1 +1,143 @@
-<dashboard.component.scss cleaned version>
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== STATS ===== */
+
+.stats-card {
+  margin-bottom: 1.25rem;
+}
+
+.email-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #555;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 36px;
+  background: #e0e0e0;
+}
+
+/* ===== CHARTS ===== */
+
+.divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 1rem 0;
+}
+
+.chart-pair {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.chart-box {
+  flex: 1;
+  background: #fafafa;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.chart-canvas {
+  width: 100% !important;
+  height: 260px !important;
+}
+
+/* ===== TABLE ===== */
+
+.table-card {
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.table-card-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.custom-save {
+  background-color: #008859 !important;
+  color: #fff !important;
+  height: 34px;
+  border-radius: 4px;
+  padding: 0 12px;
+}
+
+/* PrimeNG */
+:host ::ng-deep .compact-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+:host ::ng-deep .compact-table th {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #2e7d32;
+  background: #fafafa;
+}
+
+.filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:host ::ng-deep .compact-table td {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* SLA */
+.sla-icon {
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.sla-ok { background: #4caf50; color: #fff; }
+.sla-nok { background: #e53935; color: #fff; }
+
+/* MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+.modal-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  max-height: 90vh;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+}
