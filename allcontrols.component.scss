@@ -1,81 +1,158 @@
-.dashboard-kpi-section {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 24px;
-  margin-bottom: 28px;
+/* =====================================================
+   COMPONENT SHELL (SAFE & SCOPED)
+===================================================== */
+
+:host {
+  display: block;
+  width: 100%;
+  max-width: 1600px;     /* prevents over-stretch on large monitors */
+  margin: 0 auto;
+  padding: 0 1.5rem;    /* rem → spacing scales correctly */
 }
 
-.donut-cards {
+/* =====================================================
+   KPI / DONUT SECTION
+===================================================== */
+
+.donut-charts-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;         /* rem → spacing */
+  margin-bottom: 1.5rem;
 }
 
-.dashboard-main {
-  display: grid;
-  grid-template-columns: 1.4fr 2fr;
-  gap: 24px;
-}
-
-.donut-card,
-.failed-controls,
-.controls-panel,
-.chart-panel {
+.donut-card {
   background: #ffffff;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border-radius: 0.875rem;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06); /* px for precision */
+}
+
+.donut-card strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .donut-canvas {
-  max-height: 160px;
+  max-height: 180px;    /* px → chart safety */
+  min-width: 260px;
 }
 
 .donut-legend {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
 }
 
-.success { color: #2e7d32; }
-.failed { color: #d32f2f; }
+/* =====================================================
+   FAILED CONTROLS
+===================================================== */
 
-.failed-controls {
-  border-left: 4px solid #d32f2f;
+.failed-controls-section {
+  background: #ffffff;
+  border-left: 4px solid #d32f2f; /* px → sharp accent */
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
-.search-field {
-  width: 100%;
-  margin-bottom: 12px;
+.failed-controls-section h4 {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
+
+/* =====================================================
+   CONTROLS LIST + SLA CHART
+===================================================== */
+
+.grid-chart-container {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(500px, 2fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Controls list */
+.table-wrapper {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* SLA chart */
+.chart-wrapper {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  min-height: 360px;    /* px → prevents collapse */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.chart-wrapper h3 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* =====================================================
+   CONTROLS LIST INTERACTION
+===================================================== */
 
 .control-name {
-  padding: 12px;
-}
-
-.clickable {
+  padding: 0.5rem 0.375rem;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 0.375rem;
+  transition: background 0.15s ease;
 }
 
-.clickable:hover {
-  background: #f1f5f9;
+.control-name:hover {
+  background: rgba(0, 136, 89, 0.08);
 }
 
-.selected {
-  background: #e0f2fe;
+.control-name.selected {
+  background: rgba(0, 136, 89, 0.15);
   font-weight: 500;
 }
 
-@media (max-width: 1200px) {
-  .dashboard-kpi-section,
-  .dashboard-main {
-    grid-template-columns: 1fr;
+/* =====================================================
+   TABLE (RESPONSIVE SAFE)
+===================================================== */
+
+.grid-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grid-table td {
+  padding: 0.375rem 0.25rem;
+  font-size: 0.9rem;
+}
+
+/* =====================================================
+   RESPONSIVE BREAKPOINTS
+===================================================== */
+
+/* Laptop & small desktop */
+@media (max-width: 1100px) {
+  :host {
+    padding: 0 1rem;
   }
 
-  .donut-cards {
+  .grid-chart-container {
     grid-template-columns: 1fr;
   }
 }
-/* Use the redesigned SCSS I already shared */
+
+/* Small laptops / zoomed browsers */
+@media (max-width: 700px) {
+  :host {
+    padding: 0 0.75rem;
+  }
+
+  .donut-charts-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
