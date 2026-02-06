@@ -1,12 +1,12 @@
-/* app.component.scss */
-
+/* ================= ROOT ================= */
 :host {
   display: block;
   height: 100vh;
   overflow: hidden;
+  background: #f5f6f7;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 .app-header {
   height: 56px;
   background: #1f5f3b;
@@ -15,70 +15,143 @@
   align-items: center;
   padding: 0 16px;
   gap: 16px;
+  box-sizing: border-box;
 }
 
-.title {
-  flex: 1;
-  font-size: 1.2rem;
+.app-header h1 {
   margin: 0;
+  font-size: 1rem;
+  flex: 1;
 }
 
 .logo {
   height: 32px;
 }
 
-/* LAYOUT */
-.layout-container {
+/* ================= LAYOUT ================= */
+mat-sidenav-container {
   height: calc(100vh - 56px);
   overflow: hidden;
 }
 
-/* LEFT NAV */
-.left-sidenav {
+/* ================= LEFT SIDENAV ================= */
+mat-sidenav {
   width: 260px;
-  background: linear-gradient(180deg, #1f5f3b, #174b2f);
+  background: #008859;
   color: #fff;
-  padding: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-/* NAV ITEMS */
+mat-sidenav.closed {
+  width: 0 !important;
+  min-width: 0 !important;
+  transform: translateX(-100%);
+}
+
+/* Buttons */
+.left-panel button,
 .nav-item,
 .submenu-item {
   width: 100%;
   justify-content: flex-start;
   color: #fff;
+  background: #008859;
+  border-radius: 0;
 }
 
-.submenu {
-  padding-left: 16px;
+/* Active states */
+.active-link,
+.active-submenu {
+  background: rgba(255, 255, 255, 0.12);
+  border-left: 4px solid #ff9800;
 }
 
-.arrow {
-  margin-left: auto;
-  transition: transform 0.2s ease;
-}
-
-.arrow.rotated {
-  transform: rotate(180deg);
-}
-
-/* MAIN CONTENT */
-.content-wrapper {
-  padding: 16px;
-  overflow-x: hidden;   /* 🔑 KILLS horizontal scrollbar */
-  overflow-y: auto;
+/* ================= MAIN CONTENT ================= */
+mat-sidenav-content {
+  overflow: hidden;
   background: #f5f6f7;
 }
 
-/* CHAT */
-.chat-sidenav {
-  width: 360px;
+/* THIS IS CRITICAL */
+.content-wrapper {
+  height: 100%;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden; /* 🔒 kills horizontal scrollbar */
+  max-width: 100%;
 }
 
-/* FLOATING CHAT BUTTON */
+/* ================= DASHBOARD / EMAIL STATS ================= */
+
+/* Card spacing */
+mat-card {
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+/* Charts MUST be allowed to size */
+.chart-wrapper,
+canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Prevent chart clipping */
+.chart-box {
+  overflow: visible;
+}
+
+/* ================= PRIME TABLE ================= */
+
+/* Kill horizontal scrollbar */
+.p-datatable-wrapper {
+  overflow-x: hidden !important;
+}
+
+/* Make columns fit instead of scroll */
+.p-datatable-table {
+  width: 100% !important;
+  table-layout: fixed;
+}
+
+/* Compact cells */
+.p-datatable th,
+.p-datatable td {
+  padding: 6px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ================= CHAT BUTTON ================= */
 .chat-btn-wrapper {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 1000;
+  z-index: 1100;
+}
+
+.chat-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #008859;
+  color: #fff;
+}
+
+/* ================= CHAT SIDENAV ================= */
+mat-sidenav.chat-sidenav {
+  position: fixed !important;
+  right: 16px !important;
+  bottom: 80px !important;
+  width: min(90vw, 350px) !important;
+  height: 60vh !important;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
