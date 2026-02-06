@@ -1,143 +1,161 @@
-:host {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
+/* ================= PAGE WRAPPER ================= */
+.dashboard-container {
+  padding: 16px 24px;
+  background: #f5f6f7;
 }
 
-/* ===== STATS ===== */
-
-.stats-card {
-  margin-bottom: 1.25rem;
-}
-
-.email-stats {
+/* ================= TOP KPI / DONUT SECTION ================= */
+.dashboard-kpi-section {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-.stat-item {
+/* Donut cards stay in ONE LINE always */
+.donut-cards {
+  display: flex;
   flex: 1;
+  gap: 16px;
+}
+
+.donut-card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
 
-.stat-value {
-  font-size: 1.4rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.stat-label {
-  font-size: 0.75rem;
-  color: #555;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 36px;
-  background: #e0e0e0;
-}
-
-/* ===== CHARTS ===== */
-
-.divider {
-  height: 1px;
-  background: #e0e0e0;
-  margin: 1rem 0;
-}
-
-.chart-pair {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.chart-box {
-  flex: 1;
-  background: #fafafa;
-  border-radius: 6px;
-  padding: 0.75rem;
-}
-
-.chart-canvas {
-  width: 100% !important;
-  height: 260px !important;
-}
-
-/* ===== TABLE ===== */
-
-.table-card {
-  background: #fff;
-  border-radius: 6px;
-  padding: 0.75rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-.table-card-header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.5rem;
-}
-
-.custom-save {
-  background-color: #008859 !important;
-  color: #fff !important;
-  height: 34px;
-  border-radius: 4px;
-  padding: 0 12px;
-}
-
-/* PrimeNG */
-:host ::ng-deep .compact-table {
-  table-layout: fixed;
-  width: 100%;
-}
-
-:host ::ng-deep .compact-table th {
+.donut-card h4 {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
   font-weight: 600;
-  font-size: 0.85rem;
-  color: #2e7d32;
-  background: #fafafa;
 }
 
-.filter-wrapper {
+.donut-canvas {
+  max-height: 160px;
+}
+
+.donut-legend {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.75rem;
 }
 
-:host ::ng-deep .compact-table td {
+.donut-legend .success {
+  color: #2e7d32;
+}
+
+.donut-legend .failed {
+  color: #d32f2f;
+}
+
+/* ================= FAILED CONTROLS ================= */
+.failed-controls {
+  width: 300px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.failed-controls h4 {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+/* ================= MAIN CONTENT ================= */
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  gap: 16px;
+}
+
+/* ================= CONTROLS LIST ================= */
+.controls-panel {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.search-field {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.controls-panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.controls-panel tbody {
+  display: block;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.controls-panel thead,
+.controls-panel tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.control-name {
+  padding: 8px;
+  cursor: pointer;
   font-size: 0.85rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* SLA */
-.sla-icon {
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 3px;
+.control-name:hover {
+  background: #f1f5f1;
 }
 
-.sla-ok { background: #4caf50; color: #fff; }
-.sla-nok { background: #e53935; color: #fff; }
-
-/* MODAL */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
+.control-name.selected {
+  background: #e8f5e9;
+  font-weight: 600;
 }
 
-.modal-window {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80vw;
-  max-height: 90vh;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 6px;
+/* ================= SLA CHART ================= */
+.chart-panel {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.chart-panel h3 {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.chart-panel .sub {
+  font-weight: 400;
+  color: #666;
+}
+
+.line-chart {
+  height: 340px;
+}
+
+/* ================= RESPONSIVE SAFETY ================= */
+@media (max-width: 1280px) {
+  .dashboard-main {
+    grid-template-columns: 48% 52%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-kpi-section {
+    flex-direction: column;
+  }
+
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
 }
