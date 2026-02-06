@@ -1,26 +1,23 @@
 /* =========================
-   DONUT DASHBOARD LAYOUT
+   DONUT SECTION
    ========================= */
 
 .dashboard-container-donut {
   width: 100%;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
 }
 
-/* FORCE horizontal layout ALWAYS */
 .donut-charts-wrapper {
   display: flex;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  gap: 1.5rem;
-  align-items: stretch;
+  flex-direction: row;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 1.25rem;
 }
 
-/* Each donut card */
+/* Individual donut cards */
 .donut-card {
-  flex: 1 1 0;
-  min-width: 260px; /* prevents collapse */
+  flex: 1;
   background: #ffffff;
   border-radius: 6px;
   padding: 1rem;
@@ -28,13 +25,14 @@
   text-align: center;
 }
 
-/* Donut canvas sizing */
+/* Donut canvas */
 .donut-canvas {
+  width: 100%;
   max-width: 180px;
   margin: 0 auto;
 }
 
-/* Donut legends */
+/* Donut legend */
 .donut-legend {
   margin-top: 0.75rem;
   font-size: 0.85rem;
@@ -46,13 +44,13 @@
 }
 
 /* =========================
-   FAILED CONTROLS CARD
+   FAILED CONTROLS
    ========================= */
 
 .failed-controls-section {
-  min-width: 320px;
+  width: 100%;
   max-width: 360px;
-  background: #fff;
+  background: #ffffff;
   border-radius: 6px;
   padding: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -60,13 +58,12 @@
 }
 
 /* =========================
-   SAFETY: BLOCK BAD RULES
+   SAFETY NET
    ========================= */
 
-/* Prevent any media query from stacking donuts */
-@media (max-width: 2000px) {
+/* Never allow column layout */
+@media (min-width: 768px) {
   .donut-charts-wrapper {
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
+    flex-direction: row;
   }
 }
