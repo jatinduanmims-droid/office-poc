@@ -1,30 +1,22 @@
 <header class="app-header">
-  <button mat-icon-button (click)="toggleLeftPanel()" class="hamburger">
+  <button mat-icon-button class="hamburger" (click)="toggleLeftPanel()">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <h1 class="title">
-    C4 CONTROLS AGENT
-  </h1>
+  <h1 class="title">C4 CONTROLS AGENT</h1>
 
-  <img src="assets/bnp-logo.png" alt="BNP" class="logo">
+  <img src="assets/bnp-logo.png" class="logo" />
 </header>
 
-<mat-sidenav-container class="layout-container">
-
-  <!-- LEFT SIDENAV -->
-  <mat-sidenav
-    #leftSidenav
-    class="left-sidenav"
-    mode="side"
-    [opened]="leftPanelOpen">
-
-    <button mat-button routerLink="/emails" class="nav-item">
+<div class="main-container">
+  <!-- LEFT SIDEBAR -->
+  <aside class="left-panel" [class.closed]="!leftPanelOpen">
+    <button mat-button class="nav-item" routerLink="/emails">
       <mat-icon>home</mat-icon>
       Home
     </button>
 
-    <button mat-button (click)="toggleTradeMenu()" class="nav-item">
+    <button mat-button class="nav-item" (click)="toggleTradeMenu()">
       <mat-icon>settings</mat-icon>
       Trade Controls
       <mat-icon class="arrow" [class.rotated]="tradeMenuOpen">
@@ -32,42 +24,45 @@
       </mat-icon>
     </button>
 
-    <div *ngIf="tradeMenuOpen" class="submenu">
-      <button mat-button routerLink="/dashboard" class="submenu-item">
+    <div class="trade-submenu" *ngIf="tradeMenuOpen">
+      <button
+        mat-button
+        class="submenu-item"
+        routerLink="/dashboard"
+      >
         Incoming Requests Management Control
       </button>
 
-      <button mat-button routerLink="/lc-maturity" class="submenu-item">
+      <button
+        mat-button
+        class="submenu-item"
+        routerLink="/lc-maturity"
+      >
         L/C Maturity follow up
       </button>
+
+      <button
+        mat-button
+        class="submenu-item"
+        routerLink="/loans"
+      >
+        Loans Controls
+      </button>
+
+      <button
+        mat-button
+        class="submenu-item"
+        routerLink="/supply-chain"
+      >
+        Supply Chain Controls
+      </button>
     </div>
+  </aside>
 
-  </mat-sidenav>
-
-  <!-- MAIN CONTENT -->
-  <mat-sidenav-content>
+  <!-- RIGHT CONTENT -->
+  <main class="right-panel">
     <div class="content-wrapper">
       <router-outlet></router-outlet>
     </div>
-  </mat-sidenav-content>
-
-  <!-- CHAT SIDENAV -->
-  <mat-sidenav
-    #chatSidenav
-    position="end"
-    class="chat-sidenav"
-    mode="over"
-    [opened]="chatOpen">
-
-    <app-chatbot-dialog></app-chatbot-dialog>
-
-  </mat-sidenav>
-
-</mat-sidenav-container>
-
-<!-- Floating Chat Button -->
-<div class="chat-btn-wrapper">
-  <button mat-fab class="chat-btn" (click)="openChatbot()">
-    <mat-icon>chat</mat-icon>
-  </button>
+  </main>
 </div>
