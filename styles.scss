@@ -1,0 +1,136 @@
+@use '@angular/material' as mat;
+
+/* =========================================================
+   Angular Material Theme (single source of truth)
+   ========================================================= */
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$blue-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+/* =========================================================
+   Global tokens
+   ========================================================= */
+:root {
+  --app-font-family: 'Roboto', sans-serif;
+  --app-font-size: 14px;
+  --app-line-height: 1.5;
+
+  --app-table-header-bg: var(--mat-primary-50, #e3f2fd);
+  --app-table-header-fg: var(--mat-primary-700, #1976d2);
+
+  --mat-form-field-underline-color: #008859;
+  --mat-form-field-underline-active-color: #006645;
+
+  --mat-typography-font-family: var(--app-font-family);
+}
+
+/* =========================================================
+   Global resets
+   ========================================================= */
+html,
+body,
+button,
+input,
+select,
+textarea,
+a,
+p,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--app-font-family) !important;
+  font-size: var(--app-font-size) !important;
+  line-height: var(--app-line-height) !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+}
+
+/* =========================================================
+   Layout helpers
+   ========================================================= */
+.main-container,
+.responsive-container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Chart responsive wrapper */
+.chart-responsive {
+  width: 100%;
+  position: relative;
+  padding-top: 56.25%;
+}
+
+.chart-responsive canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* =========================================================
+   Material overrides
+   ========================================================= */
+.mat-drawer-transition .mat-drawer-backdrop {
+  background-color: transparent !important;
+}
+
+.mat-mdc-dialog-surface {
+  border-radius: 0 !important;
+}
+
+/* =========================================================
+   Table styling
+   ========================================================= */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.mat-mdc-table {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mat-mdc-header-cell {
+  background-color: var(--app-table-header-bg);
+  color: var(--app-table-header-fg);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+.mat-mdc-cell {
+  padding: 12px 16px;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: var(--mat-primary-25, #f5faff);
+}
