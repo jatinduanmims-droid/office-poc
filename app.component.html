@@ -1,50 +1,73 @@
-<!-- src/app/app.component.html -->
-
 <header class="app-header">
-  <button
-    mat-icon-button
-    class="hamburger"
-    (click)="toggleLeftPanel()">
+  <button mat-icon-button (click)="toggleLeftPanel()" class="hamburger">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <h1 class="app-title">C4 CONTROLS AGENT</h1>
+  <h1 class="title">
+    C4 CONTROLS AGENT
+  </h1>
 
-  <img
-    src="/assets/BNPP_LOGO_FR_H_DIGI_RVBB.png"
-    alt="logo"
-    class="logo" />
+  <img src="assets/bnp-logo.png" alt="BNP" class="logo">
 </header>
 
-<div class="layout-root">
-  <div class="left-panel" [class.closed]="!leftPanelOpen">
+<mat-sidenav-container class="layout-container">
+
+  <!-- LEFT SIDENAV -->
+  <mat-sidenav
+    #leftSidenav
+    class="left-sidenav"
+    mode="side"
+    [opened]="leftPanelOpen">
+
     <button mat-button routerLink="/emails" class="nav-item">
       <mat-icon>home</mat-icon>
       Home
     </button>
 
-    <button mat-button class="nav-item" (click)="toggleTradeMenu()">
+    <button mat-button (click)="toggleTradeMenu()" class="nav-item">
       <mat-icon>settings</mat-icon>
       Trade Controls
+      <mat-icon class="arrow" [class.rotated]="tradeMenuOpen">
+        expand_more
+      </mat-icon>
     </button>
 
     <div *ngIf="tradeMenuOpen" class="submenu">
       <button mat-button routerLink="/dashboard" class="submenu-item">
-        Incoming Requests Management
+        Incoming Requests Management Control
       </button>
+
       <button mat-button routerLink="/lc-maturity" class="submenu-item">
-        L/C Maturity Follow-up
-      </button>
-      <button mat-button routerLink="/docs-lc" class="submenu-item">
-        Docs Checking Follow-up (LC)
-      </button>
-      <button mat-button routerLink="/docs-sblc" class="submenu-item">
-        Docs Checking Follow-up (SBLC)
+        L/C Maturity follow up
       </button>
     </div>
-  </div>
 
-  <div class="content-wrapper">
-    <router-outlet></router-outlet>
-  </div>
+  </mat-sidenav>
+
+  <!-- MAIN CONTENT -->
+  <mat-sidenav-content>
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+
+  <!-- CHAT SIDENAV -->
+  <mat-sidenav
+    #chatSidenav
+    position="end"
+    class="chat-sidenav"
+    mode="over"
+    [opened]="chatOpen">
+
+    <app-chatbot-dialog></app-chatbot-dialog>
+
+  </mat-sidenav>
+
+</mat-sidenav-container>
+
+<!-- Floating Chat Button -->
+<div class="chat-btn-wrapper">
+  <button mat-fab class="chat-btn" (click)="openChatbot()">
+    <mat-icon>chat</mat-icon>
+  </button>
 </div>
