@@ -1,282 +1,87 @@
 :host {
-    display: block;
-    height: 100vh;
-    overflow: hidden;
+  display: block;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .app-header {
-    display: flex;
-    align-items: center;
-    background: #008859;
-    color: rgb(255, 253, 253);
-    padding: 0.5rem 1rem;
-    height: 56px;
-    font-size: 12px;
-    font-family: sans-serif;
-    gap: 16px;
+  height: 56px;
+  background: #1f5f3b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
 }
 
-.app-header h1 {
-    margin: 0;
-    text-align: center;
-    flex: 1;
+.title {
+  flex: 1;
+  font-size: 1.2rem;
+  margin: 0;
 }
 
 .logo {
-    height: 32px;
-    margin-right: 0.8rem;
+  height: 32px;
 }
 
-/* ================= MAIN LAYOUT ================= */
-.main-container {
-    display: flex;
-    background-color: #f5f4f4;
-    height: calc(100vh - 56px);
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
+/* LAYOUT */
 .layout-container {
-    height: calc(100vh - 56px);
-    overflow: hidden;
+  height: calc(100vh - 56px);
 }
 
-/* ================= LEFT SIDENAV ================= */
-.left-panel {
-    transition: transform 0.3s ease;
-    flex: 0 0 12%;
-    overflow-y: auto;
-    padding: 0;
-    margin: 0;
-    background-color: #008859;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
+/* LEFT SIDENAV */
+.left-sidenav {
+  width: 260px;
+  background: linear-gradient(180deg, #1f5f3b, #174b2f);
+  color: #fff;
+  padding: 8px;
 }
 
-.left-panel * {
-    background-color: inherit;
+/* NAV ITEMS */
+.nav-item,
+.submenu-item {
+  width: 100%;
+  justify-content: flex-start;
+  color: #fff;
 }
 
-.left-panel > * {
-    margin: 0;
-    padding: 0;
-}
-
-.left-panel.closed {
-    transform: translateX(-100%);
-    width: 0;
-    min-width: 0;
-    overflow: hidden;
-    flex: 0 0 0% !important;
-}
-
-.left-panel > button:first-child {
-    background: #008859;
-    color: #fff;
-}
-
-.trade-button {
-    color: #fff !important;
-}
-
-.right-icon {
-    margin-left: auto;
-}
-
-.left-panel::-webkit-scrollbar {
-    width: 6px;
-}
-
-.left-panel::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-
-/* Submenu */
-.trade-submenu .submenu-item {
-    color: #fff !important;
-    padding-left: 40px;
-    border-radius: 0 !important;
-    display: flex;
-    text-align: left;
-    font-size: smaller !important;
-}
-
-.trade-button .mat-icon {
-    color: #fff !important;
+.submenu {
+  padding-left: 16px;
 }
 
 .arrow {
-    transition: transform 0.2s;
-    margin-left: 4px;
+  margin-left: auto;
+  transition: transform 0.2s ease;
 }
 
 .arrow.rotated {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
-/* ================= CHAT BUTTON ================= */
+/* MAIN CONTENT */
+.content-wrapper {
+  padding: 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #f5f6f7;
+  height: 100%;
+}
+
+/* CHAT */
+.chat-sidenav {
+  width: 360px;
+}
+
+/* FLOATING CHAT BUTTON */
 .chat-btn-wrapper {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 1100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 
 .chat-btn {
-    width: 56px;
-    height: 56px;
-    font-size: 28px;
-    background-color: #008859;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.chat-btn:hover {
-    background-color: #006644;
-    cursor: pointer;
-}
-
-/* ================= CHAT SIDENAV ================= */
-.mat-sidenav.chat-sidenav {
-    position: fixed !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    border-radius: 0 !important;
-    right: 1rem !important;
-    top: unset !important;
-    bottom: 2rem !important;
-    width: min(90vw, 350px) !important;
-    max-width: 350px !important;
-    height: 43vh !important;
-    max-height: 80vh !important;
-    box-sizing: border-box;
-    border: 1px solid rgba(0,0,0,0.1);
-    overflow-x: hidden;
-    overflow-y: auto;
-    z-index: 999;
-}
-
-.chat-sidenav .chat-wrapper {
-    box-sizing: border-box;
-    overflow-x: hidden;
-}
-
-/* ================= ACTIVE STATES ================= */
-.submenu-item.active-submenu {
-    border-left: 4px solid #ff9800;
-    background-color: rgba(241, 33, 33, 0) !important;
-}
-
-::ng-deep .submenu-item.active-submenu {
-    border-left: 4px solid #ff9800;
-    background-color: rgba(250, 21, 21, 0.08);
-}
-
-.active-link {
-    background: #008859 !important;
-    color: #fff !important;
-    border-radius: 4px;
-}
-
-/* ================= TOOLBAR ================= */
-.hamburger {
-    color: #fff;
-    margin-right: 1rem;
-}
-
-.hamburger .mat-icon {
-    color: #fff !important;
-}
-
-.clean-toolbar .nav-item {
-    color: #fff;
-    margin-right: 1rem;
-}
-
-.clean-toolbar .mat-button-ripple {
-    display: none;
-}
-
-/* ================= SIDE NAV BUTTONS ================= */
-.left-panel .nav-item {
-    width: 100%;
-    justify-content: flex-start;
-    text-align: left;
-    background-color: #008859;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-}
-
-.left-panel button {
-    background-color: #008859;
-    color: #fff;
-    border: none;
-    margin: 0;
-    padding: 0;
-}
-
-.left-panel .chatbot-button {
-    margin-top: auto;
-    width: 100%;
-    background-color: #008859;
-    color: #fff;
-    margin-bottom: 0;
-}
-
-/* ================= CONTENT AREA ================= */
-.content-wrapper {
-    padding: 16px 24px;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background: #f5f6f7;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-}
-
-/* ================= CHAT DIALOG ================= */
-.chatbot-dialog .mat-dialog-container {
-    max-width: none !important;
-    width: 1500px !important;
-    border-radius: 0;
-}
-
-.mat-mdc-dialog-surface {
-    border-radius: 0;
-}
-
-/* ================= FLOATING CHAT STATE ================= */
-.chat-open .chat-btn mat-icon {
-    transition: transform 0.2s;
-    transform: rotate(180deg);
-}
-
-/* ================= GLOBAL LAYOUT PATCH ================= */
-html, body {
-    overflow-x: hidden;
-}
-
-.main-container,
-.layout-container {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-.chart-wrapper,
-.chart-box,
-canvas {
-    max-width: 100%;
-    overflow: visible;
+  background-color: #008859;
+  color: #fff;
 }
