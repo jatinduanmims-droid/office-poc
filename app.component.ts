@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { EmailService } from './services/email.service';
 import { MenuItem } from 'primeng/api';
+
+import { EmailService } from './services/email.service';
 
 // Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,7 +19,7 @@ import { ChatbotDialogComponent } from './components/chatbot-dialog/chatbot-dial
 
 @Component({
   selector: 'app-root',
-  standalone: true,   // ← IMPORTANT
+  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -31,19 +32,22 @@ import { ChatbotDialogComponent } from './components/chatbot-dialog/chatbot-dial
     MatSidenavModule
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],   // ← plural + correct
+  styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('chatSidenav') private chatSidenav!: MatSidenav;
+  @ViewChild('chatSidenav') chatSidenav!: MatSidenav;
 
   menuItems: MenuItem[] = [];
-  chatOpen = false;
   tradeMenuOpen = false;
   leftPanelOpen = true;
+  chatOpen = false;
 
-  constructor(private emailService: EmailService, private dialog: MatDialog) {}
+  constructor(
+    private emailService: EmailService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.menuItems = [
