@@ -1,29 +1,28 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { EmailService } from './services/email.service';
 import { MenuItem } from 'primeng/api';
 
-import { EmailService } from './services/email.service';
-
-// Angular Material imports
+// Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 
-// Chatbot component
+// Chatbot
 import { ChatbotDialogComponent } from './components/chatbot-dialog/chatbot-dialog.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
+  standalone: true,   // ← IMPORTANT
   imports: [
-    ChatbotDialogComponent,
     CommonModule,
     RouterModule,
+    ChatbotDialogComponent,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
@@ -32,7 +31,7 @@ import { ChatbotDialogComponent } from './components/chatbot-dialog/chatbot-dial
     MatSidenavModule
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],   // ← correct property
+  styleUrls: ['./app.component.scss'],   // ← plural + correct
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
@@ -40,22 +39,17 @@ export class AppComponent implements OnInit {
   @ViewChild('chatSidenav') private chatSidenav!: MatSidenav;
 
   menuItems: MenuItem[] = [];
+  chatOpen = false;
+  tradeMenuOpen = false;
+  leftPanelOpen = true;
 
-  chatOpen: boolean = false;
-  tradeMenuOpen: boolean = false;
-  leftPanelOpen: boolean = true;
-
-  constructor(
-    private emailService: EmailService,
-    private dialog: MatDialog
-  ) {}
+  constructor(private emailService: EmailService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.menuItems = [
       { label: '', icon: 'pi pi-home', routerLink: ['/emails'] },
       {
         label: 'Trade Controls',
-        styleClass: 'trade-controls-box',
         items: [
           { label: 'Incoming Requests Management Control', routerLink: ['/dashboard'] },
           { label: 'L/C Maturity follow up', routerLink: ['/lc-maturity'] }
