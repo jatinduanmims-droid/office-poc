@@ -1,206 +1,170 @@
-Perfect 🔥 this is the right question.
-
-Since you already have the project and Roo Code has access to your codebase + DB models, you need to ask it structured discovery questions so we can redesign this properly.
-
-Below is a ready-to-copy prompt list you can paste into Roo Code one by one.
-
-⸻
-
-🧠 STEP 1 — Understand Data Structure
-
-🔹 Ask This:
-
-List all SQL Server tables used for the C4 Controls Agent dashboard.
-
-For each table, provide:
-- Table name
-- Column names
-- Data types
-- Primary key
-- Foreign keys
-- Indexes
-
-Also mention which tables are directly used for:
-- Events
-- Requests
-- SLA calculations
-- Controls summary
-
-
-⸻
-
-📡 STEP 2 — Understand API Layer
-
-🔹 Ask This:
-
-List all API endpoints used in the dashboard.
-
-For each endpoint provide:
-- URL
-- HTTP method
-- Sample response JSON
-- Which SQL query or stored procedure it calls
-- Expected response time
-
-
-⸻
-
-📊 STEP 3 — KPI Logic Discovery
-
-This is VERY important.
-
-🔹 Ask This:
-
-Explain how each dashboard KPI is calculated.
-
-Specifically:
-- Events Received Today
-- Requests Received Today
-- Requests Due in 5 Days
-- Requests Due Today
-- Undefined Requests
-- SLA breaches
-
-Provide:
-- Exact SQL query used
-- Business rule logic
-- Edge cases handled
-
-
-⸻
-
-📈 STEP 4 — Trend Graph Data
-
-🔹 Ask This:
-
-How is the Events & Requests Trend graph generated?
-
-Provide:
-- SQL query
-- Grouping logic (daily/weekly/monthly)
-- Date range logic
-- How missing dates are handled
-- Whether aggregation is done in SQL or backend
-
-
-⸻
-
-📋 STEP 5 — Controls Summary Table
-
-🔹 Ask This:
-
-For the Controls Summary table:
-
-- Which table(s) does it pull from?
-- Is pagination server-side or client-side?
-- Is filtering server-side or client-side?
-- What is the total row count in production?
-- Are there performance optimizations (indexes, caching)?
-
-
-⸻
-
-🎛 STEP 6 — Filters & Business Requirements
-
-🔹 Ask This:
-
-List all available filters in the dashboard.
-
-For each filter:
-- Column used
-- SQL condition applied
-- Is it mandatory?
-- Does it affect KPIs or only table?
-
-
-⸻
-
-👥 STEP 7 — User Roles & Permissions
-
-🔹 Ask This:
-
-Explain role-based access in this dashboard.
-
-- What roles exist?
-- What data restrictions apply?
-- Are controls filtered by user?
-- Is data scoped by entity or region?
-
-
-⸻
-
-⚡ STEP 8 — Performance Constraints
-
-🔹 Ask This:
-
-Provide:
-- Average daily record count
-- Total records in main tables
-- Query execution times
-- Any known performance bottlenecks
-- Whether caching exists
-
-
-⸻
-
-🎨 STEP 9 — UI Structure Audit
-
-This is key for redesign.
-
-🔹 Ask This:
-
-Analyze current Angular dashboard structure:
-
-- Component hierarchy
-- Services used
-- State management approach
-- Chart library used
-- CSS framework used
-- Responsiveness approach
-- Known UI issues
-
-
-⸻
-
-🏗 WHY This Matters
-
-Once you give me answers from Roo Code, I can:
-
-✅ Redesign layout properly
-✅ Suggest better graph types
-✅ Reduce visual clutter
-✅ Improve KPI placement
-✅ Suggest SQL aggregation improvements
-✅ Improve performance
-✅ Create modular Angular structure
-✅ Give you production-grade UI layout
-
-⸻
-
-🧩 Bonus — One Master Prompt (If You Want All At Once)
-
-If you want to ask Roo everything in one go:
-
-Provide a complete technical breakdown of the C4 Controls Agent dashboard including:
-
-1. SQL tables and schema
-2. API endpoints and response format
-3. KPI calculation logic
-4. Trend chart aggregation logic
-5. Controls summary query
-6. Filtering logic
-7. Role-based data restrictions
-8. Performance constraints
-9. Angular component structure
-10. Current UI/UX limitations
-
-Provide structured response with SQL queries and JSON samples.
-
-
-⸻
-
-Once you paste Roo’s answer here…
-
-I’ll redesign your dashboard like a proper enterprise fintech product 💚🔥
-
-Let’s upgrade this properly.
+We are refactoring the dashboard for performance and scalability.
+
+Keep all existing endpoints untouched.
+
+Create NEW optimized dashboard endpoints that:
+- Perform aggregation server-side
+- Support server-side pagination
+- Support server-side filtering
+- Reduce payload size
+- Improve response time
+- Scale beyond 50k rows
+
+Do NOT remove existing endpoints.
+
+Implement the following:
+
+--------------------------------------------------
+1️⃣ Create: GET /dashboard/kpis
+--------------------------------------------------
+
+Purpose:
+Return pre-aggregated KPI counts instead of raw rows.
+
+Requirements:
+- Accept optional query params:
+    - startDate (ISO)
+    - endDate (ISO)
+    - operation
+    - service
+    - product
+    - slaFlag
+
+- Calculate server-side using SQL:
+    - eventsToday
+    - requestsToday (OPERATION='Issue')
+    - dueToday (SLA_DATE = today)
+    - dueNext5Days (SLA_DATE between today+1 and today+5)
+    - undefinedRequests (OPERATION null or empty)
+    - slaBreaches (USERSLAFETFLAG='N')
+
+- Also return:
+    - comparison vs yesterday
+    - comparison vs lastWeek
+
+Response format:
+
+{
+  "eventsToday": 45,
+  "requestsToday": 32,
+  "dueToday": 6,
+  "dueNext5Days": 14,
+  "undefinedRequests": 3,
+  "slaBreaches": 5,
+  "comparison": {
+    "yesterday": {
+      "eventsToday": 40,
+      "requestsToday": 28
+    },
+    "lastWeek": {
+      "eventsToday": 52,
+      "requestsToday": 35
+    }
+  }
+}
+
+Target response time: < 100ms
+
+
+--------------------------------------------------
+2️⃣ Create: GET /dashboard/trends
+--------------------------------------------------
+
+Purpose:
+Return aggregated time-series data instead of raw rows.
+
+Query Params:
+- rangeDays (default 30)
+- groupBy = daily | weekly | monthly
+
+Aggregation:
+Group by EMAIL_RECEIVEDTIME
+
+Return:
+[
+  {
+    "date": "2025-11-01",
+    "events": 20,
+    "requests": 15,
+    "breaches": 3
+  }
+]
+
+Ensure:
+- Zero-count dates are included
+- No raw rows returned
+- Efficient GROUP BY query
+- Max range 365 days
+
+Target response time: < 120ms
+
+
+--------------------------------------------------
+3️⃣ Create: GET /dashboard/table
+--------------------------------------------------
+
+Purpose:
+Replace client-side pagination with server-side pagination.
+
+Query Params:
+- page (default 1)
+- pageSize (default 50)
+- sortField
+- sortDirection
+- filters (date, operation, service, product, slaFlag)
+
+Return:
+
+{
+  "data": [...50 rows...],
+  "totalCount": 12458,
+  "page": 1,
+  "pageSize": 50
+}
+
+Requirements:
+- Use OFFSET / FETCH (or equivalent)
+- Filtering done in SQL
+- Sorting done in SQL
+- Never return full dataset
+
+Target response time: < 150ms
+
+
+--------------------------------------------------
+4️⃣ Performance Improvements
+--------------------------------------------------
+
+- Ensure indexes exist on:
+    EMAIL_RECEIVEDTIME
+    SLA_DATE
+    OPERATION
+    USERSLAFETFLAG
+    SERVICE
+    PRODUCT
+
+- Avoid SELECT *
+- Select only required fields
+- Add response caching (5–10 seconds optional)
+- Use optimized COUNT queries
+
+--------------------------------------------------
+5️⃣ Code Structure
+--------------------------------------------------
+
+- Add new routes in main.py
+- Add new Pydantic schemas
+- Add separate service layer for dashboard queries
+- Do NOT modify existing routes
+- Keep VPD security intact
+
+Return:
+- SQL queries used
+- Final route code
+- Sample responses
+- Estimated performance
+
+--------------------------------------------------
+
+Goal:
+Make dashboard scalable to 100k+ rows with minimal frontend computation.
