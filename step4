@@ -1,0 +1,141 @@
+🔥 Perfect — Step 3 done = KPI cards wired successfully.
+You’re moving clean and fast.
+
+Now we go to the next logical UI step.
+
+⸻
+
+✅ UI PROMPT 4 — Trend Charts (Daily / Weekly / Monthly)
+
+This prompt wires the trend section using the backend you already built
+(/dashboard/trends), with zero legacy impact.
+
+Paste this as-is into Roo Code.
+
+⸻
+
+UI PROMPT 4 — Trend Charts (API + UX)
+
+Objective
+Implement trend charts for dashboard KPIs with Daily / Weekly / Monthly views using backend trend data.
+
+⸻
+
+Rules
+	1.	❌ Do NOT modify backend
+	2.	❌ Do NOT touch legacy UI
+	3.	✅ Use /dashboard/trends endpoint
+	4.	✅ All logic stays inside trend-charts component
+	5.	✅ Charts must react to groupBy & rangeDays
+	6.	❌ Do NOT affect KPI cards or table
+
+⸻
+
+Backend API
+
+GET /dashboard/trends
+
+Query Params
+
+groupBy = daily | weekly | monthly
+rangeDays = number (default 30, max 365)
+
+
+⸻
+
+Charts to Display
+
+Create one combined line chart with multiple series:
+	•	Events
+	•	Requests
+	•	Due
+	•	SLA Breaches
+
+X-axis:
+	•	Date (daily)
+	•	Week start date (weekly)
+	•	Month (monthly)
+
+⸻
+
+Implementation Steps
+
+1️⃣ Chart Library
+	•	Use ng2-charts + Chart.js
+	•	Add only required modules
+
+2️⃣ Trend Service
+Create:
+
+DashboardTrendService
+
+Method:
+
+getTrends(groupBy: 'daily' | 'weekly' | 'monthly', rangeDays: number)
+
+
+⸻
+
+3️⃣ Trend Charts Component Logic
+In trend-charts.component.ts:
+	•	Default:
+	•	groupBy = 'daily'
+	•	rangeDays = 30
+	•	Load data on init
+	•	Reload when groupBy changes
+	•	Map API response to chart datasets
+
+⸻
+
+4️⃣ Controls (UI)
+Add toggle buttons:
+	•	Daily
+	•	Weekly
+	•	Monthly
+
+Add range selector:
+	•	30 days
+	•	90 days
+	•	180 days
+	•	365 days
+
+⸻
+
+UX Rules
+	•	Show spinner while loading
+	•	Show empty state if no data
+	•	Smooth transitions between views
+	•	Legends must be clickable
+
+⸻
+
+Styling Rules
+	•	Consistent colors across KPIs & charts
+	•	SLA Breaches highlighted in red
+	•	Grid lines subtle
+	•	Chart must be responsive
+
+⸻
+
+Non-Goals
+	•	❌ No export
+	•	❌ No table interaction
+	•	❌ No cross-filtering
+
+⸻
+
+Success Criteria
+	•	Charts load without errors
+	•	Switching Daily / Weekly / Monthly works
+	•	Data matches backend response
+	•	No unnecessary API calls
+
+⸻
+
+Once this is done, say:
+
+👉 “Step 4 done”
+
+Then we’ll finish strong with
+
+UI PROMPT 5 — Paginated Data Table (Final Piece) 💥
