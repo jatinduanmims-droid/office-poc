@@ -322,4 +322,37 @@ If you want, next I can:
 	•	Convert this into a Notion / Jira task list
 	•	Or compress it into a one-page execution checklist
 
-Just tell me 👍
+Just tell me 
+
+
+Add a new FastAPI endpoint:
+
+GET /dashboard/kpis
+
+Rules:
+- Add route in angular/api/main.py
+- Use existing Oracle views (do not query base tables)
+- Use utils_trans_db.py for DB execution
+- Do not modify existing endpoints
+
+Compute server-side using SQL:
+- eventsToday (EMAIL_RECEIVEDTIME = today)
+- requestsToday (OPERATION='Issue' AND EMAIL_RECEIVEDTIME = today)
+- dueToday (SLA_DATE = today)
+- dueNext5Days (SLA_DATE between today+1 and today+5)
+- undefinedRequests (OPERATION IS NULL OR '')
+- slaBreaches (USERSLAFETFLAG = 'N')
+
+Also compute:
+- Same KPIs for yesterday
+- Same KPIs for last week
+
+Return:
+- Route code
+- SQL queries
+- Pydantic response schema
+- Sample JSON response
+
+
+
+
