@@ -1,108 +1,25 @@
-Got it 👍
-Here is a single, clean, copy-paste prompt you can give to Roo Code to diagnose and fix why /dashboard-v2 is loading the old UI.
+Fix all Angular standalone vs NgModule conflicts in dashboard-v2.
 
-This prompt is surgical — it will not drift, refactor, or touch backend.
+STRICT RULES:
+- dashboard-v2 must be 100% NgModule-based
+- No standalone components allowed
+- No imports inside @Component
+- All imports must live in DashboardV2Module only
 
-⸻
+TASKS:
+1. Remove `standalone: true` from ALL dashboard-v2 components
+2. Remove `imports: []` from ALL dashboard-v2 components
+3. Ensure ALL dashboard-v2 components are declared in DashboardV2Module
+4. Ensure NO dashboard-v2 component is declared in any other module
+5. Move ALL Angular Material + Charts imports into DashboardV2Module
+6. Fix routing so `/dashboard-v2` loads DashboardPageComponent only
+7. Remove any conflicting direct routes or legacy imports
 
-🔍 ROUTING DEBUG PROMPT — /dashboard-v2 LOADING LEGACY UI
+OUTPUT:
+- Zero NG3004 errors
+- Zero standalone-related errors
+- `/dashboard-v2` loads cleanly
+- Legacy dashboard untouched
 
-Goal
-Identify and fix why navigating to /dashboard-v2 renders the legacy UI instead of the new Angular v2 dashboard.
-
-⸻
-
-Scope (STRICT)
-
-Analyze ONLY Angular routing and module wiring.
-
-Include:
-
-src/app/app-routing.module.ts
-src/app-v2/app-v2.module.ts
-src/app-v2/app-v2-routing.module.ts
-src/app-v2/dashboard/dashboard-routing.module.ts
-
-Ignore:
-	•	Backend code
-	•	Services
-	•	Components
-	•	HTML / CSS
-	•	Data / APIs
-
-⸻
-
-Checks to Perform
-
-1️⃣ Root Routing Order
-	•	Verify /dashboard-v2 route is declared before:
-	•	path: ''
-	•	path: '**'
-	•	Identify any catch-all or default routes that intercept navigation early
-
-2️⃣ Lazy Loading Validation
-	•	Confirm /dashboard-v2 lazy loads AppV2Module
-	•	Verify import path is correct
-	•	Ensure module is exported properly
-
-3️⃣ App-V2 Routing
-	•	Ensure app-v2-routing.module.ts:
-	•	Has no redirects to legacy routes
-	•	Correctly loads the dashboard module
-
-4️⃣ Dashboard Routing
-	•	Verify dashboard routing resolves:
-
-/dashboard-v2 → DashboardPageComponent
-
-
-	•	Ensure no nested redirects override the path
-
-5️⃣ Module Wiring
-	•	Confirm:
-	•	BrowserModule is NOT imported in app-v2
-	•	CommonModule IS imported
-	•	AppV2RoutingModule is included in AppV2Module
-
-6️⃣ Conflict Detection
-	•	Detect any:
-	•	Duplicate routes
-	•	Path shadowing
-	•	Wildcard routes capturing /dashboard-v2
-
-⸻
-
-Required Output Format
-
-Return:
-
-❌ Root Cause (exact file + line)
-✅ Correct Route Order (final version)
-🔧 Minimal Fix Required
-📍 Verification Steps
-
-
-⸻
-
-Rules
-	•	❌ Do NOT refactor unrelated code
-	•	❌ Do NOT touch legacy UI logic
-	•	❌ Do NOT modify backend
-	•	✅ Only propose minimal routing changes
-	•	✅ Keep /dashboard (legacy) working
-
-⸻
-
-Success Criteria
-	•	/dashboard-v2 loads ONLY the new UI
-	•	Legacy UI remains accessible
-	•	No routing regressions introduced
-
-⸻
-
-This prompt will force Roo Code to:
-	•	Read routing top-to-bottom
-	•	Catch Angular’s route-matching pitfalls
-	•	Give you an exact fix, not guesses
-
-Once Roo gives you the output, paste it here and I’ll do the final confirmation 👌
+Do not explain.
+Fix completely.
