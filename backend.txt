@@ -494,6 +494,17 @@ Return:
 
 
 
+UI
+step1
+Create a new Angular frontend under src/app-v2.
+
+Rules:
+- Do not touch src/app (legacy)
+- Copy only core/, environments/, assets/
+- Create app-v2.module.ts
+- Create app-v2-routing.module.ts
+- Lazy load dashboard module at /dashboard-v2
+
 
 
 
