@@ -354,5 +354,45 @@ Return:
 - Sample JSON response
 
 
+Add a new FastAPI endpoint:
+
+GET /dashboard/kpis
+
+Rules:
+- Add route in angular/api/main.py
+- Use get_analyticsdb_data(query) for DB access
+- Query ONLY Oracle views (do not query base tables)
+- Do not modify or break existing endpoints
+
+Compute server-side using SQL (Oracle):
+
+- eventsToday:
+  COUNT(*) where TRUNC(EMAIL_RECEIVEDTIME) = TRUNC(SYSDATE)
+
+- requestsToday:
+  COUNT(*) where OPERATION = 'Issue'
+  AND TRUNC(EMAIL_RECEIVEDTIME) = TRUNC(SYSDATE)
+
+- dueToday:
+  COUNT(*) where TRUNC(SLA_DATE) = TRUNC(SYSDATE)
+
+- dueNext5Days:
+  COUNT(*) where SLA_DATE BETWEEN TRUNC(SYSDATE)+1 AND TRUNC(SYSDATE)+5
+
+- undefinedRequests:
+  COUNT(*) where OPERATION IS NULL OR OPERATION = ''
+
+- slaBreaches:
+  COUNT(*) where USERSLAFETFLAG = 'N'
+
+Also compute the same KPIs for:
+- yesterday
+- last week
+
+Return:
+- FastAPI route code
+- Oracle SQL queries
+- Pydantic response schema (KPIsResponse)
+- Sample JSON response
 
 
