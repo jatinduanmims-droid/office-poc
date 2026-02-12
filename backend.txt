@@ -1,0 +1,325 @@
+Perfect 👍
+Below is the complete, clean, small, and precise prompt list — backend first, frontend next, in the exact order you should run them in Roo Code.
+
+No fluff. No overlap. No ambiguity.
+Each prompt does one job only.
+
+⸻
+
+🔧 BACKEND PROMPTS (RUN FIRST)
+
+⸻
+
+🔹 BACKEND PROMPT 0 — Backend Awareness
+
+Analyze the FastAPI backend and report:
+- Where routes are defined
+- Where SQL / DB access happens
+- How Oracle VPD is enforced
+- Existing helpers or repositories
+Do not modify any code.
+
+
+⸻
+
+🔹 BACKEND PROMPT 1 — KPI Endpoint
+
+Add a new endpoint:
+
+GET /dashboard/kpis
+
+Requirements:
+- Do not modify existing endpoints
+- Compute KPIs server-side using SQL aggregation
+- Support optional date range filters
+- Include comparison vs yesterday and last week
+
+Return:
+- Route code
+- SQL queries
+- Pydantic response schema
+
+
+⸻
+
+🔹 BACKEND PROMPT 2 — Trends Endpoint
+
+Add a new endpoint:
+
+GET /dashboard/trends
+
+Requirements:
+- Return aggregated time-series data
+- Support groupBy: daily | weekly | monthly
+- Support rangeDays (default 30, max 365)
+- Do not return raw rows
+
+Return:
+- Route code
+- SQL aggregation logic
+- Response schema
+
+
+⸻
+
+🔹 BACKEND PROMPT 3 — Server-Side Table Endpoint
+
+Add a new endpoint:
+
+GET /dashboard/table
+
+Requirements:
+- Server-side pagination
+- Server-side sorting
+- Server-side filtering
+- Never return full dataset
+- Reuse existing Oracle views & VPD
+
+Return:
+- Route code
+- SQL queries
+- Pagination logic
+
+
+⸻
+
+🔹 BACKEND PROMPT 4 — Performance Review
+
+Review dashboard-related queries and:
+- Recommend missing indexes
+- Identify slow queries
+- Suggest safe caching
+Ensure VPD is not affected.
+Return recommendations only.
+
+
+⸻
+
+🔹 BACKEND PROMPT 5 — Backend Validation
+
+Validate new dashboard endpoints by:
+- Comparing KPI numbers vs legacy UI
+- Checking for breaking changes
+- Confirming performance targets
+
+Return a validation checklist.
+
+
+⸻
+
+🎨 FRONTEND PROMPTS (RUN AFTER BACKEND)
+
+⸻
+
+🔹 FRONTEND PROMPT 1 — Repo & Stack Awareness
+
+Analyze the Angular setup and report:
+- Angular version
+- Angular Material usage
+- Chart libraries installed
+- API base URL configuration
+Ignore UI components.
+
+
+⸻
+
+🔹 FRONTEND PROMPT 2 — New Frontend Shell
+
+Create a new Angular app shell at src/app-v2.
+
+Rules:
+- Do not touch src/app
+- Copy only core/, environments/, assets/
+
+Generate:
+- app-v2.module.ts
+- app-v2-routing.module.ts
+
+Routing:
+'' → dashboard (lazy-loaded)
+
+
+⸻
+
+🔹 FRONTEND PROMPT 3 — Root Routing Integration
+
+Add a new lazy-loaded route:
+
+/dashboard-v2 → AppV2Module
+
+Do not modify existing routes.
+Return routing changes only.
+
+
+⸻
+
+🔹 FRONTEND PROMPT 4 — Dashboard Module
+
+Create a clean dashboard module under:
+
+src/app-v2/dashboard/
+
+Generate:
+- dashboard.module.ts
+- dashboard-routing.module.ts
+- dashboard-page.component.ts
+
+Routing path: ''
+No UI logic yet.
+
+
+⸻
+
+🔹 FRONTEND PROMPT 5 — API Models
+
+Create TypeScript interfaces for:
+- /dashboard/kpis
+- /dashboard/trends
+- /dashboard/table
+
+Include query params and response types.
+No UI code.
+
+
+⸻
+
+🔹 FRONTEND PROMPT 6 — Dashboard Service
+
+Create dashboard.service.ts that calls:
+- GET /dashboard/kpis
+- GET /dashboard/trends
+- GET /dashboard/table
+
+Requirements:
+- HttpClient
+- RxJS Observables
+- No client-side aggregation
+
+
+⸻
+
+🔹 FRONTEND PROMPT 7 — KPI Cards Component
+
+Create KPI cards component.
+
+Requirements:
+- @Input() KPI data
+- Value + % change
+- Status color
+- OnPush change detection
+- No API calls
+
+
+⸻
+
+🔹 FRONTEND PROMPT 8 — Trend Chart Component
+
+Create trend chart component.
+
+Requirements:
+- Uses aggregated trend data
+- Range toggle: 7 / 30 / 90 / 365
+- Events, Requests, SLA breaches
+- Match installed chart library
+
+
+⸻
+
+🔹 FRONTEND PROMPT 9 — SLA Widget
+
+Create SLA compliance widget.
+
+Requirements:
+- SLA met vs breached
+- Percentage display
+- Donut or gauge chart
+- @Input() data only
+
+
+⸻
+
+🔹 FRONTEND PROMPT 10 — Breakdown Charts
+
+Create reusable horizontal bar chart component.
+
+Usage:
+- Requests by Product
+- Requests by Service
+
+Emit click event for filtering.
+
+
+⸻
+
+🔹 FRONTEND PROMPT 11 — Controls Table
+
+Create controls table component.
+
+Requirements:
+- Server-side pagination
+- Server-side sorting
+- Server-side filtering
+- Uses /dashboard/table
+- trackBy enabled
+
+
+⸻
+
+🔹 FRONTEND PROMPT 12 — Dashboard Composition
+
+Compose dashboard-page.component with layout:
+
+Row 1: KPI cards
+Row 2: Trend chart + SLA widget
+Row 3: Breakdown charts
+Row 4: Controls table
+
+One API call per section.
+
+
+⸻
+
+🔹 FRONTEND PROMPT 13 — Styling (V2 Only)
+
+Create new styling system for app-v2:
+
+src/styles-v2/
+- tokens.scss
+- layout.scss
+- components.scss
+- theme.scss
+
+Add styles-v2 to angular.json.
+
+
+⸻
+
+🔹 FRONTEND PROMPT 14 — Performance Check
+
+Review dashboard-v2 and ensure:
+- OnPush everywhere
+- async pipe usage
+- No legacy endpoints used
+- No large client-side processing
+
+Return checklist.
+
+
+⸻
+
+✅ THIS NOW COVERS EVERYTHING
+
+✔ Backend improvements
+✔ Performance
+✔ Scalability
+✔ Clean UI rebuild
+✔ Safe migration
+✔ No legacy coupling
+
+This is exactly how senior teams do phased rewrites.
+
+If you want, next I can:
+	•	Convert this into a Notion / Jira task list
+	•	Or compress it into a one-page execution checklist
+
+Just tell me 👍
