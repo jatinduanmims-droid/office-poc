@@ -1,25 +1,35 @@
-Fix all Angular standalone vs NgModule conflicts in dashboard-v2.
+IMPORTANT: Do NOT create any new dashboard folders under src/app or src/app-v2.
 
-STRICT RULES:
-- dashboard-v2 must be 100% NgModule-based
-- No standalone components allowed
-- No imports inside @Component
-- All imports must live in DashboardV2Module only
+TASK:
+Relocate (cut + paste, not copy) all EXISTING dashboard-related files into the already-existing folder:
 
-TASKS:
-1. Remove `standalone: true` from ALL dashboard-v2 components
-2. Remove `imports: []` from ALL dashboard-v2 components
-3. Ensure ALL dashboard-v2 components are declared in DashboardV2Module
-4. Ensure NO dashboard-v2 component is declared in any other module
-5. Move ALL Angular Material + Charts imports into DashboardV2Module
-6. Fix routing so `/dashboard-v2` loads DashboardPageComponent only
-7. Remove any conflicting direct routes or legacy imports
+src/app-v2/dashboard
 
-OUTPUT:
-- Zero NG3004 errors
-- Zero standalone-related errors
-- `/dashboard-v2` loads cleanly
-- Legacy dashboard untouched
+DEFINITION OF "RELOCATE":
+- Physically move the same files
+- Do NOT duplicate
+- Do NOT recreate folders with similar names
+- Remove original files after moving
 
-Do not explain.
-Fix completely.
+SOURCE LOCATIONS TO SCAN:
+- src/app/dashboard/**
+- src/app/components/dashboard/**
+- src/app/pages/dashboard/**
+- src/app-v2/** (if partial dashboard files already exist)
+
+TARGET LOCATION (ONLY THIS):
+src/app-v2/dashboard/**
+
+RULES:
+1. If a dashboard file already exists in src/app-v2/dashboard, overwrite it.
+2. After relocation, NO dashboard-related file should remain outside src/app-v2/dashboard.
+3. Do NOT create src/app/dashboard or any new dashboard folder under src/app.
+4. Do NOT use standalone components.
+5. Update ALL imports to be relative within src/app-v2/dashboard.
+6. Ensure dashboard.module.ts declares ALL dashboard components.
+7. Ensure dashboard-routing.module.ts routes to DashboardPageComponent.
+
+FINAL CHECK:
+- Confirm src/app/dashboard does NOT exist
+- Confirm src/app-v2/dashboard contains ALL dashboard files
+- Confirm Angular compiles without NG6008 / TS2322 errors
