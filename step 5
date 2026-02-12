@@ -1,0 +1,156 @@
+🚀 Let’s go — Step 4 done means your dashboard is now alive.
+
+Time for the final core piece of the dashboard UI.
+
+⸻
+
+✅ UI PROMPT 5 — Paginated, Sortable, Filterable Data Table
+
+This connects the table section to the backend endpoint you already built
+(/dashboard/table) and completes the dashboard.
+
+Paste this exact prompt into Roo Code.
+
+⸻
+
+UI PROMPT 5 — Dashboard Data Table (Final Core UI)
+
+Objective
+Implement a server-driven data table with pagination, sorting, and filters using the /dashboard/table API.
+
+⸻
+
+Rules
+	1.	❌ Do NOT modify backend
+	2.	❌ Do NOT touch legacy UI
+	3.	✅ Use /dashboard/table endpoint only
+	4.	✅ Pagination, sorting, filtering must be server-side
+	5.	❌ Do NOT load full dataset into memory
+	6.	✅ Table logic must live inside data-table component
+
+⸻
+
+Backend API
+
+GET /dashboard/table
+
+Params
+
+page
+pageSize
+sortField
+sortDirection
+fromDate
+toDate
+operation
+service
+product
+userslafetflag
+
+
+⸻
+
+Table Columns
+
+Display these columns (in order):
+	1.	EMAIL_RECEIVEDTIME
+	2.	SUBJECT
+	3.	SENDER
+	4.	OPERATION
+	5.	SERVICE
+	6.	PRODUCT
+	7.	SLA_DATE
+	8.	USERSLAFETFLAG
+
+⸻
+
+Implementation Steps
+
+1️⃣ Data Table Service
+Create:
+
+DashboardTableService
+
+Method:
+
+getTableData(queryParams)
+
+
+⸻
+
+2️⃣ Data Table Component Logic
+In data-table.component.ts:
+	•	Use Angular Material Table
+	•	Use MatPaginator (server-side)
+	•	Use MatSort (server-side)
+	•	On:
+	•	page change
+	•	sort change
+	•	filter change
+→ trigger API call
+
+⸻
+
+3️⃣ Filters (Top of Table)
+Add filter controls:
+	•	Date range picker (EMAIL_RECEIVEDTIME)
+	•	Operation (dropdown)
+	•	Service (text)
+	•	Product (text)
+	•	SLA Flag (Y / N)
+
+Filters must:
+	•	Reset page to 1
+	•	Trigger API reload
+
+⸻
+
+4️⃣ Loading & UX
+	•	Show spinner during fetch
+	•	Disable controls while loading
+	•	Show “No records found” if empty
+	•	Show totalCount above table
+
+⸻
+
+Styling Rules
+	•	Sticky table header
+	•	Horizontal scroll for wide tables
+	•	SLA Flag:
+	•	Green → Y
+	•	Red → N
+	•	Responsive layout
+
+⸻
+
+Non-Goals
+	•	❌ No inline editing
+	•	❌ No row expansion
+	•	❌ No export
+	•	❌ No client-side filtering
+
+⸻
+
+Success Criteria
+	•	Table paginates correctly
+	•	Sorting works on all allowed columns
+	•	Filters correctly apply
+	•	API calls are minimal and clean
+	•	No console errors
+
+⸻
+
+🏁 After Step 5 (Optional Polish Prompts)
+
+If you want to go further, next prompts could be:
+	•	UI Prompt 6 → Global date filter (sync KPIs + charts + table)
+	•	UI Prompt 7 → Skeleton loaders + empty states
+	•	UI Prompt 8 → Performance optimizations (debounce, caching)
+
+⸻
+
+When this is complete, say:
+
+👉 “Step 5 done”
+
+And I’ll help you do a final architecture + UX review before you ship 💪
