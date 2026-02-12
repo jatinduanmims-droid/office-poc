@@ -1,0 +1,48 @@
+Perform a one-time global fix for Angular standalone components missing CommonModule.
+
+Context:
+- Angular v14+
+- Project uses both legacy NgModule components and modern standalone components
+- Current errors: NG3004 (NgClass / NgIf / NgFor not found)
+- Root cause: CommonModule not imported in standalone components
+
+STRICT RULES:
+- Do NOT change Angular versions
+- Do NOT modify package.json
+- Do NOT refactor templates or component logic
+- Do NOT convert components to NgModule-based
+- Do NOT touch legacy src/app unless required for standalone fix
+- Only modify standalone components
+
+TASK:
+
+1. Scan the entire project for standalone components:
+   - Files containing `standalone: true`
+
+2. For each standalone component:
+   a. Check if it uses any of:
+      - *ngIf
+      - *ngFor
+      - [ngClass]
+      - Angular pipes (date, async, uppercase, lowercase, etc.)
+   b. If YES:
+      - Import CommonModule from `@angular/common`
+      - Add CommonModule to the `imports: []` array
+   c. If CommonModule already exists → do nothing
+
+3. Ensure:
+   - No duplicate imports
+   - Formatting is preserved
+   - No changes to templates or logic
+
+4. Do NOT touch:
+   - NgModule declarations
+   - Non-standalone components
+
+OUTPUT:
+- List of files updated
+- Confirmation that all standalone components now safely import CommonModule
+- Confirmation that NG3004-type errors are resolved globally
+
+DO NOT explain Angular concepts.
+JUST APPLY THE FIX.
