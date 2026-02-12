@@ -354,6 +354,8 @@ Return:
 - Sample JSON response
 
 
+
+
 Add a new FastAPI endpoint:
 
 GET /dashboard/kpis
@@ -393,6 +395,33 @@ Return:
 - FastAPI route code
 - Oracle SQL queries
 - Pydantic response schema (KPIsResponse)
+- Add a new FastAPI endpoint:
+
+GET /dashboard/trends
+
+Rules:
+- Add route in angular/api/main.py
+- Use get_analyticsdb_data(query)
+- Query ONLY Oracle views
+- Do not return raw rows
+
+Requirements:
+- Aggregate by date
+- Support groupBy: daily | weekly | monthly
+- Support rangeDays (default 30, max 365)
+
+Return:
+- Route code
+- Oracle SQL
+- Pydantic response schema
 - Sample JSON response
+
+
+
+
+
+
+
+
 
 
