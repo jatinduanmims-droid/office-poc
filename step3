@@ -1,0 +1,122 @@
+Nice 💯 — Step 2 is done correctly.
+The screenshot confirms Roo did exactly what UI Prompt 2 asked.
+
+What’s ✅ confirmed from your image
+	•	src/app-v2/dashboard/ created ✔
+	•	Clean separation:
+	•	pages/dashboard-page
+	•	components/kpi-cards
+	•	components/trend-charts
+	•	components/data-table
+	•	No legacy HTML reused ✔
+	•	Route /dashboard-v2 loads DashboardPageComponent ✔
+	•	Only placeholders, no API calls ✔
+	•	Angular Material used ✔
+	•	Legacy src/app untouched ✔
+
+The TypeScript warning mentioned is expected at this stage and not a UI issue — we’ll resolve it when wiring modules/services.
+
+You’re exactly on track.
+
+⸻
+
+✅ NEXT STEP → UI PROMPT 3 (KPI Cards – API Wiring)
+
+This is where the dashboard becomes “alive”.
+
+Below is the next prompt. Paste it directly into Roo Code.
+
+⸻
+
+UI PROMPT 3 — KPI Cards (Live Data Wiring)
+
+Objective
+Wire the KPI cards section to the backend KPI API and display real values with day-over-day comparison.
+
+⸻
+
+Rules
+	1.	❌ Do NOT modify backend
+	2.	❌ Do NOT touch legacy UI
+	3.	✅ Use existing /dashboard/kpis endpoint
+	4.	✅ Use Angular service for API calls
+	5.	✅ KPI logic must live in the KPI component only
+	6.	❌ Do NOT add charts yet
+
+⸻
+
+KPI Definitions
+
+Display 6 KPI cards:
+	1.	Events Received Today
+	2.	Requests Received Today
+	3.	Requests Due Today
+	4.	Requests Due in Next 5 Days
+	5.	Undefined Requests
+	6.	SLA Breaches
+
+Each card must show:
+	•	Main value (today)
+	•	Delta vs yesterday (+ / -)
+	•	Arrow indicator (up/down/flat)
+
+⸻
+
+Data Source
+
+GET /dashboard/kpis
+
+Use fields:
+	•	eventsToday, eventsYesterday
+	•	requestsToday, requestsYesterday
+	•	dueToday, dueYesterday
+	•	dueNext5Days, dueNext5DaysYesterday
+	•	undefinedRequests, undefinedRequestsYesterday
+	•	slaBreaches, slaBreachesYesterday
+
+⸻
+
+Implementation Steps
+	1.	Create DashboardKpiService
+	•	Location: src/app-v2/dashboard/services/
+	•	One method: getKpis()
+	2.	Update kpi-cards.component.ts
+	•	Call API on ngOnInit
+	•	Compute delta values
+	•	Expose view model to template
+	3.	Update kpi-cards.component.html
+	•	Replace placeholders with real values
+	•	Show arrow icons using Angular Material
+	4.	Loading & Error Handling
+	•	Show skeleton loader while loading
+	•	Show “No data” on error
+
+⸻
+
+Styling Rules
+	•	Green: positive trend
+	•	Red: negative trend
+	•	Grey: no change
+	•	Keep layout responsive
+
+⸻
+
+Non-Goals
+	•	❌ No charts
+	•	❌ No filters
+	•	❌ No table logic
+
+⸻
+
+Success Criteria
+	•	KPI cards show real data
+	•	Deltas are correct
+	•	No console errors
+	•	API called exactly once on load
+
+⸻
+
+When this is done, say:
+“Step 3 done”
+
+Next I’ll give you UI PROMPT 4 → Trend Charts (Daily / Weekly / Monthly) 🚀
