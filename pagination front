@@ -1,0 +1,19 @@
+Update the frontend to support server-side pagination without redesign.
+
+Rules:
+- Do NOT change UI layout or styling
+- Do NOT change table columns
+- Do NOT reload the component on page change
+- Do NOT refetch data unless page, pageSize, sort, or filters change
+
+Tasks:
+1. Pass page and pageSize to backend API
+2. Trigger API call only on paginator events
+3. Store current page data in component state
+4. Preserve data while navigating within the dashboard
+5. Reset to page 1 only when filters or sorting change
+
+Goal:
+- Page navigation feels instant
+- Table does not reload unnecessarily
+- Backend is called only when needed
