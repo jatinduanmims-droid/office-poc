@@ -1,0 +1,26 @@
+Fix pagination so all pages are available without changing:
+- function names
+- parameters
+- routes
+- response field names already used
+
+Problem:
+- UI only shows 2 pages instead of ~67
+- total_records is incorrect or missing
+
+Tasks:
+1. Ensure backend runs a separate COUNT(*) query without pagination.
+2. Ensure COUNT query uses the same filters as data query but NO OFFSET / FETCH.
+3. Ensure total_records reflects the full dataset size.
+4. Include total_records in the response consistently.
+5. Ensure paginated data query has stable ORDER BY (EMAIL_RECEIVEDTIME DESC, ROW_ID DESC).
+6. Ensure cached counts (if any) refresh correctly.
+
+Do NOT:
+- calculate total_records from len(data)
+- apply pagination to COUNT query
+- change function signatures
+
+Goal:
+- UI shows correct number of pages (67+)
+- Page navigation works beyond page 2
