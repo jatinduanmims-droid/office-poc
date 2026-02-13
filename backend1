@@ -1,0 +1,61 @@
+TASK: Backend performance optimization (FastAPI – main.py)
+
+CONTEXT:
+You are working inside an existing FastAPI backend file: main.py.
+The backend is already functional and deployed.
+Your task is to improve performance and response time ONLY.
+
+DO NOT assume anything outside this file.
+DO NOT touch frontend, Angular, routing, or UI logic.
+
+--------------------------------------------------
+ABSOLUTE RULES (MUST FOLLOW):
+--------------------------------------------------
+- DO NOT rename any function
+- DO NOT rename any variable
+- DO NOT change any API route or HTTP method
+- DO NOT change request or response schemas
+- DO NOT change SQL semantics or query results
+- DO NOT remove or comment out existing code
+- DO NOT refactor into new files
+- DO NOT introduce breaking changes
+- DO NOT modify business logic
+- DO NOT change response JSON keys or structure
+
+If any rule conflicts with your change, DO NOT apply that change.
+
+--------------------------------------------------
+ALLOWED CHANGES (INTERNAL OPTIMIZATION ONLY):
+--------------------------------------------------
+- Add Oracle connection pooling (oracledb.create_pool)
+- Enable pyodbc pooling
+- Reuse database connections safely
+- Reduce duplicate DB queries
+- Reduce repeated cursor creation
+- Extract repeated dictionary-building logic into INTERNAL helper functions
+- Reduce N+1 query patterns
+- Add lightweight performance logging (timing)
+- Improve cursor lifecycle handling
+
+--------------------------------------------------
+GOALS:
+--------------------------------------------------
+- Reduce per-request DB connection overhead
+- Reduce number of DB round-trips
+- Reduce Python CPU overhead
+- Keep output 100% identical
+
+--------------------------------------------------
+OUTPUT FORMAT:
+--------------------------------------------------
+- Show ONLY the changed or newly added code
+- Wrap each change in comments:
+  # PERFORMANCE IMPROVEMENT
+  # WHY SAFE
+- Do NOT rewrite the entire file
+- Do NOT add TODOs or placeholders
+- Assume production environment
+
+--------------------------------------------------
+START NOW
+--------------------------------------------------
