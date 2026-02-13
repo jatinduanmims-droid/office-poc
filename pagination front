@@ -17,3 +17,9 @@ Goal:
 - Page navigation feels instant
 - Table does not reload unnecessarily
 - Backend is called only when needed
+
+
+
+step2
+Fix the SyntaxError by reordering function parameters so that all non-default parameters come before default parameters. Do not rename functions, variables, or endpoints.
+
