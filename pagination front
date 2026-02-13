@@ -1,3 +1,4 @@
+
 Update the frontend to support server-side pagination without redesign.
 
 Rules:
@@ -22,4 +23,30 @@ Goal:
 
 step2
 Fix the SyntaxError by reordering function parameters so that all non-default parameters come before default parameters. Do not rename functions, variables, or endpoints.
+
+
+
+step3
+Optimize backend performance for email listing without changing:
+- function names
+- function parameters
+- API routes
+- response field names
+- variable names used by UI
+
+Tasks:
+1. Implement fast pagination using ROW_NUMBER() with stable ORDER BY (EMAIL_RECEIVEDTIME DESC, ROW_ID DESC).
+2. Add a separate COUNT(*) query to compute total records.
+3. Cache total count in memory for 60 seconds.
+4. Cache paginated results per page+page_size for 30 seconds.
+5. Ensure page navigation does not re-run heavy queries unnecessarily.
+6. Do NOT apply pagination logic to stats endpoints.
+7. Prevent missing rows, duplicate rows, and inconsistent page sizes.
+8. Keep all existing behavior and contracts unchanged.
+
+Goal:
+- Page navigation < 1 second
+- No UI flicker
+- Correct page counts
+- Stable data across pages
 
