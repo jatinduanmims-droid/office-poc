@@ -1,0 +1,32 @@
+Optimize backend performance using server-side pagination and safe lazy loading.
+
+Context:
+- Large email dataset causes 20+ second load times
+- Full dataset is currently fetched repeatedly
+- Previous global caching caused runtime errors
+
+Rules (STRICT):
+- Do NOT remove or rename any existing endpoint, function, or variable
+- Do NOT change response structure
+- Do NOT add global or unsafe caching
+- Do NOT preload full datasets
+
+Tasks:
+1. Ensure all list endpoints return paginated data ONLY
+2. Ensure SQL always uses OFFSET + FETCH (or equivalent)
+3. Ensure pageSize is strictly enforced
+4. Ensure totalCount is returned via a separate COUNT query
+5. Ensure backend is stateless between page requests
+
+Optional (only if safe):
+- Add lightweight per-page cache keyed by (page, pageSize, filters)
+- Cache must be read-only and fallback-safe
+
+Goal:
+- Page 1 loads under 1 second
+- Navigation between pages does NOT reload full dataset
+- No caching-related crashes
+
+Output:
+- Backend-only changes
+- Brief explanation of why this improves performance
