@@ -162,3 +162,40 @@ DEBUG:<api_name>: EXEC_TIME={seconds}
 Ensure logs print for every request, cache hit or miss.
 
 
+
+
+step5
+
+Fix pagination correctness and observability without changing any existing function names or parameter names.
+
+Rules:
+- Do NOT rename APIs
+- Do NOT rename parameters (page, page_size)
+- Do NOT change business logic
+- Do NOT change SQL semantics
+- You MAY wrap the response in an object
+
+Backend tasks:
+1. Ensure paginated APIs return BOTH:
+   - data (current page rows)
+   - total_count (full DB count, before pagination)
+
+2. Log page, page_size, offset, total_count, and final rows for EVERY request.
+
+3. Return response shape:
+{
+  "data": [...],
+  "total_count": <int>,
+  "page": <int>,
+  "page_size": <int>
+}
+
+4. Keep caching logic intact.
+
+5. Add INFO log:
+INFO:<api>: page=X rows=Y total=Z
+
+Goal:
+- Frontend must be able to render correct number of pages
+- Logs must clearly show when page changes
+
