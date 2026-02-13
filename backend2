@@ -1,0 +1,42 @@
+TASK: Optimize Oracle DB usage in existing FastAPI backend
+
+CONTEXT:
+This backend heavily uses Oracle via oracledb and SQLAlchemy.
+The code currently opens new DB connections per request.
+
+--------------------------------------------------
+STRICT RULES:
+--------------------------------------------------
+- Function names MUST NOT change
+- Variable names MUST NOT change
+- SQL MUST remain logically identical
+- Response shape MUST remain identical
+- No frontend changes allowed
+- No file structure changes allowed
+
+--------------------------------------------------
+WHAT TO DO:
+--------------------------------------------------
+1. Introduce Oracle connection pooling (create_pool)
+2. Ensure connections are reused safely
+3. Ensure cursors are closed correctly
+4. Reduce duplicate Oracle queries
+5. Avoid N+1 TBOSS queries if possible
+6. Improve DB execution latency without changing SQL meaning
+
+--------------------------------------------------
+WHAT NOT TO DO:
+--------------------------------------------------
+- No renaming
+- No moving code
+- No deleting logic
+- No architectural rewrites
+
+--------------------------------------------------
+OUTPUT:
+--------------------------------------------------
+- Show only minimal diffs
+- Comment each change clearly
+- Do not reprint unchanged code
+
+START EXECUTION
