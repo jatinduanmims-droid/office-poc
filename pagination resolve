@@ -130,3 +130,35 @@ EXPECTED OUTCOME:
 - Backend performance improves significantly
 - Logs clearly explain any future issue in one glance
 
+step4 
+Add permanent structured debug logging to backend APIs.
+
+Rules:
+- Do NOT change function names
+- Do NOT change parameter names
+- Do NOT change return structure
+- Do NOT change business logic
+- Only ADD logs
+- Logs must stay permanently (not temporary debugging)
+
+For each paginated API:
+1. Log API entry with page and page_size
+2. Log computed offset
+3. Log total record count from DB
+4. Log number of Email rows fetched
+5. Log number of TBoss rows fetched
+6. Log final response row count
+7. Log execution time in seconds
+8. Use consistent log prefix per API
+
+Log format example:
+DEBUG:<api_name>: PAGE={page} SIZE={page_size} OFFSET={offset}
+DEBUG:<api_name>: TOTAL_COUNT={total}
+DEBUG:<api_name>: EMAIL_ROWS_FETCHED={n}
+DEBUG:<api_name>: TBOSS_ROWS_FETCHED={n}
+DEBUG:<api_name>: FINAL_RESPONSE_ROWS={n}
+DEBUG:<api_name>: EXEC_TIME={seconds}
+
+Ensure logs print for every request, cache hit or miss.
+
+
