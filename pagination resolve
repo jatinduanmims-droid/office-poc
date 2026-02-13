@@ -24,3 +24,34 @@ Do NOT:
 Goal:
 - UI shows correct number of pages (67+)
 - Page navigation works beyond page 2
+
+
+
+
+
+step2
+Fix pagination metadata so paginator shows all pages.
+
+Current problem:
+- UI only shows 2 pages even though >600 records exist
+- Backend pagination works but total_records is wrong
+
+Tasks:
+1. Ensure COUNT(*) query:
+   - does NOT use OFFSET / FETCH / LIMIT
+   - uses the same WHERE filters as the data query
+2. Ensure total_records is returned from SQL COUNT, not len(data)
+3. Ensure response always includes:
+   - total_records
+   - page
+   - page_size
+4. Ensure ORDER BY is deterministic:
+   - EMAIL_RECEIVEDTIME DESC
+   - ROW_ID DESC
+5. Do not cache paginated results as total count
+6. Do not change function names, parameters, or routes
+
+Goal:
+- total_records reflects full dataset size
+- paginator shows all pages (67+)
+- page navigation beyond page 2 works consistently
