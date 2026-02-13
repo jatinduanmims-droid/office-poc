@@ -1,0 +1,71 @@
+TASK: Add safe in-memory caching to existing FastAPI backend to prevent repeated slow DB queries.
+
+CONTEXT:
+- Current backend re-fetches full datasets on every request
+- Table data reloads on page navigation
+- Response time ~20+ seconds per request
+- We must cache results to reuse them across requests
+
+--------------------------------------------------
+ABSOLUTE RULES:
+--------------------------------------------------
+- DO NOT rename any function
+- DO NOT rename any variable
+- DO NOT change API routes or HTTP methods
+- DO NOT change request or response schemas
+- DO NOT change SQL semantics
+- DO NOT modify frontend code
+- DO NOT refactor into new files
+
+--------------------------------------------------
+WHAT TO CACHE (CRITICAL):
+--------------------------------------------------
+Add caching ONLY for READ endpoints that return large datasets, such as:
+- get_emails
+- view_details_batch
+- any dashboard table-related endpoint
+
+DO NOT cache:
+- update_classification
+- update_reference
+- any POST/PUT endpoints
+
+--------------------------------------------------
+HOW TO CACHE (SAFE METHOD):
+--------------------------------------------------
+1. Use in-memory caching (dictionary-based or functools.lru_cache)
+2. Cache key MUST include:
+   - endpoint name
+   - relevant query parameters (if any)
+3. Cache value = full response data
+4. Cache TTL = 60 seconds (or configurable)
+5. If cache exists and valid → return cached response immediately
+6. If cache expired → recompute and refresh cache
+
+--------------------------------------------------
+IMPLEMENTATION CONSTRAINTS:
+--------------------------------------------------
+- Caching must be transparent to caller
+- Cached data must be immutable copies
+- Thread-safe access (simple locking if needed)
+- Add minimal logging when cache is HIT or MISS
+
+--------------------------------------------------
+OUTPUT FORMAT:
+--------------------------------------------------
+- Show ONLY added or modified code blocks
+- Mark each change with:
+  # CACHING IMPROVEMENT
+  # WHY SAFE
+- Do NOT rewrite entire functions
+- Do NOT remove existing logic
+
+--------------------------------------------------
+GOAL:
+--------------------------------------------------
+After first request:
+- Subsequent requests return in milliseconds
+- Page navigation does NOT trigger slow DB queries repeatedly
+- No behavior change for users
+
+START IMPLEMENTATION
