@@ -1,0 +1,38 @@
+A bug was introduced after adding in-memory caching.
+
+Current symptoms:
+- API throws runtime errors after cache was added
+- Data sometimes does not load or crashes on navigation
+- Error observed: UnboundLocalError / stale or missing cached values
+- Issue started ONLY after caching prompt was applied
+
+Rules (STRICT):
+- Do NOT rename any function, variable, endpoint, or response model
+- Do NOT change API behavior or output structure
+- Do NOT remove caching entirely
+- Do NOT add new dependencies or external services
+
+Your task:
+1. Identify exactly where caching logic is unsafe or incorrect
+2. Fix cache initialization, cache read, and cache fallback paths
+3. Ensure all cached values are:
+   - Always initialized
+   - Never referenced before assignment
+   - Safely returned even on cache miss
+4. Ensure cache invalidation does NOT break read endpoints
+5. Ensure concurrent requests do NOT corrupt cache state
+
+Specifically verify:
+- No local variables depend on cached values without defaults
+- Cache miss always falls back to original DB logic
+- Cache hit never skips required variable initialization
+- Exceptions do NOT leave cache in partial state
+
+Constraints:
+- Keep function names and variables exactly the same
+- Minimal code changes only
+- Logic outcome must remain identical to pre-cache version
+
+Output:
+- Fixed backend code only
+- Brief explanation of what was wrong in caching logic
