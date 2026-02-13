@@ -1,0 +1,17 @@
+TASK: Add performance instrumentation to backend (read-only)
+
+RULES:
+- Do NOT change any logic
+- Do NOT affect output
+- Do NOT add new dependencies
+
+WHAT TO ADD:
+- Timing logs for DB queries
+- Timing logs per endpoint
+- Use existing logging framework only
+
+OUTPUT:
+- Show only logging-related code
+- Mark each block with purpose
+
+START
