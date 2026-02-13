@@ -199,3 +199,33 @@ Goal:
 - Frontend must be able to render correct number of pages
 - Logs must clearly show when page changes
 
+
+step6
+
+Fix frontend pagination so backend receives correct page numbers.
+
+Rules:
+- Do NOT rename backend APIs
+- Do NOT rename query params (page, page_size)
+- Do NOT change backend code
+- Fix frontend only
+
+Tasks:
+1. Ensure paginator.pageIndex is used to call API
+2. API must be called with:
+   page = paginator.pageIndex + 1
+   page_size = paginator.pageSize
+
+3. Set paginator.length = response.total_count
+   NOT response.data.length
+
+4. On every page change:
+   - cancel previous request
+   - call API again with new page
+
+5. Add console.log before API call:
+   "Requesting page:", page, "size:", page_size
+
+Goal:
+- Backend logs must show PAGE=2, PAGE=3, etc
+- UI must show 30+ pages for total_count=300
