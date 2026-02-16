@@ -1,0 +1,36 @@
+You are working on an existing Angular + Angular Material dashboard application.
+
+VERY IMPORTANT CONSTRAINTS:
+- Do NOT rename, modify, or remove ANY existing function names.
+- Do NOT rename, modify, or remove ANY existing variables.
+- Do NOT change ANY existing business logic.
+- Do NOT refactor existing code structure.
+- Do NOT alter routing logic or route definitions.
+- Only ADD minimal code where absolutely necessary.
+
+GOAL:
+Make the existing left side navigation (mat-sidenav) behave like a hamburger-style sidenav with the following behaviour:
+
+1. The sidenav must always remain CLOSED by default on page load.
+2. The sidenav must open ONLY when the user clicks the hamburger (menu) icon in the header.
+3. When the user clicks ANY navigation item in the sidenav:
+   - The existing navigation logic must execute exactly as it does today.
+   - The sidenav must CLOSE immediately after the click.
+4. The sidenav must NEVER stay open after navigation.
+5. The sidenav state must always reset to CLOSED after any navigation action.
+
+IMPLEMENTATION RULES:
+- Reuse the existing `mat-sidenav`, `mat-sidenav-container`, and layout.
+- Reuse existing click handlers, routerLinks, and bindings.
+- If needed, ONLY ADD:
+  - A template reference variable (e.g. `#sidenav`)
+  - OR `@ViewChild(MatSidenav)` without changing existing code
+- You may ADD `(click)` handlers ONLY to trigger `sidenav.close()` without interfering with current logic.
+- Do NOT introduce new state variables or boolean flags.
+- Do NOT change existing CSS unless absolutely required.
+- Avoid animations or timing logic.
+
+EXPECTED OUTPUT:
+- Updated HTML template showing minimal additions only
+- Updated TypeScript ONLY if required, with additions clearly isolated
+- No renaming, no deletions, no refactors
