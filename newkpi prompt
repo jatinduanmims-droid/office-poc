@@ -1,0 +1,40 @@
+Introduce a generic backend observability and caching framework for KPIs.
+
+Rules:
+- Do NOT change existing endpoint names
+- Do NOT change function signatures
+- Do NOT introduce pagination
+- Do NOT modify response schemas
+- Backend only (FastAPI + Oracle)
+
+Tasks:
+1. Implement a shared in-memory cache service with TTL
+2. Implement a shared logging/timing utility
+3. Create a reusable decorator or wrapper that:
+   - wraps any read_* KPI endpoint
+   - handles cache lookup and storage
+   - measures execution time
+4. Cache key must be deterministic using:
+   - endpoint name
+   - request path
+   - query parameters
+5. Standardize logs across all KPIs:
+   - CACHE_HIT / CACHE_MISS
+   - EMAIL_ROWS_FETCHED
+   - TBOSS_ROWS_FETCHED
+   - FINAL_RESPONSE_ROWS
+   - EXEC_TIME_SECONDS
+6. Apply this wrapper to all current KPI endpoints
+7. Ensure new KPI endpoints only need the wrapper applied
+
+Logging format (mandatory):
+[CACHE] HIT | MISS
+[DB] EMAIL_ROWS_FETCHED=<int>
+[DB] TBOSS_ROWS_FETCHED=<int>
+[RESPONSE] ROWS=<int>
+[PERF] EXEC_TIME=<seconds>
+
+Goal:
+- Zero duplication when adding new KPIs
+- Predictable performance across dashboards
+- Logs alone should explain slowdowns or cache misses
