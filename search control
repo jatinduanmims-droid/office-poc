@@ -204,4 +204,30 @@ RETURN:
 - Updated HTML only
 - No explanations
 
+step 4
+You are modifying the HTML template of an Angular component
+in the C4 CONTROLS AGENT dashboard.
+
+GOAL:
+Restore the Search Controls input and ensure it is ALWAYS visible
+above the chart box.
+
+CRITICAL RULE:
+The search input must NOT be inside any *ngIf condition.
+
+INSTRUCTIONS:
+1. Place the Search Controls <mat-form-field> in its own wrapper div.
+2. Position this wrapper ABOVE the chart container.
+3. Apply *ngIf only to the chart container (selectedControl).
+4. Do NOT remove the search input.
+5. Do NOT modify TypeScript or CSS.
+6. Do NOT redesign UI.
+
+EXPECTED STRUCTURE:
+[ Search Controls (always visible) ]
+[ Chart (conditional via *ngIf) ]
+
+RETURN:
+- Updated HTML only
+- No explanations
 
