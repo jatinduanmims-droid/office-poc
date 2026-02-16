@@ -82,4 +82,97 @@ Return:
 
 Do NOT explain concepts.
 Do NOT add optional features.
-Make the changes production-safe and aligned with enterprise dashboard UX.
+Make the changes production-safe and aligned with 
+enterprise dashboard UX.
+
+
+step2
+You are working on an Angular standalone component called AllcontrolsComponent
+used in the C4 CONTROLS AGENT dashboard.
+
+GOAL:
+1) Move the “Search Controls” input OUTSIDE and ABOVE the chart container
+   so it appears as a separate row above the chart box (same width, right-aligned).
+2) Limit autocomplete suggestions so the dropdown never shows the full controls list.
+
+STRICT RULES:
+- Do NOT redesign the UI or change colors/themes
+- Do NOT use absolute positioning
+- Do NOT modify chart logic, datasets, or calculations
+- Do NOT introduce APIs (data is static)
+- Make minimal, production-safe changes only
+- Use Angular Material best practices
+
+================================================
+PART 1: SEARCH BAR POSITIONING
+================================================
+- Remove the search input from inside the chart panel.
+- Create a separate wrapper ABOVE the chart container.
+- The search bar must:
+  - Be visually outside the chart box
+  - Be aligned to the right
+  - Have the same width as before (~300–320px)
+  - Have a small vertical gap (~12px) from the chart box
+- The chart container itself must remain visually unchanged.
+
+================================================
+PART 2: AUTOCOMPLETE BEHAVIOR (LIMIT RESULTS)
+================================================
+Autocomplete rules:
+1. When the input is empty or has less than 2 characters:
+   - Show ONLY the last 3 recently selected controls.
+2. When the user types 2 or more characters:
+   - Show ONLY the top 2 matching controls.
+3. Never show more than 5 options total.
+4. Never show the full controls list.
+5. Matching must be case-insensitive.
+6. Show “No matching controls” when no results exist.
+
+================================================
+PART 3: RECENT SEARCHES
+================================================
+- Maintain a recentControls array (max size = 3).
+- Update recentControls every time a control is selected.
+- Ensure recentControls:
+  - Has no duplicates
+  - Is ordered by most recent first
+
+================================================
+PART 4: TYPESCRIPT REQUIREMENTS
+================================================
+- Use FormControl-based search (searchControl).
+- Use Observable<ControlRow[]> filteredControls$.
+- Use debounceTime(250) and distinctUntilChanged().
+- Keep existing onSelectControl(), selectControl(),
+  and chart rebuild logic intact.
+- Ensure selected control name displays correctly in input
+  (prevent “[object Object]”).
+
+================================================
+PART 5: HTML REQUIREMENTS
+================================================
+- Use Angular Material mat-autocomplete.
+- Autocomplete must call onSelectControl(control).
+- Display a disabled “Recent Searches” label when showing recent items.
+- Display a disabled “No matching controls” message when applicable.
+
+================================================
+PART 6: CSS (MINIMAL ONLY)
+================================================
+- Add only what is required for layout:
+  - Flex alignment for search wrapper
+  - Fixed width for search input
+  - Vertical spacing above chart
+- No theme or color changes.
+
+================================================
+FINAL OUTPUT EXPECTATION
+================================================
+Return:
+1) Updated HTML (only modified sections)
+2) Updated TypeScript (only added/changed parts)
+3) Any required CSS additions
+
+Do NOT explain concepts.
+Do NOT add optional features.
+Do NOT refactor unrelated code.
