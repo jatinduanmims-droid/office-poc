@@ -1,0 +1,85 @@
+You are working on an Angular standalone component called AllcontrolsComponent
+used in the C4 CONTROLS AGENT dashboard.
+
+GOAL:
+Move the “Search Controls” input above the SLA line chart and REMOVE the controls
+table below the search box. The search must work via autocomplete and directly
+control the chart selection.
+
+STRICT RULES:
+- Do NOT redesign the UI
+- Do NOT change chart logic, datasets, or calculations
+- Do NOT introduce APIs (data is static)
+- Do NOT remove existing chart generation functions
+- Use Angular Material best practices
+- Make minimal, clean changes only
+
+========================
+STEP 1: REMOVE CONTROLS TABLE
+========================
+In the HTML template:
+- Completely remove the <mat-table> that shows the “Controls List”
+- Remove table column definitions and row click handlers
+- Do NOT remove the selectedControl logic (it is still required)
+
+========================
+STEP 2: MOVE SEARCH ABOVE LINE CHART
+========================
+In the HTML template:
+- Place the search input directly above the SLA line chart
+- The search must appear in the chart header area
+- Layout should be:
+    [ Chart Title (left) ] [ Search Controls input (right) ]
+    [ Line Chart below ]
+
+========================
+STEP 3: CONVERT SEARCH TO AUTOCOMPLETE
+========================
+Replace the existing ngModel-based input with:
+- FormControl-based input
+- Angular Material mat-autocomplete
+- Suggestions sourced from the static controls array
+- Minimum 2 characters before suggestions appear
+- Highlight matching text inside suggestions
+- Show “No matching controls” when no results exist
+
+Autocomplete behavior:
+- Typing filters controls in real time
+- Selecting a suggestion calls onSelectControl(control)
+- Selecting updates the chart immediately
+
+========================
+STEP 4: TYPESCRIPT REQUIREMENTS
+========================
+- Add FormControl named searchControl
+- Add Observable<ControlRow[]> filteredControls$
+- Use debounceTime(250) and distinctUntilChanged()
+- Filtering must be case-insensitive
+- Keep existing onSelectControl(ctrl) logic intact
+- Do NOT remove generateRandomTickPercentage or chart rebuild logic
+
+========================
+STEP 5: DISPLAY FUNCTION
+========================
+- Ensure selected control name is displayed in the input
+- Prevent “[object Object]” from appearing
+
+========================
+STEP 6: CSS (MINIMAL)
+========================
+Add only what is required:
+- Flex layout for chart header
+- Search input width ~300–320px
+- No color/theme changes
+
+========================
+FINAL OUTPUT EXPECTATION
+========================
+Return:
+1) Updated HTML template (only changed sections)
+2) Updated TypeScript code (only added/modified parts)
+3) Any required CSS additions
+
+Do NOT explain concepts.
+Do NOT add optional features.
+Make the changes production-safe and aligned with enterprise dashboard UX.
