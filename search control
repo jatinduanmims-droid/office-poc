@@ -176,3 +176,32 @@ Return:
 Do NOT explain concepts.
 Do NOT add optional features.
 Do NOT refactor unrelated code.
+
+
+
+
+step3
+You are modifying the HTML template of an Angular component
+in the C4 CONTROLS AGENT dashboard.
+
+GOAL:
+Move the “Search Controls” input so that it appears ABOVE
+the chart box, not inside or beside it.
+
+INSTRUCTIONS:
+1. Remove the search <mat-form-field> from inside the chart container.
+2. Create a new wrapper div ABOVE the chart container.
+3. Place the search input inside this new wrapper.
+4. Keep the chart container unchanged.
+5. Do NOT change TypeScript or CSS.
+6. Do NOT redesign UI or layout styles.
+
+EXPECTED STRUCTURE:
+[ Search Controls ]
+[ Chart Box ]
+
+RETURN:
+- Updated HTML only
+- No explanations
+
+
