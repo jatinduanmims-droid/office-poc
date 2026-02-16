@@ -1,0 +1,26 @@
+Analyze the Reset button in dashboard.component.html:
+
+<button mat-button class="custom-save" (click)="resetFilters()">Reset</button>
+
+Debug why clicking this button is not producing the expected behavior.
+
+Steps to follow:
+1. Locate the resetFilters() method in the corresponding dashboard.component.ts.
+2. Explain exactly what resetFilters() currently does, line by line.
+3. Verify whether resetFilters() is being triggered on click (event binding correctness).
+4. Check if resetFilters() actually modifies any state used by the table:
+   - displayedEmails
+   - filters
+   - search inputs
+   - table data source
+5. Verify change detection impact (immutability, reassignment vs mutation).
+6. Identify whether PrimeNG p-table requires explicit reset calls (filters, paginator, or table reference).
+7. Check for any early returns, async issues, or overwritten state after reset.
+8. Explain clearly why the Reset button appears to not work.
+
+Important constraints:
+- DO NOT rename any function, variable, or component.
+- DO NOT change existing logic.
+- DO NOT add new features.
+- ONLY analyze, trace, and explain the root cause.
+- If logging is required, suggest minimal console logs without modifying behavior.
