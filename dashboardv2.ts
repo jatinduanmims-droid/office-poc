@@ -12,53 +12,40 @@ interface ControlRow {
 @Component({
   selector: 'app-dashboardv2',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgChartsModule,
-    MatSelectModule
-  ],
+  imports: [CommonModule, NgChartsModule, MatSelectModule],
   templateUrl: './dashboardv2.html',
   styleUrls: ['./dashboardv2.scss']
 })
 export class Dashboardv2Component implements OnInit {
 
-  /* =========================
-     DOMAIN STATE
-     ========================= */
+  /* ================= DOMAIN ================= */
   selectedDomain: 'ALL' | 'TRADE' | 'LOAN' | 'SUPPLY' = 'ALL';
 
-  /* =========================
-     KPI COUNTS (existing)
-     ========================= */
-  tradeSuccessCount!: number;
-  tradeFailureCount!: number;
+  /* ================= KPI COUNTS ================= */
+  tradeSuccessCount = 120;
+  tradeFailureCount = 13;
 
-  loanSuccessCount!: number;
-  loanFailureCount!: number;
+  loanSuccessCount = 17;
+  loanFailureCount = 4;
 
-  supplySuccessCount!: number;
-  supplyFailureCount!: number;
+  supplySuccessCount = 18;
+  supplyFailureCount = 5;
 
-  /* =========================
-     FAILED CONTROLS
-     ========================= */
+  /* ================= ANIMATED KPI ================= */
+  animatedSuccess = 0;
+  animatedFailure = 0;
+  animatedSlaMet = 0;
+  animatedSlaBreach = 0;
+
+  /* ================= FAILED CONTROLS ================= */
   failedControlsToday: string[] = [
     'LC Maturity follow up (B_GBWW_TT-044)',
     'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)',
     'Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)'
   ];
 
-  /* =========================
-     SLA TREND DATA
-     ========================= */
-  dates: string[] = [
-    '20-09-2023',
-    '21-09-2023',
-    '22-09-2023',
-    '23-09-2023',
-    '24-09-2023',
-    '25-09-2023'
-  ];
+  /* ================= SLA TREND ================= */
+  dates = ['20-09-2023', '21-09-2023', '22-09-2023', '23-09-2023', '24-09-2023'];
 
   controls: ControlRow[] = [];
   selectedControl!: ControlRow;
@@ -66,22 +53,8 @@ export class Dashboardv2Component implements OnInit {
   lineChartData: ChartData<'line'> = {
     labels: [],
     datasets: [
-      {
-        label: 'SLA Met %',
-        data: [],
-        borderColor: '#2e7d32',
-        backgroundColor: '#2e7d32',
-        fill: false,
-        tension: 0.3
-      },
-      {
-        label: 'SLA Breach %',
-        data: [],
-        borderColor: '#c62828',
-        backgroundColor: '#c62828',
-        fill: false,
-        tension: 0.3
-      }
+      { label: 'SLA Met %', data: [], borderColor: '#2e7d32', tension: 0.3 },
+      { label: 'SLA Breach %', data: [], borderColor: '#c62828', tension: 0.3 }
     ]
   };
 
@@ -89,63 +62,30 @@ export class Dashboardv2Component implements OnInit {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      y: {
-        beginAtZero: true,
-        max: 100,
-        title: { display: true, text: 'Percentage' }
-      },
-      x: {
-        title: { display: true, text: 'Date' }
-      }
+      y: { beginAtZero: true, max: 100 },
+      x: {}
     }
   };
 
-  /* =========================
-     INIT
-     ========================= */
   ngOnInit(): void {
-    this.generateRandomCounts();
     this.generateControls();
     this.selectControl(this.controls[0]);
+    this.animateKpis();
   }
 
-  /* =========================
-     KPI DOMAIN HANDLING
-     ========================= */
-  onDomainSelect(domain: 'TRADE' | 'LOAN' | 'SUPPLY') {
-    this.selectedDomain = domain;
-  }
-
+  /* ================= KPI LOGIC ================= */
   get kpiData() {
     switch (this.selectedDomain) {
       case 'TRADE':
-        return {
-          success: this.tradeSuccessCount,
-          failure: this.tradeFailureCount
-        };
-
+        return { success: this.tradeSuccessCount, failure: this.tradeFailureCount };
       case 'LOAN':
-        return {
-          success: this.loanSuccessCount,
-          failure: this.loanFailureCount
-        };
-
+        return { success: this.loanSuccessCount, failure: this.loanFailureCount };
       case 'SUPPLY':
-        return {
-          success: this.supplySuccessCount,
-          failure: this.supplyFailureCount
-        };
-
+        return { success: this.supplySuccessCount, failure: this.supplyFailureCount };
       default:
         return {
-          success:
-            this.tradeSuccessCount +
-            this.loanSuccessCount +
-            this.supplySuccessCount,
-          failure:
-            this.tradeFailureCount +
-            this.loanFailureCount +
-            this.supplyFailureCount
+          success: this.tradeSuccessCount + this.loanSuccessCount + this.supplySuccessCount,
+          failure: this.tradeFailureCount + this.loanFailureCount + this.supplyFailureCount
         };
     }
   }
@@ -159,9 +99,36 @@ export class Dashboardv2Component implements OnInit {
     return 100 - this.slaMetPercent;
   }
 
-  /* =========================
-     CONTROL DROPDOWN (SLA)
-     ========================= */
+  onDomainSelect(domain: 'TRADE' | 'LOAN' | 'SUPPLY') {
+    this.selectedDomain = domain;
+    this.animateKpis();
+  }
+
+  /* ================= KPI ANIMATION ================= */
+  private animateKpis() {
+    this.animateValue('animatedSuccess', this.kpiData.success);
+    this.animateValue('animatedFailure', this.kpiData.failure);
+    this.animateValue('animatedSlaMet', this.slaMetPercent);
+    this.animateValue('animatedSlaBreach', this.slaBreachPercent);
+  }
+
+  private animateValue(
+    field: 'animatedSuccess' | 'animatedFailure' | 'animatedSlaMet' | 'animatedSlaBreach',
+    target: number
+  ) {
+    this[field] = 0;
+    const step = Math.max(1, Math.floor(target / 25));
+    const interval = setInterval(() => {
+      if (this[field] < target) {
+        this[field] += step;
+      } else {
+        this[field] = target;
+        clearInterval(interval);
+      }
+    }, 16);
+  }
+
+  /* ================= SLA ================= */
   onSelectControl(ctrl: ControlRow) {
     this.selectControl(ctrl);
   }
@@ -169,58 +136,31 @@ export class Dashboardv2Component implements OnInit {
   private selectControl(ctrl: ControlRow) {
     this.selectedControl = ctrl;
 
-    const slaMetValues = this.dates.map(
-      d => ctrl.tickPercentage[d] ?? 0
-    );
-
-    const slaBreachValues = slaMetValues.map(v => 100 - v);
+    const met = this.dates.map(d => ctrl.tickPercentage[d]);
+    const breach = met.map(v => 100 - v);
 
     this.lineChartData = {
       labels: this.dates,
       datasets: [
-        { ...this.lineChartData.datasets[0], data: slaMetValues },
-        { ...this.lineChartData.datasets[1], data: slaBreachValues }
+        { ...this.lineChartData.datasets[0], data: met },
+        { ...this.lineChartData.datasets[1], data: breach }
       ]
     };
-  }
-
-  /* =========================
-     MOCK DATA GENERATORS
-     ========================= */
-  private generateRandomCounts() {
-    this.tradeSuccessCount = this.randomInt(90, 120);
-    this.tradeFailureCount = this.randomInt(10, 30);
-
-    this.loanSuccessCount = this.randomInt(10, 20);
-    this.loanFailureCount = this.randomInt(2, 6);
-
-    this.supplySuccessCount = this.randomInt(15, 25);
-    this.supplyFailureCount = this.randomInt(3, 8);
   }
 
   private generateControls() {
     const names = [
       'Incoming Requests Management (B_GBWW_TT-046)',
       'LC Maturity follow up (B_GBWW_TT-044)',
-      'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)',
-      'Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)'
+      'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)'
     ];
 
-    this.controls = names.map(name => ({
-      name,
-      tickPercentage: this.generateRandomTickPercentage()
+    this.controls = names.map(n => ({
+      name: n,
+      tickPercentage: this.dates.reduce((a: any, d) => {
+        a[d] = Math.floor(Math.random() * 60) + 30;
+        return a;
+      }, {})
     }));
-  }
-
-  private generateRandomTickPercentage(): { [date: string]: number } {
-    const acc: any = {};
-    this.dates.forEach(d => {
-      acc[d] = this.randomInt(30, 95);
-    });
-    return acc;
-  }
-
-  private randomInt(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
