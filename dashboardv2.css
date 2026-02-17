@@ -1,91 +1,143 @@
-<div class="dashboard-container">
+/* ================= CONTAINER ================= */
+.dashboard-container {
+  padding: 16px;
+  background: #f4f6f8;
+}
 
-  <!-- KPI HEADER -->
-  <div class="kpi-header">
-    <div class="kpi-card">
-      <div class="kpi-value">{{ animatedKPIs.total }}</div>
-      <div class="kpi-label">Total Controls</div>
-    </div>
+/* ================= KPI HEADER ================= */
+.kpi-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
-    <div class="kpi-card success">
-      <div class="kpi-value">{{ animatedKPIs.success }}</div>
-      <div class="kpi-label">Successful</div>
-    </div>
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
 
-    <div class="kpi-card error">
-      <div class="kpi-value">{{ animatedKPIs.failure }}</div>
-      <div class="kpi-label">Unsuccessful</div>
-    </div>
+  background: #f4f6f8;
+  padding-bottom: 12px;
+}
 
-    <div class="kpi-card success">
-      <div class="kpi-value">{{ animatedKPIs.slaMet }}%</div>
-      <div class="kpi-label">SLA Met</div>
-    </div>
+.kpi-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
 
-    <div class="kpi-card error">
-      <div class="kpi-value">{{ animatedKPIs.slaBreach }}%</div>
-      <div class="kpi-label">SLA Breach</div>
-    </div>
-  </div>
+.kpi-value {
+  font-size: 22px;
+  font-weight: 600;
+}
 
-  <!-- PERFORMANCE + FAILED -->
-  <div class="top-grid">
+.kpi-label {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
 
-    <!-- CONTROLS PERFORMANCE -->
-    <div class="card performance-card">
-      <h3>⭐ Controls Performance</h3>
+.kpi-card.success .kpi-value {
+  color: #2e7d32;
+}
 
-      <div
-        class="performance-row"
-        *ngFor="let d of domains"
-        [class.active]="isSelected(d)"
-        (click)="selectDomain(d)"
-      >
-        <div class="label">{{ d.name }}</div>
+.kpi-card.error .kpi-value {
+  color: #c62828;
+}
 
-        <div class="progress-track">
-          <div
-            class="progress success"
-            [style.width.%]="successPercent(d)"
-          ></div>
-          <div
-            class="progress failure"
-            [style.width.%]="failurePercent(d)"
-          ></div>
-        </div>
+/* ================= GRID ================= */
+.top-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
 
-        <div class="numbers">
-          {{ d.success }} / {{ d.failure }}
-        </div>
-      </div>
-    </div>
+/* ================= CARD ================= */
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+}
 
-    <!-- FAILED CONTROLS -->
-    <div class="card failed-card">
-      <h3>⚠ Failed Controls (Today)</h3>
+/* ================= PERFORMANCE ================= */
+.performance-card h3 {
+  margin-bottom: 12px;
+}
 
-      <ul>
-        <li *ngFor="let f of failedControlsToday">
-          <span class="warn">⚠</span>
-          {{ f }}
-        </li>
-      </ul>
-    </div>
+.performance-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 70px;
+  align-items: center;
+  gap: 12px;
 
-  </div>
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-  <!-- SLA TREND -->
-  <div class="card sla-card">
-    <h3>📈 SLA Trend</h3>
+.performance-row:not(:last-child) {
+  margin-bottom: 8px;
+}
 
-    <div class="sla-chart-wrapper">
-      <canvas
-        baseChart
-        [data]="lineChartData"
-        [options]="lineChartOptions"
-        chartType="line">
-      </canvas>
-    </div>
-  </div>
+.performance-row.active {
+  background: #e8f5e9;
+}
 
-</div>
+.label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.progress-track {
+  height: 10px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+}
+
+.progress {
+  transition: width 0.6s ease;
+}
+
+.progress.success {
+  background: #2e7d32;
+}
+
+.progress.failure {
+  background: #c62828;
+}
+
+.numbers {
+  font-size: 12px;
+  text-align: right;
+  color: #555;
+}
+
+/* ================= FAILED ================= */
+.failed-card ul {
+  padding: 0;
+  margin: 0;
+}
+
+.failed-card li {
+  list-style: none;
+  font-size: 13px;
+  padding: 6px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.warn {
+  color: #c62828;
+}
+
+/* ================= SLA ================= */
+.sla-card {
+  margin-top: 16px;
+}
+
+.sla-chart-wrapper {
+  height: 240px;
+}
