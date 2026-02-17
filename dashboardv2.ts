@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 
-/* ================================
-   Interfaces
-================================ */
 interface DomainData {
   name: string;
   success: number;
@@ -19,15 +17,10 @@ interface DomainData {
 })
 export class DashboardV2Component implements OnInit {
 
-  /* ================================
-     DOMAIN DATA
-  ================================ */
+  /* ================= KPIs ================= */
   domains: DomainData[] = [];
   selectedDomain!: DomainData;
 
-  /* ================================
-     KPI VALUES (animated)
-  ================================ */
   animatedKPIs = {
     total: 0,
     success: 0,
@@ -36,37 +29,35 @@ export class DashboardV2Component implements OnInit {
     slaBreach: 0
   };
 
-  /* ================================
-     FAILED CONTROLS (STATIC MOCK)
-  ================================ */
+  /* ================= Failed Controls ================= */
   failedControlsToday: string[] = [
     'LC Maturity follow up (B_GBWW_TT-044)',
     'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)',
     'Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)'
   ];
 
-  /* ================================
-     LIFECYCLE
-  ================================ */
+  /* ================= SLA Chart ================= */
+  lineChartData!: ChartConfiguration<'line'>['data'];
+  lineChartOptions!: ChartOptions<'line'>;
+
   ngOnInit(): void {
-    this.generateRandomDomains();          // 🔁 fresh data on every refresh
-    this.selectDomain(this.domains[0]);    // default = Trade Controls
+    this.generateRandomDomains();
+    this.selectDomain(this.domains[0]);
+    this.initSLATrend();
   }
 
-  /* ================================
-     RANDOM DATA GENERATION
-  ================================ */
+  /* ================= Random Data ================= */
   generateRandomDomains(): void {
     this.domains = [
-      this.buildDomain('Trade Controls'),
-      this.buildDomain('Loan Controls'),
-      this.buildDomain('Supply Chain Controls')
+      this.createDomain('Trade Controls'),
+      this.createDomain('Loan Controls'),
+      this.createDomain('Supply Chain Controls')
     ];
   }
 
-  buildDomain(name: string): DomainData {
-    const success = this.randomInt(10, 120);
-    const failure = this.randomInt(2, 30);
+  createDomain(name: string): DomainData {
+    const success = this.random(10, 120);
+    const failure = this.random(2, 30);
     const total = success + failure;
     const slaMet = Math.round((success / total) * 100);
 
@@ -80,13 +71,11 @@ export class DashboardV2Component implements OnInit {
     };
   }
 
-  randomInt(min: number, max: number): number {
+  random(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  /* ================================
-     DOMAIN SELECTION (CLICK)
-  ================================ */
+  /* ================= Domain Click ================= */
   selectDomain(domain: DomainData): void {
     this.selectedDomain = domain;
     this.animateKPIs(domain);
@@ -96,48 +85,68 @@ export class DashboardV2Component implements OnInit {
     return this.selectedDomain?.name === domain.name;
   }
 
-  /* ================================
-     KPI ANIMATION
-  ================================ */
+  /* ================= KPI Animation ================= */
   animateKPIs(domain: DomainData): void {
-    this.animateValue('total', domain.total);
-    this.animateValue('success', domain.success);
-    this.animateValue('failure', domain.failure);
-    this.animateValue('slaMet', domain.slaMet);
-    this.animateValue('slaBreach', domain.slaBreach);
+    this.animate('total', domain.total);
+    this.animate('success', domain.success);
+    this.animate('failure', domain.failure);
+    this.animate('slaMet', domain.slaMet);
+    this.animate('slaBreach', domain.slaBreach);
   }
 
-  animateValue(
-    key: keyof typeof this.animatedKPIs,
-    target: number
-  ): void {
-    const duration = 600;
-    const steps = 30;
-    const stepTime = duration / steps;
+  animate(key: keyof typeof this.animatedKPIs, value: number): void {
     const start = this.animatedKPIs[key];
-    const increment = (target - start) / steps;
+    const steps = 25;
+    const increment = (value - start) / steps;
+    let current = 0;
 
-    let currentStep = 0;
-
-    const interval = setInterval(() => {
-      currentStep++;
-      this.animatedKPIs[key] = Math.round(start + increment * currentStep);
-
-      if (currentStep >= steps) {
-        this.animatedKPIs[key] = target;
-        clearInterval(interval);
+    const timer = setInterval(() => {
+      current++;
+      this.animatedKPIs[key] = Math.round(start + increment * current);
+      if (current >= steps) {
+        this.animatedKPIs[key] = value;
+        clearInterval(timer);
       }
-    }, stepTime);
+    }, 20);
   }
 
-  /* ================================
-     PROGRESS BAR HELPERS
-  ================================ */
-  successPercent(domain: DomainData): number {
-    return Math.round((domain.success / domain.total) * 100);
+  /* ================= Progress ================= */
+  successPercent(d: DomainData): number {
+    return Math.round((d.success / d.total) * 100);
   }
 
-  failurePercent(domain: DomainData): number {
-    return 100 - this.successPercent(domain);
+  failurePercent(d: DomainData): number {
+    return 100 - this.successPercent(d);
+  }
+
+  /* ================= SLA Chart ================= */
+  initSLATrend(): void {
+    const labels = ['20-09', '21-09', '22-09', '23-09', '24-09'];
+
+    this.lineChartData = {
+      labels,
+      datasets: [
+        {
+          label: 'SLA Met %',
+          data: labels.map(() => this.random(60, 95)),
+          borderColor: '#2e7d32',
+          tension: 0.4
+        },
+        {
+          label: 'SLA Breach %',
+          data: labels.map(() => this.random(5, 40)),
+          borderColor: '#c62828',
+          tension: 0.4
+        }
+      ]
+    };
+
+    this.lineChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { min: 0, max: 100 }
+      }
+    };
   }
 }
