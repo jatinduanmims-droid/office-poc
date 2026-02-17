@@ -1,166 +1,143 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgChartsModule } from 'ng2-charts';
-import { MatSelectModule } from '@angular/material/select';
-import { ChartConfiguration, ChartData } from 'chart.js';
 
-interface ControlRow {
+/* ================================
+   Interfaces
+================================ */
+interface DomainData {
   name: string;
-  tickPercentage: { [date: string]: number };
+  success: number;
+  failure: number;
+  total: number;
+  slaMet: number;
+  slaBreach: number;
 }
 
 @Component({
   selector: 'app-dashboardv2',
-  standalone: true,
-  imports: [CommonModule, NgChartsModule, MatSelectModule],
   templateUrl: './dashboardv2.html',
-  styleUrls: ['./dashboardv2.scss']
+  styleUrls: ['./dashboardv2.css']
 })
-export class Dashboardv2Component implements OnInit {
+export class DashboardV2Component implements OnInit {
 
-  /* ================= DOMAIN ================= */
-  selectedDomain: 'ALL' | 'TRADE' | 'LOAN' | 'SUPPLY' = 'ALL';
+  /* ================================
+     DOMAIN DATA
+  ================================ */
+  domains: DomainData[] = [];
+  selectedDomain!: DomainData;
 
-  /* ================= KPI COUNTS ================= */
-  tradeSuccessCount = 120;
-  tradeFailureCount = 13;
+  /* ================================
+     KPI VALUES (animated)
+  ================================ */
+  animatedKPIs = {
+    total: 0,
+    success: 0,
+    failure: 0,
+    slaMet: 0,
+    slaBreach: 0
+  };
 
-  loanSuccessCount = 17;
-  loanFailureCount = 4;
-
-  supplySuccessCount = 18;
-  supplyFailureCount = 5;
-
-  /* ================= ANIMATED KPI ================= */
-  animatedSuccess = 0;
-  animatedFailure = 0;
-  animatedSlaMet = 0;
-  animatedSlaBreach = 0;
-
-  /* ================= FAILED CONTROLS ================= */
+  /* ================================
+     FAILED CONTROLS (STATIC MOCK)
+  ================================ */
   failedControlsToday: string[] = [
     'LC Maturity follow up (B_GBWW_TT-044)',
     'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)',
     'Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)'
   ];
 
-  /* ================= SLA TREND ================= */
-  dates = ['20-09-2023', '21-09-2023', '22-09-2023', '23-09-2023', '24-09-2023'];
-
-  controls: ControlRow[] = [];
-  selectedControl!: ControlRow;
-
-  lineChartData: ChartData<'line'> = {
-    labels: [],
-    datasets: [
-      { label: 'SLA Met %', data: [], borderColor: '#2e7d32', tension: 0.3 },
-      { label: 'SLA Breach %', data: [], borderColor: '#c62828', tension: 0.3 }
-    ]
-  };
-
-  lineChartOptions: ChartConfiguration<'line'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      y: { beginAtZero: true, max: 100 },
-      x: {}
-    }
-  };
-
+  /* ================================
+     LIFECYCLE
+  ================================ */
   ngOnInit(): void {
-    this.generateControls();
-    this.selectControl(this.controls[0]);
-    this.animateKpis();
+    this.generateRandomDomains();          // 🔁 fresh data on every refresh
+    this.selectDomain(this.domains[0]);    // default = Trade Controls
   }
 
-  /* ================= KPI LOGIC ================= */
-  get kpiData() {
-    switch (this.selectedDomain) {
-      case 'TRADE':
-        return { success: this.tradeSuccessCount, failure: this.tradeFailureCount };
-      case 'LOAN':
-        return { success: this.loanSuccessCount, failure: this.loanFailureCount };
-      case 'SUPPLY':
-        return { success: this.supplySuccessCount, failure: this.supplyFailureCount };
-      default:
-        return {
-          success: this.tradeSuccessCount + this.loanSuccessCount + this.supplySuccessCount,
-          failure: this.tradeFailureCount + this.loanFailureCount + this.supplyFailureCount
-        };
-    }
+  /* ================================
+     RANDOM DATA GENERATION
+  ================================ */
+  generateRandomDomains(): void {
+    this.domains = [
+      this.buildDomain('Trade Controls'),
+      this.buildDomain('Loan Controls'),
+      this.buildDomain('Supply Chain Controls')
+    ];
   }
 
-  get slaMetPercent(): number {
-    const total = this.kpiData.success + this.kpiData.failure;
-    return total ? Math.round((this.kpiData.success / total) * 100) : 0;
-  }
+  buildDomain(name: string): DomainData {
+    const success = this.randomInt(10, 120);
+    const failure = this.randomInt(2, 30);
+    const total = success + failure;
+    const slaMet = Math.round((success / total) * 100);
 
-  get slaBreachPercent(): number {
-    return 100 - this.slaMetPercent;
-  }
-
-  onDomainSelect(domain: 'TRADE' | 'LOAN' | 'SUPPLY') {
-    this.selectedDomain = domain;
-    this.animateKpis();
-  }
-
-  /* ================= KPI ANIMATION ================= */
-  private animateKpis() {
-    this.animateValue('animatedSuccess', this.kpiData.success);
-    this.animateValue('animatedFailure', this.kpiData.failure);
-    this.animateValue('animatedSlaMet', this.slaMetPercent);
-    this.animateValue('animatedSlaBreach', this.slaBreachPercent);
-  }
-
-  private animateValue(
-    field: 'animatedSuccess' | 'animatedFailure' | 'animatedSlaMet' | 'animatedSlaBreach',
-    target: number
-  ) {
-    this[field] = 0;
-    const step = Math.max(1, Math.floor(target / 25));
-    const interval = setInterval(() => {
-      if (this[field] < target) {
-        this[field] += step;
-      } else {
-        this[field] = target;
-        clearInterval(interval);
-      }
-    }, 16);
-  }
-
-  /* ================= SLA ================= */
-  onSelectControl(ctrl: ControlRow) {
-    this.selectControl(ctrl);
-  }
-
-  private selectControl(ctrl: ControlRow) {
-    this.selectedControl = ctrl;
-
-    const met = this.dates.map(d => ctrl.tickPercentage[d]);
-    const breach = met.map(v => 100 - v);
-
-    this.lineChartData = {
-      labels: this.dates,
-      datasets: [
-        { ...this.lineChartData.datasets[0], data: met },
-        { ...this.lineChartData.datasets[1], data: breach }
-      ]
+    return {
+      name,
+      success,
+      failure,
+      total,
+      slaMet,
+      slaBreach: 100 - slaMet
     };
   }
 
-  private generateControls() {
-    const names = [
-      'Incoming Requests Management (B_GBWW_TT-046)',
-      'LC Maturity follow up (B_GBWW_TT-044)',
-      'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)'
-    ];
+  randomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-    this.controls = names.map(n => ({
-      name: n,
-      tickPercentage: this.dates.reduce((a: any, d) => {
-        a[d] = Math.floor(Math.random() * 60) + 30;
-        return a;
-      }, {})
-    }));
+  /* ================================
+     DOMAIN SELECTION (CLICK)
+  ================================ */
+  selectDomain(domain: DomainData): void {
+    this.selectedDomain = domain;
+    this.animateKPIs(domain);
+  }
+
+  isSelected(domain: DomainData): boolean {
+    return this.selectedDomain?.name === domain.name;
+  }
+
+  /* ================================
+     KPI ANIMATION
+  ================================ */
+  animateKPIs(domain: DomainData): void {
+    this.animateValue('total', domain.total);
+    this.animateValue('success', domain.success);
+    this.animateValue('failure', domain.failure);
+    this.animateValue('slaMet', domain.slaMet);
+    this.animateValue('slaBreach', domain.slaBreach);
+  }
+
+  animateValue(
+    key: keyof typeof this.animatedKPIs,
+    target: number
+  ): void {
+    const duration = 600;
+    const steps = 30;
+    const stepTime = duration / steps;
+    const start = this.animatedKPIs[key];
+    const increment = (target - start) / steps;
+
+    let currentStep = 0;
+
+    const interval = setInterval(() => {
+      currentStep++;
+      this.animatedKPIs[key] = Math.round(start + increment * currentStep);
+
+      if (currentStep >= steps) {
+        this.animatedKPIs[key] = target;
+        clearInterval(interval);
+      }
+    }, stepTime);
+  }
+
+  /* ================================
+     PROGRESS BAR HELPERS
+  ================================ */
+  successPercent(domain: DomainData): number {
+    return Math.round((domain.success / domain.total) * 100);
+  }
+
+  failurePercent(domain: DomainData): number {
+    return 100 - this.successPercent(domain);
   }
 }
