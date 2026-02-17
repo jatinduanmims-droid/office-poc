@@ -1,91 +1,91 @@
-.dashboard {
-  padding: 16px;
-}
+<div class="dashboard-container">
 
-/* Sticky KPI Header */
-.kpi-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  background: #f5f5f5;
-  padding: 12px;
-  border-radius: 8px;
-}
+  <!-- KPI HEADER -->
+  <div class="kpi-header">
+    <div class="kpi-card">
+      <div class="kpi-value">{{ animatedKPIs.total }}</div>
+      <div class="kpi-label">Total Controls</div>
+    </div>
 
-.kpi {
-  background: white;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 20px;
-  font-weight: bold;
-}
+    <div class="kpi-card success">
+      <div class="kpi-value">{{ animatedKPIs.success }}</div>
+      <div class="kpi-label">Successful</div>
+    </div>
 
-.kpi span {
-  display: block;
-  font-size: 12px;
-  color: #666;
-}
+    <div class="kpi-card error">
+      <div class="kpi-value">{{ animatedKPIs.failure }}</div>
+      <div class="kpi-label">Unsuccessful</div>
+    </div>
 
-.success { color: #2e7d32; }
-.error { color: #c62828; }
+    <div class="kpi-card success">
+      <div class="kpi-value">{{ animatedKPIs.slaMet }}%</div>
+      <div class="kpi-label">SLA Met</div>
+    </div>
 
-/* Grid */
-.grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
-  margin-top: 16px;
-}
+    <div class="kpi-card error">
+      <div class="kpi-value">{{ animatedKPIs.slaBreach }}%</div>
+      <div class="kpi-label">SLA Breach</div>
+    </div>
+  </div>
 
-/* Cards */
-.card {
-  background: white;
-  padding: 16px;
-  border-radius: 8px;
-}
+  <!-- PERFORMANCE + FAILED -->
+  <div class="top-grid">
 
-/* Domains */
-.domain {
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  transition: background 0.2s;
-}
+    <!-- CONTROLS PERFORMANCE -->
+    <div class="card performance-card">
+      <h3>⭐ Controls Performance</h3>
 
-.domain.active {
-  background: #e8f5e9;
-}
+      <div
+        class="performance-row"
+        *ngFor="let d of domains"
+        [class.active]="isSelected(d)"
+        (click)="selectDomain(d)"
+      >
+        <div class="label">{{ d.name }}</div>
 
-.bar {
-  height: 10px;
-  background: #eee;
-  border-radius: 5px;
-  overflow: hidden;
-  display: flex;
-  margin: 6px 0;
-}
+        <div class="progress-track">
+          <div
+            class="progress success"
+            [style.width.%]="successPercent(d)"
+          ></div>
+          <div
+            class="progress failure"
+            [style.width.%]="failurePercent(d)"
+          ></div>
+        </div>
 
-.success-bar {
-  background: #2e7d32;
-  transition: width 0.6s ease;
-}
+        <div class="numbers">
+          {{ d.success }} / {{ d.failure }}
+        </div>
+      </div>
+    </div>
 
-.fail-bar {
-  background: #c62828;
-  transition: width 0.6s ease;
-}
+    <!-- FAILED CONTROLS -->
+    <div class="card failed-card">
+      <h3>⚠ Failed Controls (Today)</h3>
 
-.count {
-  font-size: 12px;
-  color: #555;
-}
+      <ul>
+        <li *ngFor="let f of failedControlsToday">
+          <span class="warn">⚠</span>
+          {{ f }}
+        </li>
+      </ul>
+    </div>
 
-/* SLA */
-.sla-card {
-  margin-top: 16px;
-  height: 280px;
-}
+  </div>
+
+  <!-- SLA TREND -->
+  <div class="card sla-card">
+    <h3>📈 SLA Trend</h3>
+
+    <div class="sla-chart-wrapper">
+      <canvas
+        baseChart
+        [data]="lineChartData"
+        [options]="lineChartOptions"
+        chartType="line">
+      </canvas>
+    </div>
+  </div>
+
+</div>
