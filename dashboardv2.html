@@ -1,19 +1,19 @@
 <div class="dashboard-container">
 
-  <!-- KPI STRIP -->
+  <!-- ================= KPI STRIP ================= -->
   <div class="kpi-strip">
-    <div class="kpi-card" (click)="updateKPIs('all')">
+    <div class="kpi-card">
       <div class="kpi-value">{{ totalControls }}</div>
       <div class="kpi-label">Total Controls</div>
     </div>
 
     <div class="kpi-card success">
-      <div class="kpi-value">{{ totalSuccess }}</div>
+      <div class="kpi-value">{{ successful }}</div>
       <div class="kpi-label">Successful</div>
     </div>
 
     <div class="kpi-card danger">
-      <div class="kpi-value">{{ totalFailure }}</div>
+      <div class="kpi-value">{{ unsuccessful }}</div>
       <div class="kpi-label">Unsuccessful</div>
     </div>
 
@@ -28,66 +28,89 @@
     </div>
   </div>
 
-  <!-- MIDDLE -->
-  <div class="middle-row">
+  <!-- ================= CONTROLS PERFORMANCE + FAILED ================= -->
+  <div class="grid-two">
 
+    <!-- Controls Performance -->
     <div class="card">
-      <div class="card-header">⭐ Controls Performance</div>
-
-      <div class="control-row clickable" (click)="updateKPIs('trade')">
-        <span>Trade Controls</span>
-        <div class="bar">
-          <span class="success-bar" [style.width.%]="tradeSuccessPercent"></span>
-          <span class="fail-bar" [style.width.%]="tradeFailurePercent"></span>
-        </div>
-        <span>{{ trade.success }} / {{ trade.failure }}</span>
+      <div class="card-header">
+        ⭐ Controls Performance
       </div>
 
-      <div class="control-row clickable" (click)="updateKPIs('loan')">
-        <span>Loan Controls</span>
-        <div class="bar">
-          <span class="success-bar" [style.width.%]="loanSuccessPercent"></span>
-          <span class="fail-bar" [style.width.%]="loanFailurePercent"></span>
+      <div class="control-row active">
+        <div class="label">Trade Controls</div>
+
+        <div class="progress-wrapper">
+          <div class="progress success" [style.width.%]="tradeSuccessPercent"></div>
+          <div class="progress failure" [style.width.%]="tradeFailurePercent"></div>
         </div>
-        <span>{{ loan.success }} / {{ loan.failure }}</span>
+
+        <div class="count">107 / 24</div>
       </div>
 
-      <div class="control-row clickable" (click)="updateKPIs('supply')">
-        <span>Supply Chain Controls</span>
-        <div class="bar">
-          <span class="success-bar" [style.width.%]="supplySuccessPercent"></span>
-          <span class="fail-bar" [style.width.%]="supplyFailurePercent"></span>
+      <div class="control-row">
+        <div class="label">Loan Controls</div>
+
+        <div class="progress-wrapper">
+          <div class="progress success" [style.width.%]="loanSuccessPercent"></div>
+          <div class="progress failure" [style.width.%]="loanFailurePercent"></div>
         </div>
-        <span>{{ supply.success }} / {{ supply.failure }}</span>
+
+        <div class="count">13 / 3</div>
+      </div>
+
+      <div class="control-row">
+        <div class="label">Supply Chain Controls</div>
+
+        <div class="progress-wrapper">
+          <div class="progress success" [style.width.%]="supplySuccessPercent"></div>
+          <div class="progress failure" [style.width.%]="supplyFailurePercent"></div>
+        </div>
+
+        <div class="count">17 / 5</div>
       </div>
     </div>
 
-    <div class="card failed-card">
-      <div class="card-header">
+    <!-- Failed Controls -->
+    <div class="card failed">
+      <div class="card-header danger">
         ⚠ Failed Controls (Today)
-        <span class="badge">{{ failedControls.length }}</span>
+        <span class="badge">3</span>
       </div>
 
-      <ul>
-        <li *ngFor="let f of failedControls">{{ f }}</li>
+      <ul class="failed-list">
+        <li>LC Maturity follow up (B_GBWW_TT-044)</li>
+        <li>Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)</li>
+        <li>Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)</li>
       </ul>
     </div>
+
   </div>
 
-  <!-- SLA -->
-  <div class="card sla-card">
-    <div class="card-header">
-      📊 SLA Trend – Incoming Requests Management (B_GBWW_TT-046)
+  <!-- ================= SLA TREND ================= -->
+  <div class="card">
+
+    <!-- SLA HEADER WITH DROPDOWN -->
+    <div class="sla-header">
+      <div class="sla-title">
+        <mat-icon class="sla-icon">bar_chart</mat-icon>
+        <span>SLA Trend for Incoming Requests Management (B_GBWW_TT-046)</span>
+      </div>
+
+      <button class="sla-dropdown">
+        Incoming Requests Management
+        <mat-icon>expand_more</mat-icon>
+      </button>
     </div>
 
-    <div class="sla-chart">
-      <canvas
-        baseChart
-        [data]="lineChartData"
-        [options]="lineChartOptions"
-        [type]="'line'">
-      </canvas>
-    </div>
+    <!-- CHART (UNCHANGED) -->
+    <canvas
+      baseChart
+      [data]="slaChartData"
+      [options]="slaChartOptions"
+      [type]="'line'">
+    </canvas>
+
   </div>
 
 </div>
