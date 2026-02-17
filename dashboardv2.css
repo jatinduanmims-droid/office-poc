@@ -1,179 +1,66 @@
-.dashboard-container {
-  padding: 16px;
-}
-
-/* ================= KPI STRIP ================= */
-
 .kpi-strip {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
   gap: 12px;
-  background: #f5f6f7;
-  padding: 12px;
   margin-bottom: 16px;
+
+  .kpi {
+    background: #f4f6f5;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+
+    span {
+      display: block;
+      font-size: 12px;
+      color: #666;
+    }
+
+    &.success { color: #2e7d32; }
+    &.danger { color: #c62828; }
+  }
 }
-
-.kpi-card {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 14px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.kpi-value {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.kpi-label {
-  font-size: 12px;
-  color: #666;
-}
-
-.kpi-card.success .kpi-value {
-  color: #2e7d32;
-}
-
-.kpi-card.danger .kpi-value {
-  color: #c62828;
-}
-
-/* ================= GRID ================= */
-
-.grid-two {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-/* ================= CARD ================= */
 
 .card {
-  background: #ffffff;
-  border-radius: 12px;
+  background: #fff;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-radius: 10px;
+  margin-bottom: 16px;
 }
-
-.card.failed {
-  border-left: 4px solid #c62828;
-}
-
-.card-header {
-  font-weight: 600;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.card-header.danger {
-  color: #c62828;
-}
-
-.badge {
-  background: #c62828;
-  color: #fff;
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 12px;
-}
-
-/* ================= CONTROL PERFORMANCE ================= */
 
 .control-row {
-  display: grid;
-  grid-template-columns: 180px 1fr 80px;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-.control-row.active {
-  background: rgba(46, 125, 50, 0.08);
-}
-
-.label {
-  font-weight: 500;
-}
-
-.progress-wrapper {
-  position: relative;
-  height: 8px;
-  background: #e0e0e0;
+  cursor: pointer;
+  padding: 10px;
   border-radius: 6px;
-  overflow: hidden;
-}
-
-.progress {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  transition: width 0.6s ease;
-}
-
-.progress.success {
-  left: 0;
-  background: #2e7d32;
-}
-
-.progress.failure {
-  right: 0;
-  background: #c62828;
-}
-
-.count {
-  font-size: 12px;
-  text-align: right;
-  color: #555;
-}
-
-/* ================= FAILED LIST ================= */
-
-.failed-list {
-  padding-left: 16px;
-  margin: 0;
-}
-
-.failed-list li {
-  font-size: 13px;
   margin-bottom: 8px;
-}
+  transition: background 0.2s;
 
-/* ================= SLA HEADER ================= */
+  &:hover {
+    background: rgba(46,125,50,0.08);
+  }
+
+  &.selected {
+    border-left: 4px solid #2e7d32;
+    background: rgba(46,125,50,0.12);
+  }
+
+  .bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 6px;
+
+    .ok { background: #2e7d32; }
+    .bad { background: #c62828; }
+  }
+}
 
 .sla-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
 }
 
-.sla-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-
-.sla-icon {
-  color: #2e7d32;
-}
-
-.sla-dropdown {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #d0d0d0;
-  background: #fff;
-  font-size: 13px;
-  cursor: pointer;
+.sla-chart {
+  height: 260px;
 }
