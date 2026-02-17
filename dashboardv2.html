@@ -1,47 +1,74 @@
-<div class="dashboard">
+<div class="dashboard-container">
 
   <!-- KPI HEADER -->
   <div class="kpi-header">
-    <div class="kpi"> {{ animatedKPIs.total }} <span>Total Controls</span></div>
-    <div class="kpi success"> {{ animatedKPIs.success }} <span>Successful</span></div>
-    <div class="kpi error"> {{ animatedKPIs.failure }} <span>Unsuccessful</span></div>
-    <div class="kpi success"> {{ animatedKPIs.slaMet }}% <span>SLA Met</span></div>
-    <div class="kpi error"> {{ animatedKPIs.slaBreach }}% <span>SLA Breach</span></div>
+    <div class="kpi-card">
+      <div class="kpi-value">{{ animatedKPIs.total }}</div>
+      <div class="kpi-label">Total Controls</div>
+    </div>
+
+    <div class="kpi-card success">
+      <div class="kpi-value">{{ animatedKPIs.success }}</div>
+      <div class="kpi-label">Successful</div>
+    </div>
+
+    <div class="kpi-card error">
+      <div class="kpi-value">{{ animatedKPIs.failure }}</div>
+      <div class="kpi-label">Unsuccessful</div>
+    </div>
+
+    <div class="kpi-card success">
+      <div class="kpi-value">{{ animatedKPIs.slaMet }}%</div>
+      <div class="kpi-label">SLA Met</div>
+    </div>
+
+    <div class="kpi-card error">
+      <div class="kpi-value">{{ animatedKPIs.slaBreach }}%</div>
+      <div class="kpi-label">SLA Breach</div>
+    </div>
   </div>
 
   <!-- PERFORMANCE + FAILED -->
-  <div class="grid">
+  <div class="top-grid">
 
-    <div class="card">
+    <!-- CONTROLS PERFORMANCE -->
+    <div class="card performance-card">
       <h3>⭐ Controls Performance</h3>
 
       <div
-        class="domain"
+        class="performance-row"
         *ngFor="let d of domains"
         [class.active]="isSelected(d)"
         (click)="selectDomain(d)"
       >
         <div class="label">{{ d.name }}</div>
 
-        <div class="bar">
+        <div class="progress-track">
           <div
-            class="success-bar"
+            class="progress success"
             [style.width.%]="successPercent(d)"
           ></div>
           <div
-            class="fail-bar"
+            class="progress failure"
             [style.width.%]="failurePercent(d)"
           ></div>
         </div>
 
-        <div class="count">{{ d.success }} / {{ d.failure }}</div>
+        <div class="numbers">
+          {{ d.success }} / {{ d.failure }}
+        </div>
       </div>
     </div>
 
-    <div class="card">
+    <!-- FAILED CONTROLS -->
+    <div class="card failed-card">
       <h3>⚠ Failed Controls (Today)</h3>
+
       <ul>
-        <li *ngFor="let f of failedControlsToday">⚠ {{ f }}</li>
+        <li *ngFor="let f of failedControlsToday">
+          <span class="warn">⚠</span>
+          {{ f }}
+        </li>
       </ul>
     </div>
 
@@ -50,12 +77,15 @@
   <!-- SLA TREND -->
   <div class="card sla-card">
     <h3>📈 SLA Trend</h3>
-    <canvas
-      baseChart
-      [data]="lineChartData"
-      [options]="lineChartOptions"
-      chartType="line">
-    </canvas>
+
+    <div class="sla-chart-wrapper">
+      <canvas
+        baseChart
+        [data]="lineChartData"
+        [options]="lineChartOptions"
+        chartType="line">
+      </canvas>
+    </div>
   </div>
 
 </div>
