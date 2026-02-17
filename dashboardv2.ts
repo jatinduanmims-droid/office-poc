@@ -1,115 +1,166 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { MatSelectModule } from '@angular/material/select';
+import { ChartConfiguration, ChartData } from 'chart.js';
 
-interface DomainData {
-  success: number;
-  failure: number;
-  total: number;
-  slaMet: number;
-  slaBreach: number;
+interface ControlRow {
+  name: string;
+  tickPercentage: { [date: string]: number };
 }
 
 @Component({
   selector: 'app-dashboardv2',
   standalone: true,
-  imports: [CommonModule, NgChartsModule],
+  imports: [CommonModule, NgChartsModule, MatSelectModule],
   templateUrl: './dashboardv2.html',
   styleUrls: ['./dashboardv2.scss']
 })
-export class DashboardV2Component implements OnInit {
+export class Dashboardv2Component implements OnInit {
 
+  /* ================= DOMAIN ================= */
   selectedDomain: 'ALL' | 'TRADE' | 'LOAN' | 'SUPPLY' = 'ALL';
-  selectedSlaControl = 'Incoming Requests Management';
 
-  domains: Record<string, DomainData> = {};
+  /* ================= KPI COUNTS ================= */
+  tradeSuccessCount = 120;
+  tradeFailureCount = 13;
 
-  totalControls = 0;
-  successful = 0;
-  unsuccessful = 0;
-  slaMet = 0;
-  slaBreach = 0;
+  loanSuccessCount = 17;
+  loanFailureCount = 4;
 
-  slaChartData!: ChartConfiguration<'line'>['data'];
-  slaChartOptions: ChartConfiguration<'line'>['options'] = {
+  supplySuccessCount = 18;
+  supplyFailureCount = 5;
+
+  /* ================= ANIMATED KPI ================= */
+  animatedSuccess = 0;
+  animatedFailure = 0;
+  animatedSlaMet = 0;
+  animatedSlaBreach = 0;
+
+  /* ================= FAILED CONTROLS ================= */
+  failedControlsToday: string[] = [
+    'LC Maturity follow up (B_GBWW_TT-044)',
+    'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)',
+    'Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)'
+  ];
+
+  /* ================= SLA TREND ================= */
+  dates = ['20-09-2023', '21-09-2023', '22-09-2023', '23-09-2023', '24-09-2023'];
+
+  controls: ControlRow[] = [];
+  selectedControl!: ControlRow;
+
+  lineChartData: ChartData<'line'> = {
+    labels: [],
+    datasets: [
+      { label: 'SLA Met %', data: [], borderColor: '#2e7d32', tension: 0.3 },
+      { label: 'SLA Breach %', data: [], borderColor: '#c62828', tension: 0.3 }
+    ]
+  };
+
+  lineChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      y: { min: 0, max: 100 }
+      y: { beginAtZero: true, max: 100 },
+      x: {}
     }
   };
 
   ngOnInit(): void {
-    this.generateRandomData();
-    this.applyDomain('ALL');
-    this.updateSlaChart();
+    this.generateControls();
+    this.selectControl(this.controls[0]);
+    this.animateKpis();
   }
 
-  generateRandomData() {
-    const makeDomain = (): DomainData => {
-      const success = this.rand(10, 120);
-      const failure = this.rand(1, 25);
-      const total = success + failure;
-      const slaMet = this.rand(70, 90);
-      return {
-        success,
-        failure,
-        total,
-        slaMet,
-        slaBreach: 100 - slaMet
-      };
-    };
-
-    this.domains = {
-      ALL: makeDomain(),
-      TRADE: makeDomain(),
-      LOAN: makeDomain(),
-      SUPPLY: makeDomain()
-    };
+  /* ================= KPI LOGIC ================= */
+  get kpiData() {
+    switch (this.selectedDomain) {
+      case 'TRADE':
+        return { success: this.tradeSuccessCount, failure: this.tradeFailureCount };
+      case 'LOAN':
+        return { success: this.loanSuccessCount, failure: this.loanFailureCount };
+      case 'SUPPLY':
+        return { success: this.supplySuccessCount, failure: this.supplyFailureCount };
+      default:
+        return {
+          success: this.tradeSuccessCount + this.loanSuccessCount + this.supplySuccessCount,
+          failure: this.tradeFailureCount + this.loanFailureCount + this.supplyFailureCount
+        };
+    }
   }
 
-  applyDomain(domain: 'ALL' | 'TRADE' | 'LOAN' | 'SUPPLY') {
+  get slaMetPercent(): number {
+    const total = this.kpiData.success + this.kpiData.failure;
+    return total ? Math.round((this.kpiData.success / total) * 100) : 0;
+  }
+
+  get slaBreachPercent(): number {
+    return 100 - this.slaMetPercent;
+  }
+
+  onDomainSelect(domain: 'TRADE' | 'LOAN' | 'SUPPLY') {
     this.selectedDomain = domain;
-    const d = this.domains[domain];
-    this.totalControls = d.total;
-    this.successful = d.success;
-    this.unsuccessful = d.failure;
-    this.slaMet = d.slaMet;
-    this.slaBreach = d.slaBreach;
+    this.animateKpis();
   }
 
-  updateSlaChart() {
-    this.slaChartData = {
-      labels: ['20-09', '22-09', '24-09', '26-09', '28-09'],
+  /* ================= KPI ANIMATION ================= */
+  private animateKpis() {
+    this.animateValue('animatedSuccess', this.kpiData.success);
+    this.animateValue('animatedFailure', this.kpiData.failure);
+    this.animateValue('animatedSlaMet', this.slaMetPercent);
+    this.animateValue('animatedSlaBreach', this.slaBreachPercent);
+  }
+
+  private animateValue(
+    field: 'animatedSuccess' | 'animatedFailure' | 'animatedSlaMet' | 'animatedSlaBreach',
+    target: number
+  ) {
+    this[field] = 0;
+    const step = Math.max(1, Math.floor(target / 25));
+    const interval = setInterval(() => {
+      if (this[field] < target) {
+        this[field] += step;
+      } else {
+        this[field] = target;
+        clearInterval(interval);
+      }
+    }, 16);
+  }
+
+  /* ================= SLA ================= */
+  onSelectControl(ctrl: ControlRow) {
+    this.selectControl(ctrl);
+  }
+
+  private selectControl(ctrl: ControlRow) {
+    this.selectedControl = ctrl;
+
+    const met = this.dates.map(d => ctrl.tickPercentage[d]);
+    const breach = met.map(v => 100 - v);
+
+    this.lineChartData = {
+      labels: this.dates,
       datasets: [
-        {
-          label: 'SLA Met %',
-          data: this.randomArray(5, 60, 90),
-          borderColor: '#2e7d32',
-          backgroundColor: 'rgba(46,125,50,0.2)',
-          tension: 0.4
-        },
-        {
-          label: 'SLA Breach %',
-          data: this.randomArray(5, 10, 40),
-          borderColor: '#c62828',
-          backgroundColor: 'rgba(198,40,40,0.2)',
-          tension: 0.4
-        }
+        { ...this.lineChartData.datasets[0], data: met },
+        { ...this.lineChartData.datasets[1], data: breach }
       ]
     };
   }
 
-  onSlaControlChange() {
-    this.updateSlaChart();
-  }
+  private generateControls() {
+    const names = [
+      'Incoming Requests Management (B_GBWW_TT-046)',
+      'LC Maturity follow up (B_GBWW_TT-044)',
+      'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)'
+    ];
 
-  rand(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  randomArray(len: number, min: number, max: number) {
-    return Array.from({ length: len }, () => this.rand(min, max));
+    this.controls = names.map(n => ({
+      name: n,
+      tickPercentage: this.dates.reduce((a: any, d) => {
+        a[d] = Math.floor(Math.random() * 60) + 30;
+        return a;
+      }, {})
+    }));
   }
 }
