@@ -2,80 +2,91 @@
 
   <!-- KPI STRIP -->
   <div class="kpi-strip">
-    <div class="kpi-card">
-      <div class="kpi-value">96</div>
+    <div class="kpi-card" (click)="updateKPIs('all')">
+      <div class="kpi-value">{{ totalControls }}</div>
       <div class="kpi-label">Total Controls</div>
     </div>
+
     <div class="kpi-card success">
-      <div class="kpi-value">78</div>
+      <div class="kpi-value">{{ totalSuccess }}</div>
       <div class="kpi-label">Successful</div>
     </div>
+
     <div class="kpi-card danger">
-      <div class="kpi-value">18</div>
+      <div class="kpi-value">{{ totalFailure }}</div>
       <div class="kpi-label">Unsuccessful</div>
     </div>
+
     <div class="kpi-card success">
-      <div class="kpi-value">81%</div>
+      <div class="kpi-value">{{ slaMet }}%</div>
       <div class="kpi-label">SLA Met</div>
     </div>
+
     <div class="kpi-card danger">
-      <div class="kpi-value">19%</div>
+      <div class="kpi-value">{{ slaBreach }}%</div>
       <div class="kpi-label">SLA Breach</div>
     </div>
   </div>
 
-  <!-- MAIN GRID -->
-  <div class="grid-row">
+  <!-- MIDDLE -->
+  <div class="middle-row">
 
-    <!-- CONTROLS PERFORMANCE -->
-    <div class="card performance-card">
-      <h3>⭐ Controls Performance</h3>
+    <div class="card">
+      <div class="card-header">⭐ Controls Performance</div>
 
-      <div class="control-row">
+      <div class="control-row clickable" (click)="updateKPIs('trade')">
         <span>Trade Controls</span>
-        <div class="progress">
-          <div class="bar success" style="width:78%"></div>
-          <div class="bar danger" style="width:22%"></div>
+        <div class="bar">
+          <span class="success-bar" [style.width.%]="tradeSuccessPercent"></span>
+          <span class="fail-bar" [style.width.%]="tradeFailurePercent"></span>
         </div>
-        <span class="count">93 / 20</span>
+        <span>{{ trade.success }} / {{ trade.failure }}</span>
       </div>
 
-      <div class="control-row">
+      <div class="control-row clickable" (click)="updateKPIs('loan')">
         <span>Loan Controls</span>
-        <div class="progress">
-          <div class="bar success" style="width:69%"></div>
-          <div class="bar danger" style="width:31%"></div>
+        <div class="bar">
+          <span class="success-bar" [style.width.%]="loanSuccessPercent"></span>
+          <span class="fail-bar" [style.width.%]="loanFailurePercent"></span>
         </div>
-        <span class="count">24 / 11</span>
+        <span>{{ loan.success }} / {{ loan.failure }}</span>
       </div>
 
-      <div class="control-row">
+      <div class="control-row clickable" (click)="updateKPIs('supply')">
         <span>Supply Chain Controls</span>
-        <div class="progress">
-          <div class="bar success" style="width:88%"></div>
-          <div class="bar danger" style="width:12%"></div>
+        <div class="bar">
+          <span class="success-bar" [style.width.%]="supplySuccessPercent"></span>
+          <span class="fail-bar" [style.width.%]="supplyFailurePercent"></span>
         </div>
-        <span class="count">88 / 12</span>
+        <span>{{ supply.success }} / {{ supply.failure }}</span>
       </div>
     </div>
 
-    <!-- FAILED CONTROLS -->
     <div class="card failed-card">
-      <h3>⚠ Failed Controls (Today)</h3>
+      <div class="card-header">
+        ⚠ Failed Controls (Today)
+        <span class="badge">{{ failedControls.length }}</span>
+      </div>
+
       <ul>
-        <li>LC Maturity follow up (B_GBWW_TT-044)</li>
-        <li>Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)</li>
-        <li>Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)</li>
+        <li *ngFor="let f of failedControls">{{ f }}</li>
       </ul>
     </div>
-
   </div>
 
-  <!-- SLA TREND -->
+  <!-- SLA -->
   <div class="card sla-card">
-    <h3>SLA Trend</h3>
-    <div class="sla-placeholder">
-      SLA Chart Area (Chart.js stays here)
+    <div class="card-header">
+      📊 SLA Trend – Incoming Requests Management (B_GBWW_TT-046)
+    </div>
+
+    <div class="sla-chart">
+      <canvas
+        baseChart
+        [data]="lineChartData"
+        [options]="lineChartOptions"
+        [type]="'line'">
+      </canvas>
     </div>
   </div>
 
