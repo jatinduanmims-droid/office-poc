@@ -1,35 +1,35 @@
 <div class="dashboard-v2">
 
-  <!-- OVERVIEW -->
-  <section class="overview">
-    <div class="kpi">
-      <div class="kpi-value">120</div>
-      <div class="kpi-label">Total Controls</div>
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="value">{{ kpiData.success + kpiData.failure }}</div>
+      <div class="label">Total Controls</div>
     </div>
 
-    <div class="kpi success">
-      <div class="kpi-value">107</div>
-      <div class="kpi-label">Successful</div>
+    <div class="kpi-card success">
+      <div class="value">{{ kpiData.success }}</div>
+      <div class="label">Successful</div>
     </div>
 
-    <div class="kpi danger">
-      <div class="kpi-value">24</div>
-      <div class="kpi-label">Unsuccessful</div>
+    <div class="kpi-card danger">
+      <div class="value">{{ kpiData.failure }}</div>
+      <div class="label">Unsuccessful</div>
     </div>
 
-    <div class="kpi success">
-      <div class="kpi-value">82%</div>
-      <div class="kpi-label">SLA Met</div>
+    <div class="kpi-card success">
+      <div class="value">{{ slaMetPercent }}%</div>
+      <div class="label">SLA Met</div>
     </div>
 
-    <div class="kpi danger">
-      <div class="kpi-value">18%</div>
-      <div class="kpi-label">SLA Breach</div>
+    <div class="kpi-card danger">
+      <div class="value">{{ slaBreachPercent }}%</div>
+      <div class="label">SLA Breach</div>
     </div>
-  </section>
+  </div>
 
-  <!-- PERFORMANCE + FAILED -->
-  <section class="row-2">
+  <!-- MIDDLE SECTION -->
+  <div class="mid-grid">
 
     <!-- CONTROLS PERFORMANCE -->
     <div class="card">
@@ -37,31 +37,43 @@
         ⭐ Controls Performance
       </div>
 
-      <div class="progress-block">
-        <label>Trade Controls</label>
-        <div class="progress-bar">
-          <div class="success" style="width: 82%"></div>
-          <div class="danger" style="width: 18%"></div>
+      <div class="control-row clickable" (click)="onDomainSelect('TRADE')">
+        <div class="label">Trade Controls</div>
+        <div class="bar">
+          <div class="bar-success"
+               [style.width.%]="(tradeSuccessCount / (tradeSuccessCount + tradeFailureCount)) * 100">
+          </div>
+          <div class="bar-failure"
+               [style.width.%]="(tradeFailureCount / (tradeSuccessCount + tradeFailureCount)) * 100">
+          </div>
         </div>
-        <span class="count">107 / 24</span>
+        <div class="count">{{ tradeSuccessCount }} / {{ tradeFailureCount }}</div>
       </div>
 
-      <div class="progress-block">
-        <label>Loan Controls</label>
-        <div class="progress-bar">
-          <div class="success" style="width: 81%"></div>
-          <div class="danger" style="width: 19%"></div>
+      <div class="control-row clickable" (click)="onDomainSelect('LOAN')">
+        <div class="label">Loan Controls</div>
+        <div class="bar">
+          <div class="bar-success"
+               [style.width.%]="(loanSuccessCount / (loanSuccessCount + loanFailureCount)) * 100">
+          </div>
+          <div class="bar-failure"
+               [style.width.%]="(loanFailureCount / (loanSuccessCount + loanFailureCount)) * 100">
+          </div>
         </div>
-        <span class="count">13 / 3</span>
+        <div class="count">{{ loanSuccessCount }} / {{ loanFailureCount }}</div>
       </div>
 
-      <div class="progress-block">
-        <label>Supply Chain Controls</label>
-        <div class="progress-bar">
-          <div class="success" style="width: 77%"></div>
-          <div class="danger" style="width: 23%"></div>
+      <div class="control-row clickable" (click)="onDomainSelect('SUPPLY')">
+        <div class="label">Supply Chain Controls</div>
+        <div class="bar">
+          <div class="bar-success"
+               [style.width.%]="(supplySuccessCount / (supplySuccessCount + supplyFailureCount)) * 100">
+          </div>
+          <div class="bar-failure"
+               [style.width.%]="(supplyFailureCount / (supplySuccessCount + supplyFailureCount)) * 100">
+          </div>
         </div>
-        <span class="count">17 / 5</span>
+        <div class="count">{{ supplySuccessCount }} / {{ supplyFailureCount }}</div>
       </div>
     </div>
 
@@ -69,48 +81,39 @@
     <div class="card failed">
       <div class="card-header">
         Failed Controls (Today)
-        <span class="badge">3</span>
+        <span class="badge">{{ failedControlsToday.length }}</span>
       </div>
 
       <ul>
-        <li *ngFor="let f of failedControlsToday">
-          ⚠ {{ f }}
+        <li *ngFor="let ctrl of failedControlsToday">
+          ⚠ {{ ctrl }}
         </li>
       </ul>
     </div>
 
-  </section>
+  </div>
 
   <!-- SLA TREND -->
-  <section class="card sla">
+  <div class="card">
+    <div class="card-header with-select">
+      <span>📈 SLA Trend for {{ selectedControl?.name }}</span>
 
-    <div class="sla-header">
-      <h3>
-        📊 SLA Trend for
-        <span>{{ selectedControl?.name }}</span>
-      </h3>
-
-      <mat-form-field appearance="outline">
-        <input matInput
-               placeholder="Select control"
-               [formControl]="searchControl"
-               [matAutocomplete]="auto">
-      </mat-form-field>
-
-      <mat-autocomplete #auto="matAutocomplete"
-                        (optionSelected)="onSelectControl($event.option.value)">
-        <mat-option *ngFor="let c of filteredControls$ | async" [value]="c">
-          {{ c.name }}
+      <mat-select
+        class="control-select"
+        [value]="selectedControl"
+        (selectionChange)="onSelectControl($event.value)">
+        <mat-option *ngFor="let ctrl of controls" [value]="ctrl">
+          {{ ctrl.name }}
         </mat-option>
-      </mat-autocomplete>
+      </mat-select>
     </div>
 
-    <canvas baseChart
-            [data]="lineChartData"
-            [options]="lineChartOptions"
-            type="line">
+    <canvas
+      baseChart
+      [data]="lineChartData"
+      [options]="lineChartOptions"
+      [type]="'line'">
     </canvas>
-
-  </section>
+  </div>
 
 </div>
