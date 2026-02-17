@@ -1,93 +1,87 @@
 <div class="dashboard-v2">
 
-  <!-- KPI STRIP -->
-  <div class="kpi-strip">
+  <!-- STICKY KPI HEADER -->
+  <div class="kpi-strip sticky">
     <div class="kpi-card">
-      <div class="value">{{ kpiData.success + kpiData.failure }}</div>
+      <div class="value">{{ animatedSuccess + animatedFailure }}</div>
       <div class="label">Total Controls</div>
     </div>
 
     <div class="kpi-card success">
-      <div class="value">{{ kpiData.success }}</div>
+      <div class="value">{{ animatedSuccess }}</div>
       <div class="label">Successful</div>
     </div>
 
     <div class="kpi-card danger">
-      <div class="value">{{ kpiData.failure }}</div>
+      <div class="value">{{ animatedFailure }}</div>
       <div class="label">Unsuccessful</div>
     </div>
 
     <div class="kpi-card success">
-      <div class="value">{{ slaMetPercent }}%</div>
+      <div class="value">{{ animatedSlaMet }}%</div>
       <div class="label">SLA Met</div>
     </div>
 
     <div class="kpi-card danger">
-      <div class="value">{{ slaBreachPercent }}%</div>
+      <div class="value">{{ animatedSlaBreach }}%</div>
       <div class="label">SLA Breach</div>
     </div>
   </div>
 
-  <!-- MIDDLE SECTION -->
   <div class="mid-grid">
 
     <!-- CONTROLS PERFORMANCE -->
     <div class="card">
-      <div class="card-header">
-        ⭐ Controls Performance
+      <div class="card-header">⭐ Controls Performance</div>
+
+      <div class="control-row clickable"
+           [class.active]="selectedDomain==='TRADE'"
+           (click)="onDomainSelect('TRADE')">
+        <span>Trade Controls</span>
+        <div class="bar">
+          <div class="bar-success animate"
+               [style.--pct.%]="(tradeSuccessCount/(tradeSuccessCount+tradeFailureCount))*100"></div>
+          <div class="bar-failure animate"
+               [style.--pct.%]="(tradeFailureCount/(tradeSuccessCount+tradeFailureCount))*100"></div>
+        </div>
+        <span>{{ tradeSuccessCount }} / {{ tradeFailureCount }}</span>
       </div>
 
-      <div class="control-row clickable" (click)="onDomainSelect('TRADE')">
-        <div class="label">Trade Controls</div>
+      <div class="control-row clickable"
+           [class.active]="selectedDomain==='LOAN'"
+           (click)="onDomainSelect('LOAN')">
+        <span>Loan Controls</span>
         <div class="bar">
-          <div class="bar-success"
-               [style.width.%]="(tradeSuccessCount / (tradeSuccessCount + tradeFailureCount)) * 100">
-          </div>
-          <div class="bar-failure"
-               [style.width.%]="(tradeFailureCount / (tradeSuccessCount + tradeFailureCount)) * 100">
-          </div>
+          <div class="bar-success animate"
+               [style.--pct.%]="(loanSuccessCount/(loanSuccessCount+loanFailureCount))*100"></div>
+          <div class="bar-failure animate"
+               [style.--pct.%]="(loanFailureCount/(loanSuccessCount+loanFailureCount))*100"></div>
         </div>
-        <div class="count">{{ tradeSuccessCount }} / {{ tradeFailureCount }}</div>
+        <span>{{ loanSuccessCount }} / {{ loanFailureCount }}</span>
       </div>
 
-      <div class="control-row clickable" (click)="onDomainSelect('LOAN')">
-        <div class="label">Loan Controls</div>
+      <div class="control-row clickable"
+           [class.active]="selectedDomain==='SUPPLY'"
+           (click)="onDomainSelect('SUPPLY')">
+        <span>Supply Chain Controls</span>
         <div class="bar">
-          <div class="bar-success"
-               [style.width.%]="(loanSuccessCount / (loanSuccessCount + loanFailureCount)) * 100">
-          </div>
-          <div class="bar-failure"
-               [style.width.%]="(loanFailureCount / (loanSuccessCount + loanFailureCount)) * 100">
-          </div>
+          <div class="bar-success animate"
+               [style.--pct.%]="(supplySuccessCount/(supplySuccessCount+supplyFailureCount))*100"></div>
+          <div class="bar-failure animate"
+               [style.--pct.%]="(supplyFailureCount/(supplySuccessCount+supplyFailureCount))*100"></div>
         </div>
-        <div class="count">{{ loanSuccessCount }} / {{ loanFailureCount }}</div>
-      </div>
-
-      <div class="control-row clickable" (click)="onDomainSelect('SUPPLY')">
-        <div class="label">Supply Chain Controls</div>
-        <div class="bar">
-          <div class="bar-success"
-               [style.width.%]="(supplySuccessCount / (supplySuccessCount + supplyFailureCount)) * 100">
-          </div>
-          <div class="bar-failure"
-               [style.width.%]="(supplyFailureCount / (supplySuccessCount + supplyFailureCount)) * 100">
-          </div>
-        </div>
-        <div class="count">{{ supplySuccessCount }} / {{ supplyFailureCount }}</div>
+        <span>{{ supplySuccessCount }} / {{ supplyFailureCount }}</span>
       </div>
     </div>
 
-    <!-- FAILED CONTROLS -->
+    <!-- FAILED -->
     <div class="card failed">
       <div class="card-header">
         Failed Controls (Today)
         <span class="badge">{{ failedControlsToday.length }}</span>
       </div>
-
       <ul>
-        <li *ngFor="let ctrl of failedControlsToday">
-          ⚠ {{ ctrl }}
-        </li>
+        <li *ngFor="let f of failedControlsToday">⚠ {{ f }}</li>
       </ul>
     </div>
 
@@ -96,23 +90,18 @@
   <!-- SLA TREND -->
   <div class="card">
     <div class="card-header with-select">
-      <span>📈 SLA Trend for {{ selectedControl?.name }}</span>
-
-      <mat-select
-        class="control-select"
-        [value]="selectedControl"
-        (selectionChange)="onSelectControl($event.value)">
-        <mat-option *ngFor="let ctrl of controls" [value]="ctrl">
-          {{ ctrl.name }}
-        </mat-option>
+      <span>📈 SLA Trend – {{ selectedControl?.name }}</span>
+      <mat-select class="control-select"
+                  [value]="selectedControl"
+                  (selectionChange)="onSelectControl($event.value)">
+        <mat-option *ngFor="let c of controls" [value]="c">{{ c.name }}</mat-option>
       </mat-select>
     </div>
 
-    <canvas
-      baseChart
-      [data]="lineChartData"
-      [options]="lineChartOptions"
-      [type]="'line'">
+    <canvas baseChart
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            [type]="'line'">
     </canvas>
   </div>
 
