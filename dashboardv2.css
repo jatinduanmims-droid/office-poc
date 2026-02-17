@@ -1,0 +1,53 @@
+.dashboard-v2 {
+  padding: 16px;
+}
+
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+
+  .kpi {
+    background: #f5f5f5;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+
+    span {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    &.success { color: #2e7d32; }
+    &.danger { color: #c62828; }
+  }
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.bar {
+  margin-bottom: 12px;
+}
+
+.failed {
+  border-left: 4px solid #c62828;
+}
+
+.sla-card {
+  margin-top: 20px;
+
+  .sla-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chart {
+    height: 300px;
+  }
+}
