@@ -1,0 +1,40 @@
+You are working in an Angular application.
+
+VERY IMPORTANT CONSTRAINTS:
+- Do NOT modify any existing components.
+- Do NOT rename any existing routes.
+- Do NOT change any existing logic, services, or variables.
+- Do NOT refactor or move files.
+- ONLY add new routing for an already-created component.
+
+CONTEXT:
+A new dashboard page already exists at:
+src/app/components/allcontrols.component/dashboardv2/dashboardv2.ts
+
+The component class is:
+Dashboardv2Component
+
+GOAL:
+Add a new route so this dashboard can be accessed separately,
+without impacting the existing dashboard or navigation.
+
+REQUIREMENTS:
+1. Add a new route path:
+   - URL: /dashboardv2
+2. Map the route to:
+   - Dashboardv2Component
+3. Keep all existing routes exactly as they are.
+4. Do NOT remove or change any current route.
+5. Do NOT introduce lazy loading unless already used.
+6. Follow the existing routing style of the project.
+7. Import the component using the correct relative path.
+
+OPTIONAL (ONLY IF ALREADY PRESENT IN PROJECT):
+- If there is a side navigation menu or header menu:
+  - Add a new navigation entry labeled "Dashboard V2"
+  - Link it to /dashboardv2
+  - Do NOT remove or reorder existing menu items.
+
+EXPECTED OUTPUT:
+- Updated routing file with the new route added
+- Confirmation that no existing routes or logic were modified
