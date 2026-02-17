@@ -1,133 +1,141 @@
-.dashboard-v2 {
-  background: #f4f6f7;
-  padding: 16px;
+.dashboard {
+  padding: 12px;
 }
 
-/* STICKY KPI */
+/* ================= KPI STRIP ================= */
 .kpi-strip {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f6f7f8;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 12px;
-  margin-bottom: 16px;
-
-  &.sticky {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #f4f6f7;
-    padding-bottom: 8px;
-  }
+  padding-bottom: 10px;
 }
 
-.kpi-card {
+.kpi {
   background: #fff;
-  border-radius: 10px;
-  padding: 12px;
+  border-radius: 6px;
+  padding: 10px;
   text-align: center;
-  box-shadow: 0 1px 4px rgba(0,0,0,.08);
-
-  .value {
-    font-size: 22px;
-    font-weight: 700;
-  }
-
-  .label {
-    font-size: 12px;
-    color: #6b7280;
-  }
-
-  &.success .value { color: #2e7d32; }
-  &.danger .value { color: #c62828; }
+  font-weight: 600;
+  transition: transform .2s;
 }
 
-/* GRID */
+.kpi div {
+  font-size: 22px;
+}
+
+.kpi span {
+  font-size: 12px;
+  color: #666;
+}
+
+.kpi.success { color: #2e7d32; }
+.kpi.danger { color: #c62828; }
+
+/* ================= MID GRID ================= */
 .mid-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 16px;
+  gap: 14px;
+  margin-top: 14px;
 }
 
-/* CARDS */
+/* ================= CARD ================= */
 .card {
   background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 1px 6px rgba(0,0,0,.08);
+  border-radius: 8px;
+  padding: 12px;
 }
 
 .card-header {
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
-}
-
-/* CONTROLS */
-.control-row {
-  display: grid;
-  grid-template-columns: 180px 1fr 70px;
   align-items: center;
-  gap: 12px;
-  padding: 6px 8px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+}
+
+/* ================= DOMAIN ROW ================= */
+.domain-row {
   cursor: pointer;
-
-  &.active {
-    background: #e8f5e9;
-    border-left: 4px solid #2e7d32;
-  }
+  margin-bottom: 12px;
 }
 
-/* PROGRESS BAR */
-.bar {
-  display: flex;
-  height: 10px;
-  background: #e5e7eb;
+.domain-row.active {
+  background: #f1f8f4;
   border-radius: 6px;
-  overflow: hidden;
+  padding: 6px;
 }
 
-.bar-success,
-.bar-failure {
-  height: 100%;
-  animation: grow 0.8s ease forwards;
+.domain-row .label {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  display: flex;
+  overflow: hidden;
 }
 
 .bar-success {
   background: #2e7d32;
-  width: var(--pct);
+  transition: width .6s ease;
 }
 
 .bar-failure {
   background: #c62828;
-  width: var(--pct);
+  transition: width .6s ease;
 }
 
-@keyframes grow {
-  from { width: 0; }
+.count {
+  font-size: 12px;
+  text-align: right;
+  margin-top: 2px;
 }
 
-/* FAILED */
-.failed ul {
-  padding-left: 18px;
+/* ================= FAILED CONTROLS ================= */
+.failed {
+  max-height: 210px;
+  display: flex;
+  flex-direction: column;
+}
+
+.failed-body {
+  overflow-y: auto;
+}
+
+.failed li {
+  font-size: 13px;
+  margin-bottom: 6px;
 }
 
 .badge {
   background: #c62828;
   color: #fff;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 2px 8px;
   font-size: 12px;
 }
 
-/* SLA */
-.with-select {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+/* ================= SLA TREND ================= */
+.sla-card {
+  margin-top: 14px;
 }
 
-.control-select {
-  min-width: 280px;
+.with-select select {
+  font-size: 12px;
+}
+
+.sla-chart-wrapper {
+  height: 260px;
+}
+
+.sla-chart-wrapper canvas {
+  max-height: 260px !important;
 }
