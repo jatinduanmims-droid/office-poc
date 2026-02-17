@@ -1,73 +1,96 @@
 <div class="dashboard-v2">
 
-  <!-- KPI STRIP -->
-  <section class="kpi-strip">
-    <div class="kpi-card">
+  <!-- OVERVIEW -->
+  <section class="overview">
+    <div class="kpi">
       <div class="kpi-value">120</div>
       <div class="kpi-label">Total Controls</div>
     </div>
-    <div class="kpi-card success">
+
+    <div class="kpi success">
       <div class="kpi-value">107</div>
       <div class="kpi-label">Successful</div>
     </div>
-    <div class="kpi-card danger">
+
+    <div class="kpi danger">
       <div class="kpi-value">24</div>
       <div class="kpi-label">Unsuccessful</div>
     </div>
-    <div class="kpi-card success">
+
+    <div class="kpi success">
       <div class="kpi-value">82%</div>
       <div class="kpi-label">SLA Met</div>
     </div>
-    <div class="kpi-card danger">
+
+    <div class="kpi danger">
       <div class="kpi-value">18%</div>
       <div class="kpi-label">SLA Breach</div>
     </div>
   </section>
 
   <!-- PERFORMANCE + FAILED -->
-  <section class="grid-2">
+  <section class="row-2">
 
+    <!-- CONTROLS PERFORMANCE -->
     <div class="card">
-      <h3 class="card-title">Controls Performance</h3>
-
-      <div class="perf-row">
-        <span>Trade Controls</span>
-        <div class="bar-track">
-          <div class="bar-fill success" style="width: 82%"></div>
-        </div>
+      <div class="card-header">
+        ⭐ Controls Performance
       </div>
 
-      <div class="perf-row">
-        <span>Loan Controls</span>
-        <div class="bar-track">
-          <div class="bar-fill success" style="width: 85%"></div>
+      <div class="progress-block">
+        <label>Trade Controls</label>
+        <div class="progress-bar">
+          <div class="success" style="width: 82%"></div>
+          <div class="danger" style="width: 18%"></div>
         </div>
+        <span class="count">107 / 24</span>
       </div>
 
-      <div class="perf-row">
-        <span>Supply Chain Controls</span>
-        <div class="bar-track">
-          <div class="bar-fill success" style="width: 78%"></div>
+      <div class="progress-block">
+        <label>Loan Controls</label>
+        <div class="progress-bar">
+          <div class="success" style="width: 81%"></div>
+          <div class="danger" style="width: 19%"></div>
         </div>
+        <span class="count">13 / 3</span>
+      </div>
+
+      <div class="progress-block">
+        <label>Supply Chain Controls</label>
+        <div class="progress-bar">
+          <div class="success" style="width: 77%"></div>
+          <div class="danger" style="width: 23%"></div>
+        </div>
+        <span class="count">17 / 5</span>
       </div>
     </div>
 
-    <div class="card failed-card">
-      <h3 class="card-title">Failed Controls (Today)</h3>
-      <ul class="failed-list">
-        <li *ngFor="let fc of failedControlsToday">{{ fc }}</li>
+    <!-- FAILED CONTROLS -->
+    <div class="card failed">
+      <div class="card-header">
+        Failed Controls (Today)
+        <span class="badge">3</span>
+      </div>
+
+      <ul>
+        <li *ngFor="let f of failedControlsToday">
+          ⚠ {{ f }}
+        </li>
       </ul>
     </div>
 
   </section>
 
   <!-- SLA TREND -->
-  <section class="card sla-card">
+  <section class="card sla">
 
     <div class="sla-header">
-      <h3>SLA Trend</h3>
+      <h3>
+        📊 SLA Trend for
+        <span>{{ selectedControl?.name }}</span>
+      </h3>
 
-      <mat-form-field appearance="outline" class="sla-select">
+      <mat-form-field appearance="outline">
         <input matInput
                placeholder="Select control"
                [formControl]="searchControl"
@@ -82,13 +105,11 @@
       </mat-autocomplete>
     </div>
 
-    <div class="sla-chart">
-      <canvas baseChart
-              [data]="lineChartData"
-              [options]="lineChartOptions"
-              type="line">
-      </canvas>
-    </div>
+    <canvas baseChart
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            type="line">
+    </canvas>
 
   </section>
 
