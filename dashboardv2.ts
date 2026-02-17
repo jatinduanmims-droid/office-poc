@@ -1,83 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartOptions, ChartData, Plugin } from 'chart.js';
-import annotationPlugin from 'chartjs-plugin-annotation';
-import { Observable } from 'rxjs';
-import { startWith, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { MatSelectModule } from '@angular/material/select';
+import { ChartConfiguration, ChartData } from 'chart.js';
 
-Chart.register(annotationPlugin);
+interface ControlRow {
+  name: string;
+  tickPercentage: { [date: string]: number };
+}
 
 @Component({
-  selector: 'app-dashboard-v2',
-  templateUrl: './dashboard-v2.component.html',
-  styleUrls: ['./dashboard-v2.component.scss'],
+  selector: 'app-dashboardv2',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
     NgChartsModule,
-    ReactiveFormsModule
-  ]
+    MatSelectModule
+  ],
+  templateUrl: './dashboardv2.html',
+  styleUrls: ['./dashboardv2.scss']
 })
-export class DashboardV2Component implements OnInit {
+export class Dashboardv2Component implements OnInit {
 
-  /* ==========================
-     EXISTING VARIABLES (UNCHANGED)
-     ========================== */
+  /* =========================
+     DOMAIN STATE
+     ========================= */
+  selectedDomain: 'ALL' | 'TRADE' | 'LOAN' | 'SUPPLY' = 'ALL';
 
-  donutLabels: string[] = ['Successful', 'Unsuccessful'];
-
-  donutOptions: ChartOptions<'doughnut'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '70%',
-    plugins: {
-      legend: { display: false }
-    }
-  };
-
-  // Trade
+  /* =========================
+     KPI COUNTS (existing)
+     ========================= */
   tradeSuccessCount!: number;
   tradeFailureCount!: number;
-  tradeDonutData!: ChartData<'doughnut'>;
 
-  // Loan
   loanSuccessCount!: number;
   loanFailureCount!: number;
-  loanDonutData!: ChartData<'doughnut'>;
 
-  // Supply Chain
   supplySuccessCount!: number;
   supplyFailureCount!: number;
-  supplyDonutData!: ChartData<'doughnut'>;
 
+  /* =========================
+     FAILED CONTROLS
+     ========================= */
   failedControlsToday: string[] = [
     'LC Maturity follow up (B_GBWW_TT-044)',
     'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)',
     'Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)'
   ];
 
+  /* =========================
+     SLA TREND DATA
+     ========================= */
   dates: string[] = [
-    '24-09-2025',
-    '25-09-2025',
-    '26-09-2025',
-    '27-09-2025',
-    '28-09-2025',
-    '29-09-2025'
+    '20-09-2023',
+    '21-09-2023',
+    '22-09-2023',
+    '23-09-2023',
+    '24-09-2023',
+    '25-09-2023'
   ];
 
-  chartPlugins: Plugin<any>[] = [];
-
-  controls: any[] = [];
-  recentControls: any[] = [];
-
-  searchControl = new FormControl('');
-  filteredControls$!: Observable<any[]>;
-
-  selectedControl: any | null = null;
+  controls: ControlRow[] = [];
+  selectedControl!: ControlRow;
 
   lineChartData: ChartData<'line'> = {
     labels: [],
@@ -86,35 +70,138 @@ export class DashboardV2Component implements OnInit {
         label: 'SLA Met %',
         data: [],
         borderColor: '#2e7d32',
+        backgroundColor: '#2e7d32',
+        fill: false,
         tension: 0.3
       },
       {
         label: 'SLA Breach %',
         data: [],
         borderColor: '#c62828',
+        backgroundColor: '#c62828',
+        fill: false,
         tension: 0.3
       }
     ]
   };
 
-  lineChartOptions: ChartOptions<'line'> = {
+  lineChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      y: { min: 0, max: 100 }
+      y: {
+        beginAtZero: true,
+        max: 100,
+        title: { display: true, text: 'Percentage' }
+      },
+      x: {
+        title: { display: true, text: 'Date' }
+      }
     }
   };
 
-  /* ==========================
-     LIFECYCLE (UNCHANGED)
-     ========================== */
-
+  /* =========================
+     INIT
+     ========================= */
   ngOnInit(): void {
-    this.generateRandomDonutData();
+    this.generateRandomCounts();
+    this.generateControls();
+    this.selectControl(this.controls[0]);
+  }
 
+  /* =========================
+     KPI DOMAIN HANDLING
+     ========================= */
+  onDomainSelect(domain: 'TRADE' | 'LOAN' | 'SUPPLY') {
+    this.selectedDomain = domain;
+  }
+
+  get kpiData() {
+    switch (this.selectedDomain) {
+      case 'TRADE':
+        return {
+          success: this.tradeSuccessCount,
+          failure: this.tradeFailureCount
+        };
+
+      case 'LOAN':
+        return {
+          success: this.loanSuccessCount,
+          failure: this.loanFailureCount
+        };
+
+      case 'SUPPLY':
+        return {
+          success: this.supplySuccessCount,
+          failure: this.supplyFailureCount
+        };
+
+      default:
+        return {
+          success:
+            this.tradeSuccessCount +
+            this.loanSuccessCount +
+            this.supplySuccessCount,
+          failure:
+            this.tradeFailureCount +
+            this.loanFailureCount +
+            this.supplyFailureCount
+        };
+    }
+  }
+
+  get slaMetPercent(): number {
+    const total = this.kpiData.success + this.kpiData.failure;
+    return total ? Math.round((this.kpiData.success / total) * 100) : 0;
+  }
+
+  get slaBreachPercent(): number {
+    return 100 - this.slaMetPercent;
+  }
+
+  /* =========================
+     CONTROL DROPDOWN (SLA)
+     ========================= */
+  onSelectControl(ctrl: ControlRow) {
+    this.selectControl(ctrl);
+  }
+
+  private selectControl(ctrl: ControlRow) {
+    this.selectedControl = ctrl;
+
+    const slaMetValues = this.dates.map(
+      d => ctrl.tickPercentage[d] ?? 0
+    );
+
+    const slaBreachValues = slaMetValues.map(v => 100 - v);
+
+    this.lineChartData = {
+      labels: this.dates,
+      datasets: [
+        { ...this.lineChartData.datasets[0], data: slaMetValues },
+        { ...this.lineChartData.datasets[1], data: slaBreachValues }
+      ]
+    };
+  }
+
+  /* =========================
+     MOCK DATA GENERATORS
+     ========================= */
+  private generateRandomCounts() {
+    this.tradeSuccessCount = this.randomInt(90, 120);
+    this.tradeFailureCount = this.randomInt(10, 30);
+
+    this.loanSuccessCount = this.randomInt(10, 20);
+    this.loanFailureCount = this.randomInt(2, 6);
+
+    this.supplySuccessCount = this.randomInt(15, 25);
+    this.supplyFailureCount = this.randomInt(3, 8);
+  }
+
+  private generateControls() {
     const names = [
       'Incoming Requests Management (B_GBWW_TT-046)',
-      'L/C Maturity follow up (B_GBWW_TT-044)',
+      'LC Maturity follow up (B_GBWW_TT-044)',
       'Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)',
       'Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)'
     ];
@@ -123,85 +210,17 @@ export class DashboardV2Component implements OnInit {
       name,
       tickPercentage: this.generateRandomTickPercentage()
     }));
-
-    this.selectedControl = this.controls[0];
-    this.selectControl(this.selectedControl);
-
-    this.filteredControls$ = this.searchControl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(300),
-      distinctUntilChanged(),
-      map(value => {
-        const term = typeof value === 'string' ? value.toLowerCase() : '';
-        if (term.length < 2) return this.recentControls;
-        return this.controls.filter(c => c.name.toLowerCase().includes(term));
-      })
-    );
   }
 
-  /* ==========================
-     EXISTING METHODS (UNCHANGED)
-     ========================== */
-
-  onSelectControl(ctrl: any): void {
-    this.selectControl(ctrl);
-    this.recentControls = [ctrl, ...this.recentControls.filter(c => c.name !== ctrl.name)].slice(0, 3);
-    this.searchControl.setValue(ctrl.name);
-  }
-
-  private selectControl(ctrl: any): void {
-    if (!ctrl) return;
-
-    this.selectedControl = ctrl;
-    const tick = ctrl.tickPercentage;
-
-    this.lineChartData = {
-      labels: this.dates,
-      datasets: [
-        {
-          ...this.lineChartData.datasets[0],
-          data: this.dates.map(d => tick[d] ?? 0)
-        },
-        {
-          ...this.lineChartData.datasets[1],
-          data: this.dates.map(d => 100 - (tick[d] ?? 0))
-        }
-      ]
-    };
-  }
-
-  private generateRandomDonutData(): void {
-    this.tradeSuccessCount = this.randomInt(70, 120);
-    this.tradeFailureCount = this.randomInt(10, 30);
-    this.tradeDonutData = this.buildDonutChartData(this.tradeSuccessCount, this.tradeFailureCount);
-
-    this.loanSuccessCount = this.randomInt(80, 130);
-    this.loanFailureCount = this.randomInt(5, 25);
-    this.loanDonutData = this.buildDonutChartData(this.loanSuccessCount, this.loanFailureCount);
-
-    this.supplySuccessCount = this.randomInt(60, 110);
-    this.supplyFailureCount = this.randomInt(8, 22);
-    this.supplyDonutData = this.buildDonutChartData(this.supplySuccessCount, this.supplyFailureCount);
-  }
-
-  private buildDonutChartData(success: number, failure: number): ChartData<'doughnut'> {
-    return {
-      labels: this.donutLabels,
-      datasets: [{
-        data: [success, failure],
-        backgroundColor: ['#2e7d32', '#c62828']
-      }]
-    };
+  private generateRandomTickPercentage(): { [date: string]: number } {
+    const acc: any = {};
+    this.dates.forEach(d => {
+      acc[d] = this.randomInt(30, 95);
+    });
+    return acc;
   }
 
   private randomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  private generateRandomTickPercentage(): { [date: string]: number } {
-    return this.dates.reduce((acc, d) => {
-      acc[d] = Math.floor(Math.random() * 100);
-      return acc;
-    }, {} as { [key: string]: number });
   }
 }
