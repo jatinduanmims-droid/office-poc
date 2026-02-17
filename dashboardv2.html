@@ -1,116 +1,67 @@
-<div class="dashboard-container">
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi">{{ totalControls }}<span>Total Controls</span></div>
+  <div class="kpi success">{{ successful }}<span>Successful</span></div>
+  <div class="kpi danger">{{ unsuccessful }}<span>Unsuccessful</span></div>
+  <div class="kpi success">{{ slaMet }}%<span>SLA Met</span></div>
+  <div class="kpi danger">{{ slaBreach }}%<span>SLA Breach</span></div>
+</div>
 
-  <!-- ================= KPI STRIP ================= -->
-  <div class="kpi-strip">
-    <div class="kpi-card">
-      <div class="kpi-value">{{ totalControls }}</div>
-      <div class="kpi-label">Total Controls</div>
-    </div>
+<!-- CONTROLS PERFORMANCE -->
+<div class="card">
+  <h3>⭐ Controls Performance</h3>
 
-    <div class="kpi-card success">
-      <div class="kpi-value">{{ successful }}</div>
-      <div class="kpi-label">Successful</div>
-    </div>
-
-    <div class="kpi-card danger">
-      <div class="kpi-value">{{ unsuccessful }}</div>
-      <div class="kpi-label">Unsuccessful</div>
-    </div>
-
-    <div class="kpi-card success">
-      <div class="kpi-value">{{ slaMet }}%</div>
-      <div class="kpi-label">SLA Met</div>
-    </div>
-
-    <div class="kpi-card danger">
-      <div class="kpi-value">{{ slaBreach }}%</div>
-      <div class="kpi-label">SLA Breach</div>
+  <div
+    class="control-row"
+    [class.selected]="selectedDomain==='TRADE'"
+    (click)="applyDomain('TRADE')">
+    Trade Controls
+    <div class="bar">
+      <div class="ok" style="width:70%"></div>
+      <div class="bad" style="width:30%"></div>
     </div>
   </div>
 
-  <!-- ================= CONTROLS PERFORMANCE + FAILED ================= -->
-  <div class="grid-two">
-
-    <!-- Controls Performance -->
-    <div class="card">
-      <div class="card-header">
-        ⭐ Controls Performance
-      </div>
-
-      <div class="control-row active">
-        <div class="label">Trade Controls</div>
-
-        <div class="progress-wrapper">
-          <div class="progress success" [style.width.%]="tradeSuccessPercent"></div>
-          <div class="progress failure" [style.width.%]="tradeFailurePercent"></div>
-        </div>
-
-        <div class="count">107 / 24</div>
-      </div>
-
-      <div class="control-row">
-        <div class="label">Loan Controls</div>
-
-        <div class="progress-wrapper">
-          <div class="progress success" [style.width.%]="loanSuccessPercent"></div>
-          <div class="progress failure" [style.width.%]="loanFailurePercent"></div>
-        </div>
-
-        <div class="count">13 / 3</div>
-      </div>
-
-      <div class="control-row">
-        <div class="label">Supply Chain Controls</div>
-
-        <div class="progress-wrapper">
-          <div class="progress success" [style.width.%]="supplySuccessPercent"></div>
-          <div class="progress failure" [style.width.%]="supplyFailurePercent"></div>
-        </div>
-
-        <div class="count">17 / 5</div>
-      </div>
+  <div
+    class="control-row"
+    [class.selected]="selectedDomain==='LOAN'"
+    (click)="applyDomain('LOAN')">
+    Loan Controls
+    <div class="bar">
+      <div class="ok" style="width:65%"></div>
+      <div class="bad" style="width:35%"></div>
     </div>
-
-    <!-- Failed Controls -->
-    <div class="card failed">
-      <div class="card-header danger">
-        ⚠ Failed Controls (Today)
-        <span class="badge">3</span>
-      </div>
-
-      <ul class="failed-list">
-        <li>LC Maturity follow up (B_GBWW_TT-044)</li>
-        <li>Documents Checking Deadline Follow up on L/C (B_GBWW_TT-067)</li>
-        <li>Documents Checking Deadline Follow up on SBLC (B_GBWW_TT-045)</li>
-      </ul>
-    </div>
-
   </div>
 
-  <!-- ================= SLA TREND ================= -->
-  <div class="card">
-
-    <!-- SLA HEADER WITH DROPDOWN -->
-    <div class="sla-header">
-      <div class="sla-title">
-        <mat-icon class="sla-icon">bar_chart</mat-icon>
-        <span>SLA Trend for Incoming Requests Management (B_GBWW_TT-046)</span>
-      </div>
-
-      <button class="sla-dropdown">
-        Incoming Requests Management
-        <mat-icon>expand_more</mat-icon>
-      </button>
+  <div
+    class="control-row"
+    [class.selected]="selectedDomain==='SUPPLY'"
+    (click)="applyDomain('SUPPLY')">
+    Supply Chain Controls
+    <div class="bar">
+      <div class="ok" style="width:75%"></div>
+      <div class="bad" style="width:25%"></div>
     </div>
+  </div>
+</div>
 
-    <!-- CHART (UNCHANGED) -->
+<!-- SLA TREND -->
+<div class="card">
+  <div class="sla-header">
+    <h3>SLA Trend</h3>
+    <select [(ngModel)]="selectedSlaControl" (change)="onSlaControlChange()">
+      <option>Incoming Requests Management</option>
+      <option>Documents Checking</option>
+      <option>LC Maturity Follow-up</option>
+    </select>
+  </div>
+
+  <div class="sla-chart">
     <canvas
       baseChart
       [data]="slaChartData"
       [options]="slaChartOptions"
-      [type]="'line'">
+      chartType="line">
     </canvas>
-
   </div>
-
 </div>
