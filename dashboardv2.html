@@ -1,67 +1,108 @@
-<!-- KPI STRIP -->
-<div class="kpi-strip">
-  <div class="kpi">{{ totalControls }}<span>Total Controls</span></div>
-  <div class="kpi success">{{ successful }}<span>Successful</span></div>
-  <div class="kpi danger">{{ unsuccessful }}<span>Unsuccessful</span></div>
-  <div class="kpi success">{{ slaMet }}%<span>SLA Met</span></div>
-  <div class="kpi danger">{{ slaBreach }}%<span>SLA Breach</span></div>
-</div>
+<div class="dashboard-v2">
 
-<!-- CONTROLS PERFORMANCE -->
-<div class="card">
-  <h3>⭐ Controls Performance</h3>
+  <!-- STICKY KPI HEADER -->
+  <div class="kpi-strip sticky">
+    <div class="kpi-card">
+      <div class="value">{{ animatedSuccess + animatedFailure }}</div>
+      <div class="label">Total Controls</div>
+    </div>
 
-  <div
-    class="control-row"
-    [class.selected]="selectedDomain==='TRADE'"
-    (click)="applyDomain('TRADE')">
-    Trade Controls
-    <div class="bar">
-      <div class="ok" style="width:70%"></div>
-      <div class="bad" style="width:30%"></div>
+    <div class="kpi-card success">
+      <div class="value">{{ animatedSuccess }}</div>
+      <div class="label">Successful</div>
+    </div>
+
+    <div class="kpi-card danger">
+      <div class="value">{{ animatedFailure }}</div>
+      <div class="label">Unsuccessful</div>
+    </div>
+
+    <div class="kpi-card success">
+      <div class="value">{{ animatedSlaMet }}%</div>
+      <div class="label">SLA Met</div>
+    </div>
+
+    <div class="kpi-card danger">
+      <div class="value">{{ animatedSlaBreach }}%</div>
+      <div class="label">SLA Breach</div>
     </div>
   </div>
 
-  <div
-    class="control-row"
-    [class.selected]="selectedDomain==='LOAN'"
-    (click)="applyDomain('LOAN')">
-    Loan Controls
-    <div class="bar">
-      <div class="ok" style="width:65%"></div>
-      <div class="bad" style="width:35%"></div>
+  <div class="mid-grid">
+
+    <!-- CONTROLS PERFORMANCE -->
+    <div class="card">
+      <div class="card-header">⭐ Controls Performance</div>
+
+      <div class="control-row clickable"
+           [class.active]="selectedDomain==='TRADE'"
+           (click)="onDomainSelect('TRADE')">
+        <span>Trade Controls</span>
+        <div class="bar">
+          <div class="bar-success animate"
+               [style.--pct.%]="(tradeSuccessCount/(tradeSuccessCount+tradeFailureCount))*100"></div>
+          <div class="bar-failure animate"
+               [style.--pct.%]="(tradeFailureCount/(tradeSuccessCount+tradeFailureCount))*100"></div>
+        </div>
+        <span>{{ tradeSuccessCount }} / {{ tradeFailureCount }}</span>
+      </div>
+
+      <div class="control-row clickable"
+           [class.active]="selectedDomain==='LOAN'"
+           (click)="onDomainSelect('LOAN')">
+        <span>Loan Controls</span>
+        <div class="bar">
+          <div class="bar-success animate"
+               [style.--pct.%]="(loanSuccessCount/(loanSuccessCount+loanFailureCount))*100"></div>
+          <div class="bar-failure animate"
+               [style.--pct.%]="(loanFailureCount/(loanSuccessCount+loanFailureCount))*100"></div>
+        </div>
+        <span>{{ loanSuccessCount }} / {{ loanFailureCount }}</span>
+      </div>
+
+      <div class="control-row clickable"
+           [class.active]="selectedDomain==='SUPPLY'"
+           (click)="onDomainSelect('SUPPLY')">
+        <span>Supply Chain Controls</span>
+        <div class="bar">
+          <div class="bar-success animate"
+               [style.--pct.%]="(supplySuccessCount/(supplySuccessCount+supplyFailureCount))*100"></div>
+          <div class="bar-failure animate"
+               [style.--pct.%]="(supplyFailureCount/(supplySuccessCount+supplyFailureCount))*100"></div>
+        </div>
+        <span>{{ supplySuccessCount }} / {{ supplyFailureCount }}</span>
+      </div>
     </div>
-  </div>
 
-  <div
-    class="control-row"
-    [class.selected]="selectedDomain==='SUPPLY'"
-    (click)="applyDomain('SUPPLY')">
-    Supply Chain Controls
-    <div class="bar">
-      <div class="ok" style="width:75%"></div>
-      <div class="bad" style="width:25%"></div>
+    <!-- FAILED -->
+    <div class="card failed">
+      <div class="card-header">
+        Failed Controls (Today)
+        <span class="badge">{{ failedControlsToday.length }}</span>
+      </div>
+      <ul>
+        <li *ngFor="let f of failedControlsToday">⚠ {{ f }}</li>
+      </ul>
     </div>
-  </div>
-</div>
 
-<!-- SLA TREND -->
-<div class="card">
-  <div class="sla-header">
-    <h3>SLA Trend</h3>
-    <select [(ngModel)]="selectedSlaControl" (change)="onSlaControlChange()">
-      <option>Incoming Requests Management</option>
-      <option>Documents Checking</option>
-      <option>LC Maturity Follow-up</option>
-    </select>
   </div>
 
-  <div class="sla-chart">
-    <canvas
-      baseChart
-      [data]="slaChartData"
-      [options]="slaChartOptions"
-      chartType="line">
+  <!-- SLA TREND -->
+  <div class="card">
+    <div class="card-header with-select">
+      <span>📈 SLA Trend – {{ selectedControl?.name }}</span>
+      <mat-select class="control-select"
+                  [value]="selectedControl"
+                  (selectionChange)="onSelectControl($event.value)">
+        <mat-option *ngFor="let c of controls" [value]="c">{{ c.name }}</mat-option>
+      </mat-select>
+    </div>
+
+    <canvas baseChart
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            [type]="'line'">
     </canvas>
   </div>
+
 </div>
