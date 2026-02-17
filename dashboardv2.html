@@ -2,52 +2,76 @@
 
   <!-- KPI STRIP -->
   <section class="kpi-strip">
-    <div class="kpi"> <span>120</span><small>Total Controls</small></div>
-    <div class="kpi success"> <span>107</span><small>Successful</small></div>
-    <div class="kpi danger"> <span>24</span><small>Unsuccessful</small></div>
-    <div class="kpi success"> <span>82%</span><small>SLA Met</small></div>
-    <div class="kpi danger"> <span>18%</span><small>SLA Breach</small></div>
+    <div class="kpi-card">
+      <div class="kpi-value">120</div>
+      <div class="kpi-label">Total Controls</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-value">107</div>
+      <div class="kpi-label">Successful</div>
+    </div>
+    <div class="kpi-card danger">
+      <div class="kpi-value">24</div>
+      <div class="kpi-label">Unsuccessful</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-value">82%</div>
+      <div class="kpi-label">SLA Met</div>
+    </div>
+    <div class="kpi-card danger">
+      <div class="kpi-value">18%</div>
+      <div class="kpi-label">SLA Breach</div>
+    </div>
   </section>
 
   <!-- PERFORMANCE + FAILED -->
   <section class="grid-2">
-    <mat-card>
-      <h3>Controls Performance</h3>
 
-      <div class="bar">
-        <label>Trade Controls</label>
-        <progress max="100" [value]="tradeSuccessCount"></progress>
+    <div class="card">
+      <h3 class="card-title">Controls Performance</h3>
+
+      <div class="perf-row">
+        <span>Trade Controls</span>
+        <div class="bar-track">
+          <div class="bar-fill success" style="width: 82%"></div>
+        </div>
       </div>
 
-      <div class="bar">
-        <label>Loan Controls</label>
-        <progress max="100" [value]="loanSuccessCount"></progress>
+      <div class="perf-row">
+        <span>Loan Controls</span>
+        <div class="bar-track">
+          <div class="bar-fill success" style="width: 85%"></div>
+        </div>
       </div>
 
-      <div class="bar">
-        <label>Supply Chain Controls</label>
-        <progress max="100" [value]="supplySuccessCount"></progress>
+      <div class="perf-row">
+        <span>Supply Chain Controls</span>
+        <div class="bar-track">
+          <div class="bar-fill success" style="width: 78%"></div>
+        </div>
       </div>
-    </mat-card>
+    </div>
 
-    <mat-card class="failed">
-      <h3>Failed Controls (Today)</h3>
-      <ul>
+    <div class="card failed-card">
+      <h3 class="card-title">Failed Controls (Today)</h3>
+      <ul class="failed-list">
         <li *ngFor="let fc of failedControlsToday">{{ fc }}</li>
       </ul>
-    </mat-card>
+    </div>
+
   </section>
 
   <!-- SLA TREND -->
-  <mat-card class="sla-card">
+  <section class="card sla-card">
+
     <div class="sla-header">
       <h3>SLA Trend</h3>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="sla-select">
         <input matInput
+               placeholder="Select control"
                [formControl]="searchControl"
-               [matAutocomplete]="auto"
-               placeholder="Select control">
+               [matAutocomplete]="auto">
       </mat-form-field>
 
       <mat-autocomplete #auto="matAutocomplete"
@@ -58,13 +82,14 @@
       </mat-autocomplete>
     </div>
 
-    <div class="chart">
+    <div class="sla-chart">
       <canvas baseChart
               [data]="lineChartData"
               [options]="lineChartOptions"
               type="line">
       </canvas>
     </div>
-  </mat-card>
+
+  </section>
 
 </div>
