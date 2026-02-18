@@ -1,0 +1,127 @@
+/* =========================================================
+   HOST / CONTAINER
+   ========================================================= */
+:host {
+  display: block;
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+}
+
+/* =========================================================
+   STATS CARD (EMAIL STATS SECTION)
+   ========================================================= */
+.stats-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================================================
+   EMAIL STATS (KPI ROW)
+   ========================================================= */
+.email-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+}
+
+.stat-item {
+  flex: 1;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  transition: background 0.2s ease;
+}
+
+.stat-item:hover {
+  background: #f1f5f1;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #6b6b6b;
+  line-height: 1.2;
+}
+
+/* Divider between KPI blocks */
+.stat-divider {
+  width: 1px;
+  background-color: #e0e0e0;
+  margin: 0 4px;
+}
+
+/* =========================================================
+   SECTION DIVIDER (BETWEEN KPI + CHARTS)
+   ========================================================= */
+.divider {
+  border-top: 1px solid #e3e3e3;
+  margin: 20px 0;
+}
+
+/* =========================================================
+   CHARTS LAYOUT
+   ========================================================= */
+.chart-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.chart-box {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================================================
+   CHART SIZING (ng2-charts safe)
+   ========================================================= */
+.chart-wrapper {
+  width: 100%;
+  height: 280px;
+  position: relative;
+}
+
+.chart-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Cursor hint for clickable charts */
+canvas:hover {
+  cursor: pointer;
+}
+
+/* =========================================================
+   RESPONSIVE (OPTIONAL BUT SAFE)
+   ========================================================= */
+@media (max-width: 1200px) {
+  .chart-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .email-stats {
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    min-width: 45%;
+  }
+}
