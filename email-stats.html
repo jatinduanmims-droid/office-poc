@@ -1,0 +1,69 @@
+<mat-card class="stats-card">
+  <mat-card-content>
+
+    <!-- ================= KPI ROW ================= -->
+    <div class="email-kpi-row">
+
+      <div class="kpi-card" (click)="onStatClick('totalToday')">
+        <div class="kpi-value green">{{ totalToday }}</div>
+        <div class="kpi-label">Total Emails Received Today</div>
+      </div>
+
+      <div class="kpi-card" (click)="onStatClick('urgent')">
+        <div class="kpi-value amber">{{ urgentToday }}</div>
+        <div class="kpi-label">Urgent Emails Received Today</div>
+      </div>
+
+      <div class="kpi-card" (click)="onStatClick('amendments')">
+        <div class="kpi-value green">{{ amendmentsToday }}</div>
+        <div class="kpi-label">Amendment Requests Received Today</div>
+      </div>
+
+      <div class="kpi-card" (click)="onStatClick('issuance')">
+        <div class="kpi-value green">{{ issuanceToday }}</div>
+        <div class="kpi-label">Issuance Requests Received Today</div>
+      </div>
+
+      <div class="kpi-card" (click)="onStatClick('cancellation')">
+        <div class="kpi-value green">{{ cancellationToday }}</div>
+        <div class="kpi-label">Cancellation Requests Received Today</div>
+      </div>
+
+      <div class="kpi-card" (click)="onStatClick('unknown')">
+        <div class="kpi-value green">{{ undefinedToday }}</div>
+        <div class="kpi-label">Undefined Requests</div>
+      </div>
+
+    </div>
+
+    <!-- ================= CHARTS ROW ================= -->
+    <div class="email-charts-row">
+
+      <!-- SLA LINE CHART -->
+      <mat-card class="chart-card">
+        <div class="chart-title">SLA Trend</div>
+        <canvas
+          baseChart
+          class="chart-canvas"
+          [data]="lineChartData"
+          [options]="lineChartOptions"
+          [type]="'line'">
+        </canvas>
+      </mat-card>
+
+      <!-- REQUESTS BAR CHART -->
+      <mat-card class="chart-card">
+        <div class="chart-title">Requests Overview</div>
+        <canvas
+          baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="'bar'"
+          (chartClick)="onChartClick($event)">
+        </canvas>
+      </mat-card>
+
+    </div>
+
+  </mat-card-content>
+</mat-card>
