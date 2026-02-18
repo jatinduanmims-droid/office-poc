@@ -1,130 +1,105 @@
-/* =========================================================
-   HOST
-   ========================================================= */
+/* ===========================
+   HOST / CONTAINER
+   =========================== */
 :host {
   display: block;
   width: 100%;
-  max-width: 2000px;
-  margin: 0 auto;
-  padding-top: 1.5rem;
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
 }
 
-/* =========================================================
-   STATS CARD (MATERIAL SAFE)
-   ========================================================= */
-:host ::ng-deep .stats-card {
+/* ===========================
+   EMAIL STATS CARD
+   =========================== */
+.stats-card {
+  width: 100%;
   background: #ffffff;
   border-radius: 10px;
-  padding: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* Padding MUST be applied to mat-card-content */
-:host ::ng-deep .stats-card mat-card-content {
-  padding: 16px 20px;
-}
-
-/* =========================================================
-   EMAIL STATS (KPI ROW)
-   ========================================================= */
-:host ::ng-deep .email-stats {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 12px;
+/* ===========================
+   KPI ROW (THIS WAS MISSING)
+   =========================== */
+.email-stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
   width: 100%;
+  margin-bottom: 1.5rem;
 }
 
-:host ::ng-deep .stat-item {
-  flex: 1;
-  background: #fafafa;
-  border-radius: 8px;
-  padding: 12px 8px;
+/* ===========================
+   KPI ITEM
+   =========================== */
+.stat-item {
   text-align: center;
-  transition: background 0.2s ease;
+  min-width: 0;
 }
 
-:host ::ng-deep .stat-item:hover {
-  background: #f1f5f1;
-}
-
-:host ::ng-deep .stat-value {
+.stat-value {
   font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  line-height: 1.2;
   cursor: pointer;
 }
 
-:host ::ng-deep .stat-label {
-  font-size: 0.85rem;
-  color: #6b6b6b;
-  line-height: 1.2;
+.stat-label {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: #666;
 }
 
-/* KPI divider */
-:host ::ng-deep .stat-divider {
-  width: 1px;
+/* ===========================
+   DIVIDER BETWEEN KPI & CHARTS
+   =========================== */
+.divider {
+  width: 100%;
+  height: 1px;
   background-color: #e0e0e0;
-  margin: 0 4px;
+  margin: 1.25rem 0;
 }
 
-/* =========================================================
-   SECTION DIVIDER
-   ========================================================= */
-:host ::ng-deep .divider {
-  border-top: 1px solid #e3e3e3;
-  margin: 20px 0;
-}
-
-/* =========================================================
-   CHARTS LAYOUT
-   ========================================================= */
-:host ::ng-deep .chart-pair {
+/* ===========================
+   CHART LAYOUT
+   =========================== */
+.chart-pair {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 1.5rem;
   width: 100%;
 }
 
-:host ::ng-deep .chart-box {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+/* ===========================
+   CHART BOX
+   =========================== */
+.chart-box {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 1rem;
 }
 
-/* =========================================================
-   CHART SIZING (ng2-charts SAFE)
-   ========================================================= */
-:host ::ng-deep .chart-wrapper {
+.chart-wrapper {
+  height: 300px;
   width: 100%;
-  height: 280px;
   position: relative;
 }
 
-:host ::ng-deep .chart-canvas {
+.chart-canvas {
   width: 100% !important;
   height: 100% !important;
-  display: block;
 }
 
-:host ::ng-deep canvas:hover {
-  cursor: pointer;
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+/* ===========================
+   RESPONSIVE SAFETY
+   =========================== */
 @media (max-width: 1200px) {
-  :host ::ng-deep .chart-pair {
+  .email-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .chart-pair {
     grid-template-columns: 1fr;
-  }
-
-  :host ::ng-deep .email-stats {
-    flex-wrap: wrap;
-  }
-
-  :host ::ng-deep .stat-item {
-    min-width: 45%;
   }
 }
