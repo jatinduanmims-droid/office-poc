@@ -1,14 +1,4 @@
 /* =====================================================
-   KPI SECTION – reuse dashboard look-and-feel
-   ===================================================== */
-
-.kpi-section {
-  width: 100%;
-  max-width: 2000px;
-  margin: 0 auto 24px auto;
-}
-
-/* =====================================================
    FILTER ROW
    ===================================================== */
 
@@ -29,80 +19,6 @@
 }
 
 /* =====================================================
-   TABLE SELECTED ROW – GREY BACKGROUND
-   ===================================================== */
-
-:host ::ng-deep .compact-table .p-datatable-tbody > tr.selected-row > td {
-  background-color: #e0e0e0 !important;
-}
-
-/* =====================================================
-   RIGHT-HAND DETAIL PANEL
-   ===================================================== */
-
-.detail-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 340px;
-  height: 100vh;
-  background: #fff;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  overflow-y: auto;
-  padding: 1rem;
-  animation: slideIn 0.25s ease-out forwards;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 1rem;
-}
-
-.detail-header h3 {
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.detail-body .detail-row {
-  display: flex;
-  margin-bottom: 0.6rem;
-}
-
-.detail-body .label {
-  flex: 0 0 130px;
-  font-weight: 600;
-  color: #555;
-}
-
-.detail-body .value {
-  flex: 1;
-  word-break: break-all;
-}
-
-.detail-body .value a {
-  color: #1565c0;
-  text-decoration: underline;
-}
-
-.detail-actions {
-  margin-top: 2rem;
-  text-align: right;
-}
-
-/* =====================================================
    PRIME TABLE – FIXED GRID (CRITICAL)
    ===================================================== */
 
@@ -112,7 +28,7 @@
 }
 
 /* =====================================================
-   COMPACT TABLE DENSITY
+   COMPACT DENSITY
    ===================================================== */
 
 :host ::ng-deep .compact-table {
@@ -122,18 +38,18 @@
 :host ::ng-deep .compact-table th,
 :host ::ng-deep .compact-table td {
   padding: 4px 6px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 /* =====================================================
-   TABLE HEADER – WRAP & STICKY
+   HEADER STYLE
    ===================================================== */
 
 :host ::ng-deep .compact-table thead th {
-  white-space: normal;      /* header wraps, not data */
+  white-space: normal;
   line-height: 1.2;
-  vertical-align: bottom;
   font-size: 11px;
   background-color: #f7f8fa;
   position: sticky;
@@ -141,12 +57,10 @@
   z-index: 2;
 }
 
-/* =====================================================
-   TABLE BODY – DATA FIRST
-   ===================================================== */
-
-:host ::ng-deep .compact-table tbody td {
-  white-space: nowrap;
+.header-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* =====================================================
@@ -166,82 +80,93 @@
 }
 
 /* =====================================================
-   CELL ALIGNMENTS (uses col.align)
+   ALIGNMENTS
    ===================================================== */
 
-:host ::ng-deep .center-cell {
+.center-cell {
   text-align: center;
 }
 
-:host ::ng-deep .right-cell {
+.right-cell {
   text-align: right;
 }
 
-:host ::ng-deep .left-cell {
+.left-cell {
   text-align: left;
 }
 
 /* =====================================================
-   SMALL / CODE COLUMNS – FORCE NARROW
+   SMALL / CODE COLUMNS (SHRINK)
    ===================================================== */
 
-:host ::ng-deep .compact-table th:nth-child(1),
-:host ::ng-deep .compact-table td:nth-child(1) { /* Facility Id */
-  max-width: 110px;
+:host ::ng-deep th[data-field="FACILITY_ID"],
+:host ::ng-deep td[data-field="FACILITY_ID"] {
+  width: 120px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(2),
-:host ::ng-deep .compact-table td:nth-child(2) { /* File Date */
-  max-width: 110px;
+:host ::ng-deep th[data-field="FILE_DATE"],
+:host ::ng-deep td[data-field="FILE_DATE"] {
+  width: 110px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(3),
-:host ::ng-deep .compact-table td:nth-child(3) { /* Request Type */
-  max-width: 130px;
+:host ::ng-deep th[data-field="REQUEST_TYPE"],
+:host ::ng-deep td[data-field="REQUEST_TYPE"] {
+  width: 130px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(4),
-:host ::ng-deep .compact-table td:nth-child(4) { /* Commitment Code */
-  max-width: 90px;
+:host ::ng-deep th[data-field="COMMITMENT_CODE"],
+:host ::ng-deep td[data-field="COMMITMENT_CODE"] {
+  width: 90px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(5),
-:host ::ng-deep .compact-table td:nth-child(5) { /* Status */
-  max-width: 90px;
+:host ::ng-deep th[data-field="STATUS"],
+:host ::ng-deep td[data-field="STATUS"] {
+  width: 90px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(7),
-:host ::ng-deep .compact-table td:nth-child(7) { /* Meter Code */
-  max-width: 90px;
+:host ::ng-deep th[data-field="METER_CODE"],
+:host ::ng-deep td[data-field="METER_CODE"] {
+  width: 90px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(8),
-:host ::ng-deep .compact-table td:nth-child(8) { /* Currency */
-  max-width: 80px;
+:host ::ng-deep th[data-field="CURRENCY"],
+:host ::ng-deep td[data-field="CURRENCY"] {
+  width: 80px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(9),
-:host ::ng-deep .compact-table td:nth-child(9) { /* Amount */
-  max-width: 110px;
+:host ::ng-deep th[data-field="AMOUNT"],
+:host ::ng-deep td[data-field="AMOUNT"] {
+  width: 120px;
+  text-align: right;
 }
 
 /* =====================================================
-   TEXT-HEAVY COLUMNS – GIVE THEM SPACE
+   TEXT-HEAVY COLUMNS (EXPAND)
    ===================================================== */
 
-:host ::ng-deep .compact-table th:nth-child(6),
-:host ::ng-deep .compact-table td:nth-child(6) { /* Facility Name */
-  min-width: 260px;
+:host ::ng-deep th[data-field="FACILITY_NAME"],
+:host ::ng-deep td[data-field="FACILITY_NAME"] {
+  width: 320px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(10),
-:host ::ng-deep .compact-table td:nth-child(10) { /* Borrower */
-  min-width: 220px;
+:host ::ng-deep th[data-field="BORROWER"],
+:host ::ng-deep td[data-field="BORROWER"] {
+  width: 260px;
 }
 
-:host ::ng-deep .compact-table th:nth-child(11),
-:host ::ng-deep .compact-table td:nth-child(11) { /* Site */
-  min-width: 200px;
+:host ::ng-deep th[data-field="SITE"],
+:host ::ng-deep td[data-field="SITE"] {
+  width: 240px;
+}
+
+/* =====================================================
+   LINK COLUMN
+   ===================================================== */
+
+:host ::ng-deep th[data-field="LINK_TO_REQUEST"],
+:host ::ng-deep td[data-field="LINK_TO_REQUEST"] {
+  width: 70px;
+  text-align: center;
 }
 
 /* =====================================================
@@ -254,4 +179,8 @@
 
 :host ::ng-deep .compact-table tbody tr:hover {
   background-color: #f1f5f9;
+}
+
+:host ::ng-deep .compact-table tbody tr.selected-row > td {
+  background-color: #e0e0e0 !important;
 }
