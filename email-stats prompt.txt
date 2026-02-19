@@ -1,0 +1,58 @@
+You are working in an Angular enterprise dashboard project.
+
+GOAL:
+Fix the issue where the Email Stats section (KPI cards + charts) is not rendering on the dashboard after HTML, CSS, and TS were copied into the main project.
+
+IMPORTANT RULES:
+- DO NOT redesign UI
+- DO NOT change KPI names, variables, or logic
+- DO NOT rename existing components, selectors, or files
+- DO NOT introduce new features
+- ONLY make safe, minimal fixes required to make Email Stats render correctly
+- Preserve all existing bindings, chart configs, and click handlers
+
+TASKS (DO ALL):
+
+1. COMPONENT SELECTOR CHECK
+   - Open `email-stats.component.ts`
+   - Verify the `@Component.selector`
+   - Ensure the same selector is used in `dashboard.component.html`
+   - If mismatched, fix the dashboard HTML usage (not the selector)
+
+2. MODULE REGISTRATION CHECK
+   - Ensure `EmailStatsComponent` is declared in the correct Angular module
+     (AppModule / DashboardModule / SharedModule)
+   - If declared in a SharedModule, ensure it is EXPORTED
+   - Ensure the module containing EmailStatsComponent is IMPORTED
+     into the Dashboard module
+
+3. TEMPLATE RENDER VALIDATION
+   - Add a temporary debug marker at the top of `email-stats.component.html`
+     to confirm rendering (remove after verification)
+   - Example: a simple div with text "Email Stats Loaded"
+
+4. ANGULAR MATERIAL DEPENDENCIES
+   - Verify required Angular Material modules are imported:
+     - MatCardModule
+   - Fix missing imports only if required
+
+5. CHART DEPENDENCIES
+   - Verify ChartsModule / NgChartsModule is imported where EmailStatsComponent is used
+   - Fix missing imports without modifying chart configs
+
+6. CSS SCOPE VALIDATION
+   - Ensure styles are not blocked by:
+     - ViewEncapsulation issues
+     - Overridden display:none
+     - Incorrect grid/flex parent rules
+   - Fix only blocking styles (no visual redesign)
+
+7. ERROR CHECK
+   - Check browser console and Angular build output
+   - Fix any template, selector, or module errors preventing rendering
+
+DELIVERABLE:
+- Email Stats section must render on the dashboard
+- KPI cards and charts must appear exactly as before
+- No layout or visual redesign beyond what is required for visibility
+- Remove temporary debug marker before final output
