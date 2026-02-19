@@ -1,102 +1,106 @@
 /* =====================================================
-   PRIME TABLE – FIXED GRID (CRITICAL)
+   KPI SECTION – reuse dashboard look-and-feel
    ===================================================== */
 
-:host ::ng-deep .full-width-table .p-datatable-table {
-  table-layout: fixed;
+.kpi-section {
   width: 100%;
+  max-width: 2000px;
+  margin: 0 auto 24px auto;
 }
 
 /* =====================================================
-   COMPACT TABLE DENSITY
+   FILTER ROW
    ===================================================== */
 
-:host ::ng-deep .compact-table {
-  font-size: 11.5px;
+.filter-section {
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto 16px auto;
 }
 
-:host ::ng-deep .compact-table th,
-:host ::ng-deep .compact-table td {
-  padding: 4px 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-:host ::ng-deep .compact-table th {
-  font-weight: 600;
-}
-
-/* =====================================================
-   HEADER STYLE + STICKY
-   ===================================================== */
-
-:host ::ng-deep .custom-header thead th {
-  background-color: #f7f8fa;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-
-.header-cell {
+.filter-row {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-control {
+  min-width: 150px;
 }
 
 /* =====================================================
-   FILTER ROW COMPACT
+   TABLE SELECTED ROW – GREY BACKGROUND
    ===================================================== */
 
-:host ::ng-deep .filter-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-:host ::ng-deep .filter-input input {
-  height: 22px;
-  font-size: 11px;
-  padding: 2px 4px;
-}
-
-/* =====================================================
-   CELL ALIGNMENTS
-   ===================================================== */
-
-:host ::ng-deep .center-cell {
-  text-align: center;
-}
-
-:host ::ng-deep .right-cell {
-  text-align: right;
-}
-
-:host ::ng-deep .left-cell {
-  text-align: left;
-}
-
-/* =====================================================
-   ROW INTERACTION
-   ===================================================== */
-
-:host ::ng-deep .compact-table tbody tr {
-  cursor: pointer;
-}
-
-:host ::ng-deep .compact-table tbody tr:hover {
-  background-color: #f1f5f9;
-}
-
-/* =====================================================
-   SELECTED ROW (keeps your existing behavior)
-   ===================================================== */
-
-:host ::ng-deep .compact-table tbody tr.selected-row > td {
+:host ::ng-deep .compact-table .p-datatable-tbody > tr.selected-row > td {
   background-color: #e0e0e0 !important;
 }
 
-//step 2
+/* =====================================================
+   RIGHT-HAND DETAIL PANEL
+   ===================================================== */
+
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 340px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 1rem;
+  animation: slideIn 0.25s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1rem;
+}
+
+.detail-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.detail-body .detail-row {
+  display: flex;
+  margin-bottom: 0.6rem;
+}
+
+.detail-body .label {
+  flex: 0 0 130px;
+  font-weight: 600;
+  color: #555;
+}
+
+.detail-body .value {
+  flex: 1;
+  word-break: break-all;
+}
+
+.detail-body .value a {
+  color: #1565c0;
+  text-decoration: underline;
+}
+
+.detail-actions {
+  margin-top: 2rem;
+  text-align: right;
+}
 
 /* =====================================================
    PRIME TABLE – FIXED GRID (CRITICAL)
@@ -123,15 +127,14 @@
 }
 
 /* =====================================================
-   HEADER BEHAVIOR – DO NOT LET IT DOMINATE WIDTH
+   TABLE HEADER – WRAP & STICKY
    ===================================================== */
 
 :host ::ng-deep .compact-table thead th {
-  white-space: normal;       /* allow header wrap */
+  white-space: normal;      /* header wraps, not data */
   line-height: 1.2;
   vertical-align: bottom;
-  max-width: 160px;          /* cap header width */
-  font-size: 11px;           /* slightly smaller than body */
+  font-size: 11px;
   background-color: #f7f8fa;
   position: sticky;
   top: 0;
@@ -139,15 +142,15 @@
 }
 
 /* =====================================================
-   BODY CELLS – DATA FIRST
+   TABLE BODY – DATA FIRST
    ===================================================== */
 
 :host ::ng-deep .compact-table tbody td {
-  white-space: nowrap;       /* keep rows clean */
+  white-space: nowrap;
 }
 
 /* =====================================================
-   FILTER ROW COMPACT
+   FILTER ROW INSIDE TABLE
    ===================================================== */
 
 :host ::ng-deep .filter-wrapper {
@@ -163,7 +166,7 @@
 }
 
 /* =====================================================
-   CELL ALIGNMENTS (uses existing col.align)
+   CELL ALIGNMENTS (uses col.align)
    ===================================================== */
 
 :host ::ng-deep .center-cell {
@@ -179,22 +182,66 @@
 }
 
 /* =====================================================
-   SMALL DATA COLUMNS – FORCE NARROW WIDTH
-   (adjust nth-child if column order changes)
+   SMALL / CODE COLUMNS – FORCE NARROW
    ===================================================== */
 
+:host ::ng-deep .compact-table th:nth-child(1),
+:host ::ng-deep .compact-table td:nth-child(1) { /* Facility Id */
+  max-width: 110px;
+}
+
+:host ::ng-deep .compact-table th:nth-child(2),
+:host ::ng-deep .compact-table td:nth-child(2) { /* File Date */
+  max-width: 110px;
+}
+
+:host ::ng-deep .compact-table th:nth-child(3),
+:host ::ng-deep .compact-table td:nth-child(3) { /* Request Type */
+  max-width: 130px;
+}
+
 :host ::ng-deep .compact-table th:nth-child(4),
-:host ::ng-deep .compact-table td:nth-child(4),   /* Commitment Code */
+:host ::ng-deep .compact-table td:nth-child(4) { /* Commitment Code */
+  max-width: 90px;
+}
 
 :host ::ng-deep .compact-table th:nth-child(5),
-:host ::ng-deep .compact-table td:nth-child(5),   /* Status */
+:host ::ng-deep .compact-table td:nth-child(5) { /* Status */
+  max-width: 90px;
+}
 
 :host ::ng-deep .compact-table th:nth-child(7),
-:host ::ng-deep .compact-table td:nth-child(7),   /* Meter Code */
+:host ::ng-deep .compact-table td:nth-child(7) { /* Meter Code */
+  max-width: 90px;
+}
 
 :host ::ng-deep .compact-table th:nth-child(8),
-:host ::ng-deep .compact-table td:nth-child(8) {  /* Currency */
-  max-width: 90px;
+:host ::ng-deep .compact-table td:nth-child(8) { /* Currency */
+  max-width: 80px;
+}
+
+:host ::ng-deep .compact-table th:nth-child(9),
+:host ::ng-deep .compact-table td:nth-child(9) { /* Amount */
+  max-width: 110px;
+}
+
+/* =====================================================
+   TEXT-HEAVY COLUMNS – GIVE THEM SPACE
+   ===================================================== */
+
+:host ::ng-deep .compact-table th:nth-child(6),
+:host ::ng-deep .compact-table td:nth-child(6) { /* Facility Name */
+  min-width: 260px;
+}
+
+:host ::ng-deep .compact-table th:nth-child(10),
+:host ::ng-deep .compact-table td:nth-child(10) { /* Borrower */
+  min-width: 220px;
+}
+
+:host ::ng-deep .compact-table th:nth-child(11),
+:host ::ng-deep .compact-table td:nth-child(11) { /* Site */
+  min-width: 200px;
 }
 
 /* =====================================================
@@ -207,12 +254,4 @@
 
 :host ::ng-deep .compact-table tbody tr:hover {
   background-color: #f1f5f9;
-}
-
-/* =====================================================
-   SELECTED ROW – KEEP EXISTING BEHAVIOR
-   ===================================================== */
-
-:host ::ng-deep .compact-table tbody tr.selected-row > td {
-  background-color: #e0e0e0 !important;
 }
