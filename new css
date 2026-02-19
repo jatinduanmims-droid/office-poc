@@ -1,0 +1,302 @@
+/* =========================================================
+   FILTER ROW
+   ========================================================= */
+
+.filter-section {
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto 16px auto;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-control {
+  min-width: 150px;
+}
+
+/* =========================================================
+   PRIME TABLE – BASE LAYOUT
+   ========================================================= */
+
+:host ::ng-deep .full-width-table,
+:host ::ng-deep .full-width-table .p-datatable-wrapper,
+:host ::ng-deep .full-width-table .p-datatable-table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: fixed;
+}
+
+:host ::ng-deep .full-width-table .p-datatable-wrapper {
+  overflow-x: hidden !important;
+}
+
+/* =========================================================
+   COMPACT DENSITY
+   ========================================================= */
+
+:host ::ng-deep .compact-table {
+  font-size: 11.5px;
+}
+
+:host ::ng-deep .compact-table th,
+:host ::ng-deep .compact-table td {
+  padding: 4px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+:host ::ng-deep .compact-table thead th {
+  background-color: #f7f8fa;
+  font-size: 11px;
+  line-height: 1.2;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* Header content wrapper */
+.header-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* IMPORTANT: allow pseudo-elements (sort icons) */
+:host ::ng-deep th.p-datatable-sortable-column,
+:host ::ng-deep th.p-datatable-sortable-column .header-cell {
+  overflow: visible !important;
+}
+
+/* =========================================================
+   FILTER ROW INSIDE TABLE
+   ========================================================= */
+
+:host ::ng-deep .filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+:host ::ng-deep .filter-input input {
+  height: 22px;
+  font-size: 11px;
+  padding: 2px 4px;
+}
+
+/* =========================================================
+   ALIGNMENTS
+   ========================================================= */
+
+.center-cell { text-align: center; }
+.right-cell  { text-align: right; }
+.left-cell   { text-align: left; }
+
+/* =========================================================
+   COLUMN WIDTHS (SINGLE SOURCE OF TRUTH)
+   ========================================================= */
+
+/* ID */
+:host ::ng-deep th[data-field="FACILITY_ID"],
+:host ::ng-deep td[data-field="FACILITY_ID"] {
+  width: 110px;
+}
+
+/* File Date */
+:host ::ng-deep th[data-field="FILE_DATE"],
+:host ::ng-deep td[data-field="FILE_DATE"] {
+  width: 105px;
+}
+
+/* Request Type */
+:host ::ng-deep th[data-field="REQUEST_TYPE"],
+:host ::ng-deep td[data-field="REQUEST_TYPE"] {
+  width: 130px;
+}
+
+/* 🔴 FIXED: Commitment Code */
+:host ::ng-deep th[data-field="FACILITY_COMMITMENT_CODE"],
+:host ::ng-deep td[data-field="FACILITY_COMMITMENT_CODE"] {
+  width: 160px;
+  min-width: 160px;
+  overflow: visible !important;
+}
+
+/* Status */
+:host ::ng-deep th[data-field="STATUS"],
+:host ::ng-deep td[data-field="STATUS"] {
+  width: 90px;
+}
+
+/* Meter Code */
+:host ::ng-deep th[data-field="METER_CODE"],
+:host ::ng-deep td[data-field="METER_CODE"] {
+  width: 90px;
+}
+
+/* Currency */
+:host ::ng-deep th[data-field="CURRENCY"],
+:host ::ng-deep td[data-field="CURRENCY"] {
+  width: 70px;
+  text-align: center;
+}
+
+/* Amount */
+:host ::ng-deep th[data-field="AMOUNT"],
+:host ::ng-deep td[data-field="AMOUNT"] {
+  width: 115px;
+  text-align: right;
+}
+
+/* Link */
+:host ::ng-deep th[data-field="LINK_TO_REQUEST"],
+:host ::ng-deep td[data-field="LINK_TO_REQUEST"] {
+  width: 70px;
+  text-align: center;
+}
+
+/* =========================================================
+   TEXT-HEAVY COLUMNS – ALLOW WRAP
+   ========================================================= */
+
+:host ::ng-deep td[data-field="FACILITY_NAME"],
+:host ::ng-deep td[data-field="BORROWER"],
+:host ::ng-deep td[data-field="SITE"] {
+  white-space: normal !important;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+/* =========================================================
+   ROW INTERACTION
+   ========================================================= */
+
+:host ::ng-deep .compact-table tbody tr {
+  cursor: pointer;
+}
+
+:host ::ng-deep .compact-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+:host ::ng-deep .compact-table tbody tr.selected-row > td {
+  background-color: #e0e0e0 !important;
+}
+
+/* =========================================================
+   REMOVE PRIMENG DEFAULT SORT ICONS
+   ========================================================= */
+
+:host ::ng-deep
+th.p-datatable-sortable-column
+.p-sortable-column-icon,
+:host ::ng-deep
+th.p-datatable-sortable-column svg,
+:host ::ng-deep
+th.p-datatable-sortable-column i {
+  display: none !important;
+}
+
+/* =========================================================
+   CUSTOM SORT ICONS – SMALL TRIANGLES (ARIA BASED)
+   ========================================================= */
+
+/* Unsorted → BOTH arrows */
+:host ::ng-deep
+th.p-datatable-sortable-column[aria-sort="none"]
+.header-cell::after {
+  content: "▲▼";
+  font-size: 12px;
+  letter-spacing: -1px;
+  color: #666;
+  opacity: 0.75;
+}
+
+/* Ascending */
+:host ::ng-deep
+th.p-datatable-sortable-column[aria-sort="ascending"]
+.header-cell::after {
+  content: "▲";
+  font-size: 12px;
+  color: #333;
+  opacity: 1;
+}
+
+/* Descending */
+:host ::ng-deep
+th.p-datatable-sortable-column[aria-sort="descending"]
+.header-cell::after {
+  content: "▼";
+  font-size: 12px;
+  color: #333;
+  opacity: 1;
+}
+
+/* =========================================================
+   DETAIL PANEL
+   ========================================================= */
+
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 360px;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 2000;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+}
+
+.detail-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.detail-body {
+  font-size: 12px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: start;
+}
+
+.detail-row .label {
+  font-weight: 600;
+  color: #555;
+  white-space: nowrap;
+}
+
+.detail-row .value {
+  color: #111;
+  word-break: break-word;
+}
+
+.detail-row .value a {
+  color: #1565c0;
+  text-decoration: underline;
+}
