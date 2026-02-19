@@ -427,3 +427,39 @@ step 6
 }
 
 
+step7
+
+/* =========================================================
+   PRIME NG SORT ICON REPLACEMENT — SMALL TRIANGLES ▴ ▾
+   (Safe, layout-neutral, guaranteed to apply)
+   ========================================================= */
+
+/* 1. Hide PrimeNG default sort icons completely */
+:host ::ng-deep .p-sortable-column .p-sortable-column-icon,
+:host ::ng-deep .p-sortable-column i.pi {
+  display: none !important;
+}
+
+/* 2. Base unsorted state */
+:host ::ng-deep .p-sortable-column {
+  position: relative;
+}
+
+:host ::ng-deep .p-sortable-column::after {
+  content: '▴▾';
+  font-size: 10px;
+  margin-left: 4px;
+  opacity: 0.6;
+}
+
+/* 3. Ascending */
+:host ::ng-deep .p-sortable-column.p-highlight.p-sortable-column-asc::after {
+  content: '▴';
+  opacity: 1;
+}
+
+/* 4. Descending */
+:host ::ng-deep .p-sortable-column.p-highlight.p-sortable-column-desc::after {
+  content: '▾';
+  opacity: 1;
+}
