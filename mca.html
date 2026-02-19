@@ -1,6 +1,4 @@
 <div class="report-wrapper">
-
-  <!-- ONE BOX : FILTER + TABLE -->
   <div class="report-box">
 
     <!-- ================= FILTER ROW ================= -->
@@ -66,7 +64,6 @@
 
     <!-- ================= TABLE ================= -->
     <mat-card class="table-card">
-
       <p-table
         [value]="displayedFacilities"
         [loading]="loading"
@@ -77,19 +74,15 @@
         responsiveLayout="scroll"
         class="compact-table full-width-table custom-header">
 
-        <!-- ===== HEADER ===== -->
+        <!-- HEADER -->
         <ng-template pTemplate="header">
           <tr>
-            <th
-              *ngFor="let col of cols"
-              [pSortableColumn]="col.field"
-              [attr.data-field]="col.field">
-
+            <th *ngFor="let col of cols"
+                [pSortableColumn]="col.field"
+                [attr.data-field]="col.field">
               <div class="header-cell">
                 {{ col.header }}
-                <p-sortIcon [field]="col.field"></p-sortIcon>
               </div>
-
             </th>
           </tr>
 
@@ -109,24 +102,21 @@
           </tr>
         </ng-template>
 
-        <!-- ===== BODY ===== -->
+        <!-- BODY -->
         <ng-template pTemplate="body" let-row>
           <tr
             [ngClass]="{
               'selected-row': selectedFacility?.FACILITY_ID === row.FACILITY_ID
             }">
 
-            <td
-              *ngFor="let col of cols"
-              [attr.data-field]="col.field"
-              (click)="openDetail(row)"
-              [ngClass]="
-                col.align === 'center' ? 'center-cell' :
-                col.align === 'right'  ? 'right-cell'  :
-                'left-cell'
-              ">
+            <td *ngFor="let col of cols"
+                [attr.data-field]="col.field"
+                (click)="openDetail(row)"
+                [ngClass]="
+                  col.align === 'center' ? 'center-cell' :
+                  col.align === 'right' ? 'right-cell' : 'left-cell'
+                ">
 
-              <!-- LINK COLUMN -->
               <ng-container *ngIf="col.field === 'LINK_TO_REQUEST'; else normalCell">
                 <a
                   [href]="row[col.field]"
@@ -136,7 +126,6 @@
                 </a>
               </ng-container>
 
-              <!-- NORMAL CELL -->
               <ng-template #normalCell>
                 {{ row[col.field] }}
               </ng-template>
@@ -146,7 +135,6 @@
         </ng-template>
 
       </p-table>
-
     </mat-card>
 
   </div>
