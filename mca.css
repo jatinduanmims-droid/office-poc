@@ -502,3 +502,47 @@ step8
   opacity: 1;
 }
 
+step9
+
+/* =========================================================
+   FIX DOUBLE SORT ICON — KEEP ONLY TRIANGLES ▴ ▾
+   ========================================================= */
+
+/* 1. Kill any PrimeNG internal sort visuals */
+:host ::ng-deep th.p-datatable-sortable-column::before,
+:host ::ng-deep th.p-datatable-sortable-column::after,
+:host ::ng-deep th.p-datatable-sortable-column svg,
+:host ::ng-deep th.p-datatable-sortable-column i {
+  display: none !important;
+  content: none !important;
+}
+
+/* 2. Header layout */
+:host ::ng-deep th.p-datatable-sortable-column .header-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 3. Our custom sort indicators */
+
+/* Unsorted */
+:host ::ng-deep th.p-datatable-sortable-column[aria-sort="none"] .header-cell::after {
+  content: "▴▾";
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* Ascending */
+:host ::ng-deep th.p-datatable-sortable-column[aria-sort="ascending"] .header-cell::after {
+  content: "▴";
+  font-size: 10px;
+  opacity: 1;
+}
+
+/* Descending */
+:host ::ng-deep th.p-datatable-sortable-column[aria-sort="descending"] .header-cell::after {
+  content: "▾";
+  font-size: 10px;
+  opacity: 1;
+}
