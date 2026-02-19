@@ -184,3 +184,33 @@
 :host ::ng-deep .compact-table tbody tr.selected-row > td {
   background-color: #e0e0e0 !important;
 }
+
+//step2
+
+/* =====================================================
+   CUSTOM SORT ICONS – SMALL & CLEAN
+   ===================================================== */
+
+:host ::ng-deep .p-sortable-column-icon {
+  font-size: 10px !important;
+  margin-left: 4px;
+  opacity: 0.6;
+}
+
+/* Remove default PrimeNG arrow shapes */
+:host ::ng-deep .p-sortable-column-icon::before {
+  content: '⇅';            /* unsorted */
+}
+
+/* Ascending */
+:host ::ng-deep .p-sortable-column.p-highlight
+.p-sortable-column-icon::before {
+  content: '↑';
+  opacity: 0.9;
+}
+
+/* Descending */
+:host ::ng-deep .p-sortable-column.p-highlight
+.p-sortable-column-icon.pi-sort-amount-down::before {
+  content: '↓';
+}
