@@ -389,3 +389,41 @@ step5
   line-height: 1.3;
 }
 
+step 6
+
+
+/* =========================================================
+   PRIME NG SORT ICON — SMALL TRIANGLES
+   Option 3: ▴ ▾
+   ========================================================= */
+
+:host ::ng-deep .p-sortable-column .p-sortable-column-icon {
+  font-size: 10px;
+  margin-left: 4px;
+  opacity: 0.6;
+}
+
+/* Remove default PrimeNG icon */
+:host ::ng-deep .p-sortable-column .p-sortable-column-icon::before {
+  content: '▴▾';
+}
+
+/* Ascending */
+:host ::ng-deep .p-sortable-column.p-highlight
+.p-sortable-column-icon.pi-sort-amount-up-alt::before,
+:host ::ng-deep .p-sortable-column.p-highlight
+.p-sortable-column-icon.pi-sort-up::before {
+  content: '▴';
+  opacity: 1;
+}
+
+/* Descending */
+:host ::ng-deep .p-sortable-column.p-highlight
+.p-sortable-column-icon.pi-sort-amount-down::before,
+:host ::ng-deep .p-sortable-column.p-highlight
+.p-sortable-column-icon.pi-sort-down::before {
+  content: '▾';
+  opacity: 1;
+}
+
+
