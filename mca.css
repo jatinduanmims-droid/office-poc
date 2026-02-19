@@ -600,3 +600,30 @@ th.p-datatable-sortable-column[aria-sort="descending"]
   color: #333;
   opacity: 1;
 }
+
+
+
+
+step 11
+
+/* =========================================================
+   FIX: SORT ICON CLIPPED FOR COMMITMENT CODE
+   ========================================================= */
+
+/* 1. Allow sort icon to render outside header text */
+:host ::ng-deep
+th.p-datatable-sortable-column {
+  overflow: visible !important;
+}
+
+/* 2. Header-cell must allow pseudo-element */
+:host ::ng-deep
+th.p-datatable-sortable-column .header-cell {
+  overflow: visible !important;
+}
+
+/* 3. Commitment Code needs a little breathing room */
+:host ::ng-deep
+th[data-field="COMMITMENT_CODE"] {
+  min-width: 110px !important;   /* was 90px */
+}
