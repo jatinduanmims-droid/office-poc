@@ -93,7 +93,10 @@
         </tr>
 
         <tr>
-          <th *ngFor="let col of cols" [attr.data-field]="col.field">
+          <th
+            *ngFor="let col of cols"
+            [attr.data-field]="col.field">
+
             <div class="filter-wrapper">
               <i class="pi pi-search"></i>
               <p-columnFilter
@@ -103,6 +106,7 @@
                 class="filter-input">
               </p-columnFilter>
             </div>
+
           </th>
         </tr>
       </ng-template>
@@ -110,7 +114,6 @@
       <!-- BODY -->
       <ng-template pTemplate="body" let-row>
         <tr
-          (click)="openDetail(row)"
           [ngClass]="{
             'selected-row': selectedFacility?.FACILITY_ID === row.FACILITY_ID
           }">
@@ -118,15 +121,23 @@
           <td
             *ngFor="let col of cols"
             [attr.data-field]="col.field"
+            (click)="openDetail(row)"
             [ngClass]="[
               col.align === 'center' ? 'center-cell' : '',
               col.align === 'right' ? 'right-cell' : 'left-cell'
             ]">
 
+            <!-- LINK COLUMN -->
             <ng-container *ngIf="col.field === 'LINK_TO_REQUEST'; else normalCell">
-              <a [href]="row[col.field]" target="_blank">link</a>
+              <a
+                [href]="row[col.field]"
+                target="_blank"
+                (click)="$event.stopPropagation()">
+                link
+              </a>
             </ng-container>
 
+            <!-- NORMAL CELL -->
             <ng-template #normalCell>
               {{ row[col.field] }}
             </ng-template>
@@ -137,5 +148,41 @@
 
     </p-table>
   </mat-card>
+
+  <!-- ================= RIGHT SIDE DETAIL PANEL ================= -->
+  <div class="detail-panel" *ngIf="selectedFacility">
+
+    <div class="detail-header">
+      <h3>Facility {{ selectedFacility.FACILITY_ID }} details</h3>
+      <button mat-icon-button (click)="closeDetail()" aria-label="Close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="detail-body">
+      <ng-container *ngFor="let col of cols">
+
+        <div class="detail-row" *ngIf="col.field !== 'LINK_TO_REQUEST'">
+          <div class="label">{{ col.header }}:</div>
+          <div class="value">
+            {{ selectedFacility[col.field] }}
+          </div>
+        </div>
+
+        <div class="detail-row" *ngIf="col.field === 'LINK_TO_REQUEST'">
+          <div class="label">Link:</div>
+          <div class="value">
+            <a
+              [href]="selectedFacility[col.field]"
+              target="_blank">
+              link
+            </a>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+
+  </div>
 
 </div>
