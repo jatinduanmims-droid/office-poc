@@ -463,3 +463,42 @@ step7
   content: '▾';
   opacity: 1;
 }
+
+
+
+step8
+
+/* =========================================================
+   PRIME NG SORT INDICATOR — SMALL TRIANGLES (ARIA BASED)
+   Works with p-datatable-sortable-column + header-cell
+   ========================================================= */
+
+/* Base header layout */
+:host ::ng-deep th.p-datatable-sortable-column .header-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+/* Default (not sorted) */
+:host ::ng-deep th.p-datatable-sortable-column[aria-sort="none"] .header-cell::after {
+  content: "▴▾";
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* Ascending */
+:host ::ng-deep th.p-datatable-sortable-column[aria-sort="ascending"] .header-cell::after {
+  content: "▴";
+  font-size: 10px;
+  opacity: 1;
+}
+
+/* Descending */
+:host ::ng-deep th.p-datatable-sortable-column[aria-sort="descending"] .header-cell::after {
+  content: "▾";
+  font-size: 10px;
+  opacity: 1;
+}
+
