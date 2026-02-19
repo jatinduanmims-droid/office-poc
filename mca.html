@@ -1,188 +1,153 @@
 <div class="report-wrapper">
 
-  <!-- ================= FILTER ROW ================= -->
-  <div class="filter-section">
-    <div class="filter-row">
+  <!-- ONE BOX : FILTER + TABLE -->
+  <div class="report-box">
 
-      <p-multiSelect
-        [options]="facilityIds"
-        [(ngModel)]="selFacilityIds"
-        (onChange)="onFilterChange()"
-        placeholder="Facility Id"
-        display="chip"
-        class="filter-control">
-      </p-multiSelect>
+    <!-- ================= FILTER ROW ================= -->
+    <div class="filter-section">
+      <div class="filter-row">
 
-      <p-multiSelect
-        [options]="fileDates"
-        [(ngModel)]="selFileDates"
-        (onChange)="onFilterChange()"
-        placeholder="File Date"
-        display="chip"
-        class="filter-control">
-      </p-multiSelect>
+        <p-multiSelect
+          [options]="facilityIds"
+          [(ngModel)]="selFacilityIds"
+          (onChange)="onFilterChange()"
+          placeholder="Facility Id"
+          display="chip"
+          class="filter-control">
+        </p-multiSelect>
 
-      <p-multiSelect
-        [options]="requestTypes"
-        [(ngModel)]="selRequestTypes"
-        (onChange)="onFilterChange()"
-        placeholder="Request Type"
-        display="chip"
-        class="filter-control">
-      </p-multiSelect>
+        <p-multiSelect
+          [options]="fileDates"
+          [(ngModel)]="selFileDates"
+          (onChange)="onFilterChange()"
+          placeholder="File Date"
+          display="chip"
+          class="filter-control">
+        </p-multiSelect>
 
-      <p-multiSelect
-        [options]="commitmentCodes"
-        [(ngModel)]="selCommitmentCodes"
-        (onChange)="onFilterChange()"
-        placeholder="Commitment Code"
-        display="chip"
-        class="filter-control">
-      </p-multiSelect>
+        <p-multiSelect
+          [options]="requestTypes"
+          [(ngModel)]="selRequestTypes"
+          (onChange)="onFilterChange()"
+          placeholder="Request Type"
+          display="chip"
+          class="filter-control">
+        </p-multiSelect>
 
-      <p-multiSelect
-        [options]="statuses"
-        [(ngModel)]="selStatuses"
-        (onChange)="onFilterChange()"
-        placeholder="Status"
-        display="chip"
-        class="filter-control">
-      </p-multiSelect>
+        <p-multiSelect
+          [options]="commitmentCodes"
+          [(ngModel)]="selCommitmentCodes"
+          (onChange)="onFilterChange()"
+          placeholder="Commitment Code"
+          display="chip"
+          class="filter-control">
+        </p-multiSelect>
 
-      <p-multiSelect
-        [options]="facilityNames"
-        [(ngModel)]="selFacilityNames"
-        (onChange)="onFilterChange()"
-        placeholder="Facility Name"
-        display="chip"
-        class="filter-control">
-      </p-multiSelect>
+        <p-multiSelect
+          [options]="statuses"
+          [(ngModel)]="selStatuses"
+          (onChange)="onFilterChange()"
+          placeholder="Status"
+          display="chip"
+          class="filter-control">
+        </p-multiSelect>
 
-    </div>
-  </div>
+        <p-multiSelect
+          [options]="facilityNames"
+          [(ngModel)]="selFacilityNames"
+          (onChange)="onFilterChange()"
+          placeholder="Facility Name"
+          display="chip"
+          class="filter-control">
+        </p-multiSelect>
 
-  <!-- ================= TABLE ================= -->
-  <mat-card class="table-card">
-
-    <p-table
-      [value]="displayedFacilities"
-      [loading]="loading"
-      [paginator]="true"
-      [rows]="10"
-      [totalRecords]="totalRecords"
-      [filterDelay]="300"
-      [scrollable]="true"
-      responsiveLayout="scroll"
-      scrollHeight="calc(100vh - 200px)"
-      class="compact-table full-width-table custom-header">
-
-      <!-- HEADER -->
-      <ng-template pTemplate="header">
-        <tr>
-          <th
-            *ngFor="let col of cols"
-            [pSortableColumn]="col.field"
-            [attr.data-field]="col.field">
-
-            <div class="header-cell">
-              {{ col.header }}
-              <p-sortIcon [field]="col.field"></p-sortIcon>
-            </div>
-
-          </th>
-        </tr>
-
-        <tr>
-          <th
-            *ngFor="let col of cols"
-            [attr.data-field]="col.field">
-
-            <div class="filter-wrapper">
-              <i class="pi pi-search"></i>
-              <p-columnFilter
-                [field]="col.field"
-                type="text"
-                [showMenu]="false"
-                class="filter-input">
-              </p-columnFilter>
-            </div>
-
-          </th>
-        </tr>
-      </ng-template>
-
-      <!-- BODY -->
-      <ng-template pTemplate="body" let-row>
-        <tr
-          [ngClass]="{
-            'selected-row': selectedFacility?.FACILITY_ID === row.FACILITY_ID
-          }">
-
-          <td
-            *ngFor="let col of cols"
-            [attr.data-field]="col.field"
-            (click)="openDetail(row)"
-            [ngClass]="[
-              col.align === 'center' ? 'center-cell' : '',
-              col.align === 'right' ? 'right-cell' : 'left-cell'
-            ]">
-
-            <!-- LINK COLUMN -->
-            <ng-container *ngIf="col.field === 'LINK_TO_REQUEST'; else normalCell">
-              <a
-                [href]="row[col.field]"
-                target="_blank"
-                (click)="$event.stopPropagation()">
-                link
-              </a>
-            </ng-container>
-
-            <!-- NORMAL CELL -->
-            <ng-template #normalCell>
-              {{ row[col.field] }}
-            </ng-template>
-
-          </td>
-        </tr>
-      </ng-template>
-
-    </p-table>
-  </mat-card>
-
-  <!-- ================= RIGHT SIDE DETAIL PANEL ================= -->
-  <div class="detail-panel" *ngIf="selectedFacility">
-
-    <div class="detail-header">
-      <h3>Facility {{ selectedFacility.FACILITY_ID }} details</h3>
-      <button mat-icon-button (click)="closeDetail()" aria-label="Close">
-        <mat-icon>close</mat-icon>
-      </button>
+      </div>
     </div>
 
-    <div class="detail-body">
-      <ng-container *ngFor="let col of cols">
+    <!-- ================= TABLE ================= -->
+    <mat-card class="table-card">
 
-        <div class="detail-row" *ngIf="col.field !== 'LINK_TO_REQUEST'">
-          <div class="label">{{ col.header }}:</div>
-          <div class="value">
-            {{ selectedFacility[col.field] }}
-          </div>
-        </div>
+      <p-table
+        [value]="displayedFacilities"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="10"
+        [totalRecords]="totalRecords"
+        [filterDelay]="300"
+        responsiveLayout="scroll"
+        class="compact-table full-width-table custom-header">
 
-        <div class="detail-row" *ngIf="col.field === 'LINK_TO_REQUEST'">
-          <div class="label">Link:</div>
-          <div class="value">
-            <a
-              [href]="selectedFacility[col.field]"
-              target="_blank">
-              link
-            </a>
-          </div>
-        </div>
+        <!-- ===== HEADER ===== -->
+        <ng-template pTemplate="header">
+          <tr>
+            <th
+              *ngFor="let col of cols"
+              [pSortableColumn]="col.field"
+              [attr.data-field]="col.field">
 
-      </ng-container>
-    </div>
+              <div class="header-cell">
+                {{ col.header }}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </div>
+
+            </th>
+          </tr>
+
+          <!-- COLUMN FILTER ROW -->
+          <tr>
+            <th *ngFor="let col of cols">
+              <div class="filter-wrapper">
+                <i class="pi pi-search"></i>
+                <p-columnFilter
+                  [field]="col.field"
+                  type="text"
+                  [showMenu]="false"
+                  class="filter-input">
+                </p-columnFilter>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+
+        <!-- ===== BODY ===== -->
+        <ng-template pTemplate="body" let-row>
+          <tr
+            [ngClass]="{
+              'selected-row': selectedFacility?.FACILITY_ID === row.FACILITY_ID
+            }">
+
+            <td
+              *ngFor="let col of cols"
+              [attr.data-field]="col.field"
+              (click)="openDetail(row)"
+              [ngClass]="
+                col.align === 'center' ? 'center-cell' :
+                col.align === 'right'  ? 'right-cell'  :
+                'left-cell'
+              ">
+
+              <!-- LINK COLUMN -->
+              <ng-container *ngIf="col.field === 'LINK_TO_REQUEST'; else normalCell">
+                <a
+                  [href]="row[col.field]"
+                  target="_blank"
+                  (click)="$event.stopPropagation()">
+                  link
+                </a>
+              </ng-container>
+
+              <!-- NORMAL CELL -->
+              <ng-template #normalCell>
+                {{ row[col.field] }}
+              </ng-template>
+
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+
+    </mat-card>
 
   </div>
-
 </div>
