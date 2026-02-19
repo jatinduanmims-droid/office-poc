@@ -1,6 +1,6 @@
-/* =====================================================
+/* =========================================================
    FILTER ROW
-   ===================================================== */
+   ========================================================= */
 
 .filter-section {
   width: 100%;
@@ -18,18 +18,25 @@
   min-width: 150px;
 }
 
-/* =====================================================
-   PRIME TABLE – FIXED GRID (CRITICAL)
-   ===================================================== */
+/* =========================================================
+   PRIME TABLE – BASE LAYOUT
+   ========================================================= */
 
+:host ::ng-deep .full-width-table,
+:host ::ng-deep .full-width-table .p-datatable-wrapper,
 :host ::ng-deep .full-width-table .p-datatable-table {
+  width: 100% !important;
+  max-width: 100% !important;
   table-layout: fixed;
-  width: 100%;
 }
 
-/* =====================================================
+:host ::ng-deep .full-width-table .p-datatable-wrapper {
+  overflow-x: hidden !important;
+}
+
+/* =========================================================
    COMPACT DENSITY
-   ===================================================== */
+   ========================================================= */
 
 :host ::ng-deep .compact-table {
   font-size: 11.5px;
@@ -41,31 +48,38 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  vertical-align: middle;
 }
 
-/* =====================================================
-   HEADER STYLE
-   ===================================================== */
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
 
 :host ::ng-deep .compact-table thead th {
-  white-space: normal;
-  line-height: 1.2;
-  font-size: 11px;
   background-color: #f7f8fa;
+  font-size: 11px;
+  line-height: 1.2;
   position: sticky;
   top: 0;
   z-index: 2;
 }
 
+/* Header content wrapper */
 .header-cell {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-/* =====================================================
+/* IMPORTANT: allow pseudo-elements (sort icons) */
+:host ::ng-deep th.p-datatable-sortable-column,
+:host ::ng-deep th.p-datatable-sortable-column .header-cell {
+  overflow: visible !important;
+}
+
+/* =========================================================
    FILTER ROW INSIDE TABLE
-   ===================================================== */
+   ========================================================= */
 
 :host ::ng-deep .filter-wrapper {
   display: flex;
@@ -79,99 +93,92 @@
   padding: 2px 4px;
 }
 
-/* =====================================================
+/* =========================================================
    ALIGNMENTS
-   ===================================================== */
+   ========================================================= */
 
-.center-cell {
-  text-align: center;
-}
+.center-cell { text-align: center; }
+.right-cell  { text-align: right; }
+.left-cell   { text-align: left; }
 
-.right-cell {
-  text-align: right;
-}
+/* =========================================================
+   COLUMN WIDTHS (SINGLE SOURCE OF TRUTH)
+   ========================================================= */
 
-.left-cell {
-  text-align: left;
-}
-
-/* =====================================================
-   SMALL / CODE COLUMNS (SHRINK)
-   ===================================================== */
-
+/* ID */
 :host ::ng-deep th[data-field="FACILITY_ID"],
 :host ::ng-deep td[data-field="FACILITY_ID"] {
-  width: 120px;
-}
-
-:host ::ng-deep th[data-field="FILE_DATE"],
-:host ::ng-deep td[data-field="FILE_DATE"] {
   width: 110px;
 }
 
+/* File Date */
+:host ::ng-deep th[data-field="FILE_DATE"],
+:host ::ng-deep td[data-field="FILE_DATE"] {
+  width: 105px;
+}
+
+/* Request Type */
 :host ::ng-deep th[data-field="REQUEST_TYPE"],
 :host ::ng-deep td[data-field="REQUEST_TYPE"] {
   width: 130px;
 }
 
-:host ::ng-deep th[data-field="COMMITMENT_CODE"],
-:host ::ng-deep td[data-field="COMMITMENT_CODE"] {
-  width: 90px;
+/* 🔴 FIXED: Commitment Code */
+:host ::ng-deep th[data-field="FACILITY_COMMITMENT_CODE"],
+:host ::ng-deep td[data-field="FACILITY_COMMITMENT_CODE"] {
+  width: 160px;
+  min-width: 160px;
+  overflow: visible !important;
 }
 
+/* Status */
 :host ::ng-deep th[data-field="STATUS"],
 :host ::ng-deep td[data-field="STATUS"] {
   width: 90px;
 }
 
+/* Meter Code */
 :host ::ng-deep th[data-field="METER_CODE"],
 :host ::ng-deep td[data-field="METER_CODE"] {
   width: 90px;
 }
 
+/* Currency */
 :host ::ng-deep th[data-field="CURRENCY"],
 :host ::ng-deep td[data-field="CURRENCY"] {
-  width: 80px;
+  width: 70px;
+  text-align: center;
 }
 
+/* Amount */
 :host ::ng-deep th[data-field="AMOUNT"],
 :host ::ng-deep td[data-field="AMOUNT"] {
-  width: 120px;
+  width: 115px;
   text-align: right;
 }
 
-/* =====================================================
-   TEXT-HEAVY COLUMNS (EXPAND)
-   ===================================================== */
-
-:host ::ng-deep th[data-field="FACILITY_NAME"],
-:host ::ng-deep td[data-field="FACILITY_NAME"] {
-  width: 320px;
-}
-
-:host ::ng-deep th[data-field="BORROWER"],
-:host ::ng-deep td[data-field="BORROWER"] {
-  width: 260px;
-}
-
-:host ::ng-deep th[data-field="SITE"],
-:host ::ng-deep td[data-field="SITE"] {
-  width: 240px;
-}
-
-/* =====================================================
-   LINK COLUMN
-   ===================================================== */
-
+/* Link */
 :host ::ng-deep th[data-field="LINK_TO_REQUEST"],
 :host ::ng-deep td[data-field="LINK_TO_REQUEST"] {
   width: 70px;
   text-align: center;
 }
 
-/* =====================================================
+/* =========================================================
+   TEXT-HEAVY COLUMNS – ALLOW WRAP
+   ========================================================= */
+
+:host ::ng-deep td[data-field="FACILITY_NAME"],
+:host ::ng-deep td[data-field="BORROWER"],
+:host ::ng-deep td[data-field="SITE"] {
+  white-space: normal !important;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+/* =========================================================
    ROW INTERACTION
-   ===================================================== */
+   ========================================================= */
 
 :host ::ng-deep .compact-table tbody tr {
   cursor: pointer;
@@ -185,46 +192,65 @@
   background-color: #e0e0e0 !important;
 }
 
-//step2
+/* =========================================================
+   REMOVE PRIMENG DEFAULT SORT ICONS
+   ========================================================= */
 
-/* =====================================================
-   CUSTOM SORT ICONS – SMALL & CLEAN
-   ===================================================== */
-
-:host ::ng-deep .p-sortable-column-icon {
-  font-size: 10px !important;
-  margin-left: 4px;
-  opacity: 0.6;
+:host ::ng-deep
+th.p-datatable-sortable-column
+.p-sortable-column-icon,
+:host ::ng-deep
+th.p-datatable-sortable-column svg,
+:host ::ng-deep
+th.p-datatable-sortable-column i {
+  display: none !important;
 }
 
-/* Remove default PrimeNG arrow shapes */
-:host ::ng-deep .p-sortable-column-icon::before {
-  content: '⇅';            /* unsorted */
+/* =========================================================
+   CUSTOM SORT ICONS – SMALL TRIANGLES (ARIA BASED)
+   ========================================================= */
+
+/* Unsorted → BOTH arrows */
+:host ::ng-deep
+th.p-datatable-sortable-column[aria-sort="none"]
+.header-cell::after {
+  content: "▲▼";
+  font-size: 12px;
+  letter-spacing: -1px;
+  color: #666;
+  opacity: 0.75;
 }
 
 /* Ascending */
-:host ::ng-deep .p-sortable-column.p-highlight
-.p-sortable-column-icon::before {
-  content: '↑';
-  opacity: 0.9;
+:host ::ng-deep
+th.p-datatable-sortable-column[aria-sort="ascending"]
+.header-cell::after {
+  content: "▲";
+  font-size: 12px;
+  color: #333;
+  opacity: 1;
 }
 
 /* Descending */
-:host ::ng-deep .p-sortable-column.p-highlight
-.p-sortable-column-icon.pi-sort-amount-down::before {
-  content: '↓';
+:host ::ng-deep
+th.p-datatable-sortable-column[aria-sort="descending"]
+.header-cell::after {
+  content: "▼";
+  font-size: 12px;
+  color: #333;
+  opacity: 1;
 }
 
-step3
-
-/* ================= DETAIL PANEL – RESTORED LAYOUT ================= */
+/* =========================================================
+   DETAIL PANEL
+   ========================================================= */
 
 .detail-panel {
   position: fixed;
-  top: 56px; /* below green header */
+  top: 0;
   right: 0;
   width: 360px;
-  height: calc(100vh - 56px);
+  height: 100vh;
   background: #ffffff;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
   z-index: 2000;
@@ -232,7 +258,6 @@ step3
   padding: 16px;
 }
 
-/* Header */
 .detail-header {
   display: flex;
   justify-content: space-between;
@@ -248,12 +273,10 @@ step3
   font-weight: 600;
 }
 
-/* Body */
 .detail-body {
   font-size: 12px;
 }
 
-/* Each row = label + value */
 .detail-row {
   display: grid;
   grid-template-columns: 120px 1fr;
@@ -262,368 +285,18 @@ step3
   align-items: start;
 }
 
-/* Label */
 .detail-row .label {
   font-weight: 600;
   color: #555;
   white-space: nowrap;
 }
 
-/* Value */
 .detail-row .value {
   color: #111;
   word-break: break-word;
 }
 
-/* Link styling */
 .detail-row .value a {
   color: #1565c0;
   text-decoration: underline;
-}
-
-step4
-
-/* ================= ALLOW WRAP FOR TEXT-HEAVY COLUMNS ================= */
-
-:host ::ng-deep td[data-field="FACILITY_NAME"],
-:host ::ng-deep td[data-field="BORROWER"],
-:host ::ng-deep td[data-field="SITE"] {
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: unset !important;
-  line-height: 1.3;
-}
-
-/* ================= HARD CAP SMALL COLUMNS ================= */
-
-:host ::ng-deep th[data-field="FACILITY_ID"],
-:host ::ng-deep td[data-field="FACILITY_ID"] {
-  width: 110px;
-  max-width: 110px;
-}
-
-:host ::ng-deep th[data-field="FILE_DATE"],
-:host ::ng-deep td[data-field="FILE_DATE"] {
-  width: 105px;
-  max-width: 105px;
-}
-
-:host ::ng-deep th[data-field="CURRENCY"],
-:host ::ng-deep td[data-field="CURRENCY"] {
-  width: 70px;
-  max-width: 70px;
-  text-align: center;
-}
-
-:host ::ng-deep th[data-field="AMOUNT"],
-:host ::ng-deep td[data-field="AMOUNT"] {
-  width: 115px;
-  max-width: 115px;
-  text-align: right;
-}
-
-/* ================= REDUCE HORIZONTAL SPACING ================= */
-
-:host ::ng-deep .compact-table th,
-:host ::ng-deep .compact-table td {
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-
-step5
-
-/* ================= FINAL TABLE LAYOUT FIX ================= */
-
-/* Lock table to viewport width */
-:host ::ng-deep .full-width-table,
-:host ::ng-deep .full-width-table .p-datatable-wrapper,
-:host ::ng-deep .full-width-table .p-datatable-table {
-  width: 100% !important;
-  max-width: 100% !important;
-  table-layout: auto !important;
-}
-
-/* Kill horizontal scrollbar */
-:host ::ng-deep .full-width-table .p-datatable-wrapper {
-  overflow-x: hidden !important;
-}
-
-/* Compact spacing */
-:host ::ng-deep .compact-table th,
-:host ::ng-deep .compact-table td {
-  padding: 4px 4px;
-  vertical-align: top;
-}
-
-/* HARD CAP small / code columns */
-:host ::ng-deep th[data-field="FACILITY_ID"],
-:host ::ng-deep td[data-field="FACILITY_ID"] {
-  width: 110px;
-}
-
-:host ::ng-deep th[data-field="FILE_DATE"],
-:host ::ng-deep td[data-field="FILE_DATE"] {
-  width: 105px;
-}
-
-:host ::ng-deep th[data-field="CURRENCY"],
-:host ::ng-deep td[data-field="CURRENCY"] {
-  width: 70px;
-  text-align: center;
-}
-
-:host ::ng-deep th[data-field="AMOUNT"],
-:host ::ng-deep td[data-field="AMOUNT"] {
-  width: 115px;
-  text-align: right;
-}
-
-/* WRAP text-heavy columns instead of expanding width */
-:host ::ng-deep td[data-field="FACILITY_NAME"],
-:host ::ng-deep td[data-field="BORROWER"],
-:host ::ng-deep td[data-field="SITE"] {
-  white-space: normal !important;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  line-height: 1.3;
-}
-
-step 6
-
-
-/* =========================================================
-   PRIME NG SORT ICON — SMALL TRIANGLES
-   Option 3: ▴ ▾
-   ========================================================= */
-
-:host ::ng-deep .p-sortable-column .p-sortable-column-icon {
-  font-size: 10px;
-  margin-left: 4px;
-  opacity: 0.6;
-}
-
-/* Remove default PrimeNG icon */
-:host ::ng-deep .p-sortable-column .p-sortable-column-icon::before {
-  content: '▴▾';
-}
-
-/* Ascending */
-:host ::ng-deep .p-sortable-column.p-highlight
-.p-sortable-column-icon.pi-sort-amount-up-alt::before,
-:host ::ng-deep .p-sortable-column.p-highlight
-.p-sortable-column-icon.pi-sort-up::before {
-  content: '▴';
-  opacity: 1;
-}
-
-/* Descending */
-:host ::ng-deep .p-sortable-column.p-highlight
-.p-sortable-column-icon.pi-sort-amount-down::before,
-:host ::ng-deep .p-sortable-column.p-highlight
-.p-sortable-column-icon.pi-sort-down::before {
-  content: '▾';
-  opacity: 1;
-}
-
-
-step7
-
-/* =========================================================
-   PRIME NG SORT ICON REPLACEMENT — SMALL TRIANGLES ▴ ▾
-   (Safe, layout-neutral, guaranteed to apply)
-   ========================================================= */
-
-/* 1. Hide PrimeNG default sort icons completely */
-:host ::ng-deep .p-sortable-column .p-sortable-column-icon,
-:host ::ng-deep .p-sortable-column i.pi {
-  display: none !important;
-}
-
-/* 2. Base unsorted state */
-:host ::ng-deep .p-sortable-column {
-  position: relative;
-}
-
-:host ::ng-deep .p-sortable-column::after {
-  content: '▴▾';
-  font-size: 10px;
-  margin-left: 4px;
-  opacity: 0.6;
-}
-
-/* 3. Ascending */
-:host ::ng-deep .p-sortable-column.p-highlight.p-sortable-column-asc::after {
-  content: '▴';
-  opacity: 1;
-}
-
-/* 4. Descending */
-:host ::ng-deep .p-sortable-column.p-highlight.p-sortable-column-desc::after {
-  content: '▾';
-  opacity: 1;
-}
-
-
-
-step8
-
-/* =========================================================
-   PRIME NG SORT INDICATOR — SMALL TRIANGLES (ARIA BASED)
-   Works with p-datatable-sortable-column + header-cell
-   ========================================================= */
-
-/* Base header layout */
-:host ::ng-deep th.p-datatable-sortable-column .header-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  position: relative;
-}
-
-/* Default (not sorted) */
-:host ::ng-deep th.p-datatable-sortable-column[aria-sort="none"] .header-cell::after {
-  content: "▴▾";
-  font-size: 10px;
-  opacity: 0.6;
-}
-
-/* Ascending */
-:host ::ng-deep th.p-datatable-sortable-column[aria-sort="ascending"] .header-cell::after {
-  content: "▴";
-  font-size: 10px;
-  opacity: 1;
-}
-
-/* Descending */
-:host ::ng-deep th.p-datatable-sortable-column[aria-sort="descending"] .header-cell::after {
-  content: "▾";
-  font-size: 10px;
-  opacity: 1;
-}
-
-step9
-
-/* =========================================================
-   FIX DOUBLE SORT ICON — KEEP ONLY TRIANGLES ▴ ▾
-   ========================================================= */
-
-/* 1. Kill any PrimeNG internal sort visuals */
-:host ::ng-deep th.p-datatable-sortable-column::before,
-:host ::ng-deep th.p-datatable-sortable-column::after,
-:host ::ng-deep th.p-datatable-sortable-column svg,
-:host ::ng-deep th.p-datatable-sortable-column i {
-  display: none !important;
-  content: none !important;
-}
-
-/* 2. Header layout */
-:host ::ng-deep th.p-datatable-sortable-column .header-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* 3. Our custom sort indicators */
-
-/* Unsorted */
-:host ::ng-deep th.p-datatable-sortable-column[aria-sort="none"] .header-cell::after {
-  content: "▴▾";
-  font-size: 10px;
-  opacity: 0.6;
-}
-
-/* Ascending */
-:host ::ng-deep th.p-datatable-sortable-column[aria-sort="ascending"] .header-cell::after {
-  content: "▴";
-  font-size: 10px;
-  opacity: 1;
-}
-
-/* Descending */
-:host ::ng-deep th.p-datatable-sortable-column[aria-sort="descending"] .header-cell::after {
-  content: "▾";
-  font-size: 10px;
-  opacity: 1;
-}
-
-
-step 10
-
-/* =========================================================
-   PRIME TABLE – CUSTOM SORT ICONS (SMALL TRIANGLES)
-   Uses aria-sort, NO PrimeNG internals, NO TS required
-   ========================================================= */
-
-/* 1. Kill PrimeNG default sort visuals completely */
-:host ::ng-deep th.p-datatable-sortable-column
-  .p-sortable-column-icon,
-:host ::ng-deep th.p-datatable-sortable-column svg,
-:host ::ng-deep th.p-datatable-sortable-column i {
-  display: none !important;
-}
-
-/* 2. Ensure header layout supports icon */
-:host ::ng-deep th.p-datatable-sortable-column .header-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* 3. Base triangle (unsorted state) */
-:host ::ng-deep
-th.p-datatable-sortable-column[aria-sort="none"]
-.header-cell::after {
-  content: "▲▼";
-  font-size: 12px;          /* ⬅ slightly bigger */
-  letter-spacing: -1px;
-  color: #666;              /* ⬅ darker */
-  opacity: 0.6;
-}
-
-/* 4. Ascending */
-:host ::ng-deep
-th.p-datatable-sortable-column[aria-sort="ascending"]
-.header-cell::after {
-  content: "▲";
-  font-size: 12px;
-  color: #333;              /* ⬅ strong dark */
-  opacity: 1;
-}
-
-/* 5. Descending */
-:host ::ng-deep
-th.p-datatable-sortable-column[aria-sort="descending"]
-.header-cell::after {
-  content: "▼";
-  font-size: 12px;
-  color: #333;
-  opacity: 1;
-}
-
-
-
-
-step 11
-
-/* =========================================================
-   FIX: SORT ICON CLIPPED FOR COMMITMENT CODE
-   ========================================================= */
-
-/* 1. Allow sort icon to render outside header text */
-:host ::ng-deep
-th.p-datatable-sortable-column {
-  overflow: visible !important;
-}
-
-/* 2. Header-cell must allow pseudo-element */
-:host ::ng-deep
-th.p-datatable-sortable-column .header-cell {
-  overflow: visible !important;
-}
-
-/* 3. Commitment Code needs a little breathing room */
-:host ::ng-deep
-th[data-field="COMMITMENT_CODE"] {
-  min-width: 110px !important;   /* was 90px */
 }
