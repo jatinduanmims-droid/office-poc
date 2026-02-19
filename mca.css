@@ -1,0 +1,97 @@
+/* =====================================================
+   PRIME TABLE – FIXED GRID (CRITICAL)
+   ===================================================== */
+
+:host ::ng-deep .full-width-table .p-datatable-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* =====================================================
+   COMPACT TABLE DENSITY
+   ===================================================== */
+
+:host ::ng-deep .compact-table {
+  font-size: 11.5px;
+}
+
+:host ::ng-deep .compact-table th,
+:host ::ng-deep .compact-table td {
+  padding: 4px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:host ::ng-deep .compact-table th {
+  font-weight: 600;
+}
+
+/* =====================================================
+   HEADER STYLE + STICKY
+   ===================================================== */
+
+:host ::ng-deep .custom-header thead th {
+  background-color: #f7f8fa;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.header-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =====================================================
+   FILTER ROW COMPACT
+   ===================================================== */
+
+:host ::ng-deep .filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+:host ::ng-deep .filter-input input {
+  height: 22px;
+  font-size: 11px;
+  padding: 2px 4px;
+}
+
+/* =====================================================
+   CELL ALIGNMENTS
+   ===================================================== */
+
+:host ::ng-deep .center-cell {
+  text-align: center;
+}
+
+:host ::ng-deep .right-cell {
+  text-align: right;
+}
+
+:host ::ng-deep .left-cell {
+  text-align: left;
+}
+
+/* =====================================================
+   ROW INTERACTION
+   ===================================================== */
+
+:host ::ng-deep .compact-table tbody tr {
+  cursor: pointer;
+}
+
+:host ::ng-deep .compact-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* =====================================================
+   SELECTED ROW (keeps your existing behavior)
+   ===================================================== */
+
+:host ::ng-deep .compact-table tbody tr.selected-row > td {
+  background-color: #e0e0e0 !important;
+}
