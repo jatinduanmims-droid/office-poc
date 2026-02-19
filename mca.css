@@ -300,3 +300,42 @@ th.p-datatable-sortable-column[aria-sort="descending"]
   color: #1565c0;
   text-decoration: underline;
 }
+
+
+step2
+
+/* =========================================================
+   FIX: REMOVE VERTICAL SCROLLBAR (ALLOW PAGE SCROLL)
+   ========================================================= */
+
+/* Let table grow naturally */
+:host ::ng-deep .p-datatable,
+:host ::ng-deep .p-datatable-wrapper,
+:host ::ng-deep .p-datatable-table {
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* Kill internal vertical scrolling if any */
+:host ::ng-deep .p-datatable-wrapper {
+  overflow-y: visible !important;
+}
+
+/* Safety: prevent body-level clipping */
+:host {
+  overflow: visible;
+}
+
+/* =========================================================
+   FIX: ADD SPACE BELOW GREEN HEADER
+   ========================================================= */
+
+/* Card spacing from top header */
+:host ::ng-deep .table-card {
+  margin-top: 12px; /* adjust to 16px if you want more air */
+}
+
+/* If table-card not present, fallback */
+:host ::ng-deep .full-width-table {
+  margin-top: 12px;
+}
