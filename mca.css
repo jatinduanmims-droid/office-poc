@@ -338,4 +338,23 @@ step2
 /* If table-card not present, fallback */
 :host ::ng-deep .full-width-table {
   margin-top: 12px;
+  
+}
+
+step 3
+
+/* =============================
+   PAGE + CONTAINER LAYOUT
+   ============================= */
+
+.report-wrapper {
+  padding-top: 16px; /* space from header */
+}
+
+.report-box {
+  margin: 0 16px;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
