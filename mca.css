@@ -95,3 +95,124 @@
 :host ::ng-deep .compact-table tbody tr.selected-row > td {
   background-color: #e0e0e0 !important;
 }
+
+//step 2
+
+/* =====================================================
+   PRIME TABLE – FIXED GRID (CRITICAL)
+   ===================================================== */
+
+:host ::ng-deep .full-width-table .p-datatable-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* =====================================================
+   COMPACT TABLE DENSITY
+   ===================================================== */
+
+:host ::ng-deep .compact-table {
+  font-size: 11.5px;
+}
+
+:host ::ng-deep .compact-table th,
+:host ::ng-deep .compact-table td {
+  padding: 4px 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =====================================================
+   HEADER BEHAVIOR – DO NOT LET IT DOMINATE WIDTH
+   ===================================================== */
+
+:host ::ng-deep .compact-table thead th {
+  white-space: normal;       /* allow header wrap */
+  line-height: 1.2;
+  vertical-align: bottom;
+  max-width: 160px;          /* cap header width */
+  font-size: 11px;           /* slightly smaller than body */
+  background-color: #f7f8fa;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* =====================================================
+   BODY CELLS – DATA FIRST
+   ===================================================== */
+
+:host ::ng-deep .compact-table tbody td {
+  white-space: nowrap;       /* keep rows clean */
+}
+
+/* =====================================================
+   FILTER ROW COMPACT
+   ===================================================== */
+
+:host ::ng-deep .filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+:host ::ng-deep .filter-input input {
+  height: 22px;
+  font-size: 11px;
+  padding: 2px 4px;
+}
+
+/* =====================================================
+   CELL ALIGNMENTS (uses existing col.align)
+   ===================================================== */
+
+:host ::ng-deep .center-cell {
+  text-align: center;
+}
+
+:host ::ng-deep .right-cell {
+  text-align: right;
+}
+
+:host ::ng-deep .left-cell {
+  text-align: left;
+}
+
+/* =====================================================
+   SMALL DATA COLUMNS – FORCE NARROW WIDTH
+   (adjust nth-child if column order changes)
+   ===================================================== */
+
+:host ::ng-deep .compact-table th:nth-child(4),
+:host ::ng-deep .compact-table td:nth-child(4),   /* Commitment Code */
+
+:host ::ng-deep .compact-table th:nth-child(5),
+:host ::ng-deep .compact-table td:nth-child(5),   /* Status */
+
+:host ::ng-deep .compact-table th:nth-child(7),
+:host ::ng-deep .compact-table td:nth-child(7),   /* Meter Code */
+
+:host ::ng-deep .compact-table th:nth-child(8),
+:host ::ng-deep .compact-table td:nth-child(8) {  /* Currency */
+  max-width: 90px;
+}
+
+/* =====================================================
+   ROW INTERACTION
+   ===================================================== */
+
+:host ::ng-deep .compact-table tbody tr {
+  cursor: pointer;
+}
+
+:host ::ng-deep .compact-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* =====================================================
+   SELECTED ROW – KEEP EXISTING BEHAVIOR
+   ===================================================== */
+
+:host ::ng-deep .compact-table tbody tr.selected-row > td {
+  background-color: #e0e0e0 !important;
+}
