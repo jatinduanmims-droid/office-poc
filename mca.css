@@ -330,3 +330,62 @@ step4
   padding-right: 4px;
 }
 
+
+step5
+
+/* ================= FINAL TABLE LAYOUT FIX ================= */
+
+/* Lock table to viewport width */
+:host ::ng-deep .full-width-table,
+:host ::ng-deep .full-width-table .p-datatable-wrapper,
+:host ::ng-deep .full-width-table .p-datatable-table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: auto !important;
+}
+
+/* Kill horizontal scrollbar */
+:host ::ng-deep .full-width-table .p-datatable-wrapper {
+  overflow-x: hidden !important;
+}
+
+/* Compact spacing */
+:host ::ng-deep .compact-table th,
+:host ::ng-deep .compact-table td {
+  padding: 4px 4px;
+  vertical-align: top;
+}
+
+/* HARD CAP small / code columns */
+:host ::ng-deep th[data-field="FACILITY_ID"],
+:host ::ng-deep td[data-field="FACILITY_ID"] {
+  width: 110px;
+}
+
+:host ::ng-deep th[data-field="FILE_DATE"],
+:host ::ng-deep td[data-field="FILE_DATE"] {
+  width: 105px;
+}
+
+:host ::ng-deep th[data-field="CURRENCY"],
+:host ::ng-deep td[data-field="CURRENCY"] {
+  width: 70px;
+  text-align: center;
+}
+
+:host ::ng-deep th[data-field="AMOUNT"],
+:host ::ng-deep td[data-field="AMOUNT"] {
+  width: 115px;
+  text-align: right;
+}
+
+/* WRAP text-heavy columns instead of expanding width */
+:host ::ng-deep td[data-field="FACILITY_NAME"],
+:host ::ng-deep td[data-field="BORROWER"],
+:host ::ng-deep td[data-field="SITE"] {
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
