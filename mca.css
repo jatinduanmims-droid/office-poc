@@ -281,3 +281,52 @@ step3
   text-decoration: underline;
 }
 
+step4
+
+/* ================= ALLOW WRAP FOR TEXT-HEAVY COLUMNS ================= */
+
+:host ::ng-deep td[data-field="FACILITY_NAME"],
+:host ::ng-deep td[data-field="BORROWER"],
+:host ::ng-deep td[data-field="SITE"] {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  line-height: 1.3;
+}
+
+/* ================= HARD CAP SMALL COLUMNS ================= */
+
+:host ::ng-deep th[data-field="FACILITY_ID"],
+:host ::ng-deep td[data-field="FACILITY_ID"] {
+  width: 110px;
+  max-width: 110px;
+}
+
+:host ::ng-deep th[data-field="FILE_DATE"],
+:host ::ng-deep td[data-field="FILE_DATE"] {
+  width: 105px;
+  max-width: 105px;
+}
+
+:host ::ng-deep th[data-field="CURRENCY"],
+:host ::ng-deep td[data-field="CURRENCY"] {
+  width: 70px;
+  max-width: 70px;
+  text-align: center;
+}
+
+:host ::ng-deep th[data-field="AMOUNT"],
+:host ::ng-deep td[data-field="AMOUNT"] {
+  width: 115px;
+  max-width: 115px;
+  text-align: right;
+}
+
+/* ================= REDUCE HORIZONTAL SPACING ================= */
+
+:host ::ng-deep .compact-table th,
+:host ::ng-deep .compact-table td {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
