@@ -1,60 +1,77 @@
-Alright — here’s the final, production-ready Roo prompt.
-This one is clean, minimal, and safe. No debugging, no experiments — just the correct fix.
+Perfect, this is now clear 👍
+Here is the final Roo code prompt that implements exactly this behavior and nothing more.
 
 ⸻
 
-Roo Prompt — Fix Mat-Sidenav Auto-Close (Final)
+Roo Prompt — Dual Sidenav Correct Close Behavior (Final)
 
 Objective
-Fix the issue where an Angular Material mat-sidenav used for a chatbot opens and immediately closes, without breaking the existing hamburger sidenav behavior.
+Fix the chatbot sidenav so it closes only via its close button, while ensuring the hamburger sidenav continues to close automatically on backdrop click and ESC.
 
 Strict Constraints
 	•	Do NOT refactor existing code
-	•	Do NOT rename variables, methods, or components
+	•	Do NOT rename variables, methods, components, or selectors
 	•	Do NOT change business logic or UI layout
 	•	Do NOT introduce new services or dependencies
-	•	Do NOT use [disableClose] or remove the backdrop
-	•	Apply only the minimal required change
+	•	Do NOT use [disableClose] or [hasBackdrop]="false"
+	•	Do NOT stop event propagation globally
+	•	Apply only the minimal required changes
 
 Context
-	•	Application uses Angular Material mat-sidenav with mode="over"
-	•	There is a hamburger sidenav that should keep default behavior (close on outside click / ESC)
-	•	There is a chatbot sidenav that currently closes immediately after opening
-	•	Root cause is click event bubbling to the Material backdrop
+	•	Application uses a single mat-sidenav-container
+	•	There are two sidenavs inside it:
+	•	Left: hamburger navigation (default Material behavior required)
+	•	Right: chatbot panel (must not auto-close)
+	•	Current issue:
+	•	Chatbot never closes
+	•	Hamburger does not auto-close
 
-Required Fix
-	•	Prevent the click event that opens the chatbot sidenav from propagating to the Material backdrop
-	•	Preserve default Angular Material behavior for all other sidenavs
+Required Changes
+	1.	Restore default Angular Material backdrop behavior for the container and hamburger sidenav
+	2.	Prevent the click that opens the chatbot from bubbling to the Material backdrop
+	3.	Prevent clicks inside the chatbot panel only from bubbling
+	4.	Ensure the chatbot closes only via its explicit close button
 
-Implementation Instructions
-	1.	Update the chatbot open handler to receive the click event
-	2.	Call event.stopPropagation() before opening the chatbot sidenav
-	3.	Do not modify the sidenav configuration or global behavior
+Implementation Rules
+	•	event.stopPropagation() must be applied only:
+	•	on the chatbot open button click handler
+	•	on a wrapper element inside the chatbot sidenav
+	•	No other elements may stop propagation
 
-Expected Code Change (Minimal)
+Expected Code Changes (Minimal)
 
 openChatbot(event: MouseEvent) {
   event.stopPropagation();
-  this.chatbotSidenav.open();
+  this.chatbotNav.open();
 }
 
 <button mat-icon-button (click)="openChatbot($event)">
   Chatbot
 </button>
 
-Optional Safety Enhancement
-	•	Prevent click bubbling inside the chatbot content by stopping propagation on the root container inside the chatbot sidenav
+<mat-sidenav #chatbotNav mode="over" position="end">
+  <div (click)="$event.stopPropagation()">
+    <app-chatbot-dialog
+      (closePanel)="chatbotNav.close()">
+    </app-chatbot-dialog>
+  </div>
+</mat-sidenav>
 
-Final Requirement
-	•	Hamburger sidenav must continue to close on backdrop click and ESC
-	•	Chatbot sidenav must stay open until explicitly closed
-	•	No other behavior should change
+Final Acceptance Criteria
+	•	Hamburger sidenav closes on backdrop click and ESC
+	•	Chatbot sidenav remains open on outside click and ESC
+	•	Chatbot closes only via its close button
+	•	No global Material behavior is altered
+
+Output Requirement
+Apply the above changes only.
+Do not introduce any additional fixes or refactors.
 
 ⸻
 
-If you want, I can now give you:
-	•	an ultra-short Roo prompt (3–4 lines)
-	•	a Jira / PR description for this fix
-	•	a layout-level best practice for dual sidenavs
+If you want, I can also give you:
+	•	an ultra-short Roo prompt (one screen)
+	•	a PR description you can paste directly
+	•	a visual DOM flow explanation
 
-Just say which one.
+Just tell me.
