@@ -1,32 +1,60 @@
-Goal
-Identify why an Angular Material mat-sidenav (mode="over") opens and closes immediately, and recommend the single safest production fix.
+Alright — here’s the final, production-ready Roo prompt.
+This one is clean, minimal, and safe. No debugging, no experiments — just the correct fix.
 
-Constraints
-	•	Do NOT refactor code
-	•	Do NOT rename variables or methods
-	•	Do NOT change logic or UI structure
-	•	Do NOT apply multiple fixes
-	•	Only add temporary logs or flags
-	•	All changes must be reversible
+⸻
+
+Roo Prompt — Fix Mat-Sidenav Auto-Close (Final)
+
+Objective
+Fix the issue where an Angular Material mat-sidenav used for a chatbot opens and immediately closes, without breaking the existing hamburger sidenav behavior.
+
+Strict Constraints
+	•	Do NOT refactor existing code
+	•	Do NOT rename variables, methods, or components
+	•	Do NOT change business logic or UI layout
+	•	Do NOT introduce new services or dependencies
+	•	Do NOT use [disableClose] or remove the backdrop
+	•	Apply only the minimal required change
 
 Context
-	•	Sidenav closes immediately after open
-	•	Clicking or typing inside also closes it
-	•	No intentional close() call exists
-	•	Expected: stays open until user closes it
+	•	Application uses Angular Material mat-sidenav with mode="over"
+	•	There is a hamburger sidenav that should keep default behavior (close on outside click / ESC)
+	•	There is a chatbot sidenav that currently closes immediately after opening
+	•	Root cause is click event bubbling to the Material backdrop
 
-Tasks
-	1.	Log all close(), toggle(), backdrop clicks, and escape events
-	2.	Verify if the open click event bubbles to the Material backdrop
-	3.	Confirm chatbot DOM is fully inside <mat-sidenav> and not overflowing via CSS
-	4.	Test ONE at a time:
-	•	event.stopPropagation() on open button
-	•	stopPropagation inside sidenav content
-	•	[disableClose]="true"
-	•	[hasBackdrop]="false"
+Required Fix
+	•	Prevent the click event that opens the chatbot sidenav from propagating to the Material backdrop
+	•	Preserve default Angular Material behavior for all other sidenavs
 
-Output
-	•	Root cause (2–3 lines)
-	•	Comparison of tested options
-	•	Recommend ONE best fix
-	•	Provide minimal code snippet only
+Implementation Instructions
+	1.	Update the chatbot open handler to receive the click event
+	2.	Call event.stopPropagation() before opening the chatbot sidenav
+	3.	Do not modify the sidenav configuration or global behavior
+
+Expected Code Change (Minimal)
+
+openChatbot(event: MouseEvent) {
+  event.stopPropagation();
+  this.chatbotSidenav.open();
+}
+
+<button mat-icon-button (click)="openChatbot($event)">
+  Chatbot
+</button>
+
+Optional Safety Enhancement
+	•	Prevent click bubbling inside the chatbot content by stopping propagation on the root container inside the chatbot sidenav
+
+Final Requirement
+	•	Hamburger sidenav must continue to close on backdrop click and ESC
+	•	Chatbot sidenav must stay open until explicitly closed
+	•	No other behavior should change
+
+⸻
+
+If you want, I can now give you:
+	•	an ultra-short Roo prompt (3–4 lines)
+	•	a Jira / PR description for this fix
+	•	a layout-level best practice for dual sidenavs
+
+Just say which one.
