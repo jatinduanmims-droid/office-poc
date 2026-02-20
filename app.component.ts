@@ -1,17 +1,14 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
-import { MatDialog } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { ChatbotDialogComponent } from './components/chatbot-dialog/chatbot-dialog.component';
-import { EmailService } from './services/email.service';
 
 @Component({
   selector: 'app-root',
@@ -19,13 +16,13 @@ import { EmailService } from './services/email.service';
   imports: [
     CommonModule,
     RouterModule,
+    ChatbotDialogComponent,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
     MatExpansionModule,
-    MatSidenavModule,
-    ChatbotDialogComponent
+    MatSidenavModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -33,16 +30,11 @@ import { EmailService } from './services/email.service';
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('chatSidenav') private chatSidenav!: MatSidenav;
+  @ViewChild('chatSidenav') chatSidenav!: MatSidenav;
 
-  leftPanelOpen = true;
-  tradeMenuOpen = false;
   chatOpen = false;
-
-  constructor(
-    private emailService: EmailService,
-    private dialog: MatDialog
-  ) {}
+  tradeMenuOpen = false;
+  leftPanelOpen = false;
 
   ngOnInit(): void {}
 
@@ -54,13 +46,15 @@ export class AppComponent implements OnInit {
     this.tradeMenuOpen = !this.tradeMenuOpen;
   }
 
-  openChatbot(): void {
+  // CHANGE: accept MouseEvent + stopPropagation
+  openChatbot(event: MouseEvent): void {
+    event.stopPropagation();
     this.chatOpen = true;
-    this.chatSidenav?.open();
+    this.chatSidenav.open();
   }
 
   closeChatBot(): void {
     this.chatOpen = false;
-    this.chatSidenav?.close();
+    this.chatSidenav.close();
   }
 }
