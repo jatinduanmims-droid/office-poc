@@ -1,0 +1,32 @@
+Goal
+Identify why an Angular Material mat-sidenav (mode="over") opens and closes immediately, and recommend the single safest production fix.
+
+Constraints
+	•	Do NOT refactor code
+	•	Do NOT rename variables or methods
+	•	Do NOT change logic or UI structure
+	•	Do NOT apply multiple fixes
+	•	Only add temporary logs or flags
+	•	All changes must be reversible
+
+Context
+	•	Sidenav closes immediately after open
+	•	Clicking or typing inside also closes it
+	•	No intentional close() call exists
+	•	Expected: stays open until user closes it
+
+Tasks
+	1.	Log all close(), toggle(), backdrop clicks, and escape events
+	2.	Verify if the open click event bubbles to the Material backdrop
+	3.	Confirm chatbot DOM is fully inside <mat-sidenav> and not overflowing via CSS
+	4.	Test ONE at a time:
+	•	event.stopPropagation() on open button
+	•	stopPropagation inside sidenav content
+	•	[disableClose]="true"
+	•	[hasBackdrop]="false"
+
+Output
+	•	Root cause (2–3 lines)
+	•	Comparison of tested options
+	•	Recommend ONE best fix
+	•	Provide minimal code snippet only
