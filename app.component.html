@@ -1,68 +1,79 @@
-<header class="app-header">
-  <button mat-icon-button class="hamburger" (click)="toggleLeftPanel()">
-    <mat-icon>menu</mat-icon>
-  </button>
+<mat-sidenav-container class="app-sidenav-container">
 
-  <h1 class="title">C4 CONTROLS AGENT</h1>
+  <!-- LEFT: Hamburger sidenav -->
+  <!-- CHANGE: mode="side" ➜ mode="over" -->
+  <mat-sidenav
+    #leftSidenav
+    mode="over"
+    [(opened)]="leftPanelOpen"
+    class="left-sidenav">
 
-  <img src="assets/bnp-logo.png" class="logo" />
-</header>
-
-<div class="main-container">
-  <!-- LEFT SIDEBAR -->
-  <aside class="left-panel" [class.closed]="!leftPanelOpen">
-    <button mat-button class="nav-item" routerLink="/emails">
+    <button mat-button routerLink="/emails" (click)="leftSidenav.close()">
       <mat-icon>home</mat-icon>
-      Home
     </button>
 
-    <button mat-button class="nav-item" (click)="toggleTradeMenu()">
+    <button mat-button (click)="toggleTradeMenu()">
       <mat-icon>settings</mat-icon>
       Trade Controls
-      <mat-icon class="arrow" [class.rotated]="tradeMenuOpen">
-        expand_more
-      </mat-icon>
     </button>
 
-    <div class="trade-submenu" *ngIf="tradeMenuOpen">
-      <button
-        mat-button
-        class="submenu-item"
-        routerLink="/dashboard"
-      >
+    <div *ngIf="tradeMenuOpen">
+      <button mat-button routerLink="/dashboard" (click)="leftSidenav.close()">
         Incoming Requests Management Control
       </button>
 
-      <button
-        mat-button
-        class="submenu-item"
-        routerLink="/lc-maturity"
-      >
-        L/C Maturity follow up
-      </button>
-
-      <button
-        mat-button
-        class="submenu-item"
-        routerLink="/loans"
-      >
-        Loans Controls
-      </button>
-
-      <button
-        mat-button
-        class="submenu-item"
-        routerLink="/supply-chain"
-      >
-        Supply Chain Controls
+      <button mat-button routerLink="/cancellations" (click)="leftSidenav.close()">
+        Evergreen Cancellations Control
       </button>
     </div>
-  </aside>
 
-  <!-- RIGHT CONTENT -->
-  <main class="right-panel">
-    <div class="content-wrapper">
-      <router-outlet></router-outlet>
+  </mat-sidenav>
+
+  <!-- RIGHT: Chatbot sidenav -->
+  <!-- CHANGE: must be direct child of mat-sidenav-container -->
+  <mat-sidenav
+    #chatSidenav
+    position="end"
+    mode="over"
+    class="chat-sidenav"
+    [autoFocus]="false">
+
+    <!-- CHANGE: stopPropagation ONLY inside chatbot -->
+    <div (click)="$event.stopPropagation()">
+      <app-chatbot-dialog
+        (closePanel)="closeChatBot()">
+      </app-chatbot-dialog>
     </div>
-  </main>
-</div>
+
+  </mat-sidenav>
+
+  <!-- MAIN CONTENT -->
+  <mat-sidenav-content>
+
+    <header class="app-header">
+      <button
+        mat-icon-button
+        class="hamburger"
+        (click)="toggleLeftPanel()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <h1>C4 CONTROLS AGENT</h1>
+    </header>
+
+    <router-outlet></router-outlet>
+
+    <!-- Chat open button -->
+    <!-- CHANGE: pass $event -->
+    <div class="chat-btn-wrapper">
+      <button
+        mat-icon-button
+        class="chat-btn"
+        (click)="openChatbot($event)">
+        <mat-icon>chat</mat-icon>
+      </button>
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
