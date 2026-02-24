@@ -13,4 +13,32 @@ On KPI click:
 
 Implement a single reusable applyStatusFilter(status) method in the component .ts.
 Wire KPI cards using (click) handlers only.
-Do not change existing table structure, column logic, or API calls.
+Do not change existing table structure, column 
+logic, or API calls.
+
+step
+
+Here’s a short, precise Roo prompt, aligned with your data reality (blank status = pending):
+
+⸻
+
+Roo Prompt:
+
+Update KPI logic to derive counts directly from the table dataset.
+
+– “Total Number of Market Facilities” should show the total count of all records
+– “Market Facilities: Completed” should count records where status === 'COMPLETE'
+– “Market Facilities: Pending” should count records where status is blank, null, or undefined
+
+Compute these counts in the component .ts from the existing dataset (no hardcoded values).
+Keep existing APIs, table structure, and column logic unchanged.
+Ensure KPIs update automatically when the dataset changes.
+
+⸻
+
+If you want, I can also give:
+	•	an even shorter ultra-minimal version
+	•	or a combined prompt (counts + click-to-filter behavior)
+
+Just say which one.
+
