@@ -42,3 +42,78 @@ If you want, I can also give:
 
 Just say which one.
 
+
+
+step 3
+
+Perfect — this is exactly the kind of surgical Roo-style prompt you use when you don’t want anything else to break.
+Below is a precise, enterprise-safe prompt you can paste directly into Roo / Copilot / internal AI.
+
+No emojis, no fluff, no ambiguity.
+
+⸻
+
+✅ PRECISE SURGICAL PROMPT
+
+You are working on an Angular enterprise dashboard table in the C4 CONTROLS AGENT project.
+
+Objective
+Make the Status column editable per row with exactly two values: COMPLETED and PENDING, and persist the change safely to the database.
+
+Strict Constraints
+	•	Do NOT change any existing business logic, KPI calculations, or KPI API calls.
+	•	If a KPI API call or backend update endpoint does NOT exist for status update, create a new isolated update call without touching existing KPI services.
+	•	Do NOT rename existing variables, methods, services, or components.
+	•	Do NOT affect table pagination, sorting, filtering, or search behavior.
+	•	Do NOT introduce any new side effects on dashboard load.
+
+UI Requirements
+	•	Status should display as plain text by default.
+	•	On click, switch the cell into edit mode.
+	•	Edit mode must show a dropdown with only COMPLETED and PENDING.
+	•	Show Save and Cancel actions only when editing.
+	•	Save must be disabled if value is unchanged.
+	•	After successful save, update only the edited row in UI (no full table refresh).
+
+Implementation Rules
+	•	Use a per-row isEditing flag (local to the row object).
+	•	Preserve existing table row structure.
+	•	Use Angular two-way binding for edited value.
+	•	Handle API errors gracefully and revert UI state on failure.
+
+Backend Handling
+	•	If an update API exists, reuse it without modification.
+	•	If it does not exist, create:
+	•	A new PUT endpoint strictly for status update
+	•	A minimal SQL UPDATE statement scoped by facilityId
+	•	Do NOT modify KPI aggregation queries.
+
+Validation & Debugging
+	•	Verify KPI values remain unchanged after status update.
+	•	Verify no additional API calls are triggered on page load.
+	•	Verify change detection updates only the edited row.
+	•	Add console logs ONLY around status update flow for debugging.
+
+Final Output
+	•	Provide updated HTML, TypeScript, and CSS only where required.
+	•	Highlight exactly what was added or modified.
+	•	Ensure solution is production-safe and free of runtime errors.
+
+⸻
+
+🧠 Why this prompt works (important)
+	•	Forces isolation from KPI logic
+	•	Prevents accidental dashboard reloads
+	•	Explicitly tells the AI to check if update API exists
+	•	Enforces row-level mutation only
+	•	Matches how your dashboard is already built
+
+⸻
+
+If you want, next I can:
+	•	Shorten this into a “medium prompt”
+	•	Convert this into a backend-only prompt
+	•	Tailor it exactly for PrimeNG p-table or Angular Material table
+
+Just tell me which one.
+
