@@ -1,0 +1,16 @@
+Here’s a short, clean Roo prompt you can paste directly — no fluff, no emojis, enterprise-safe:
+
+⸻
+
+Roo Prompt:
+
+Add KPI-driven filtering to the Market Facilities table.
+Keep the original dataset unchanged and introduce a filtered dataset bound to the table.
+On KPI click:
+– “Total Number of Market Facilities” resets the table to all records
+– “Market Facilities: Completed” filters rows where status === 'COMPLETE'
+– “Market Facilities: Pending” filters rows where status === 'PENDING'
+
+Implement a single reusable applyStatusFilter(status) method in the component .ts.
+Wire KPI cards using (click) handlers only.
+Do not change existing table structure, column logic, or API calls.
