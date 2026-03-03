@@ -7,13 +7,13 @@ import { ChartData, ChartOptions } from 'chart.js';
 import { TableModule } from 'primeng/table';
 
 @Component({
-  selector: 'app-control1-v2',
+  selector: 'app-jatin-dashboard',
   standalone: true,
   imports: [CommonModule, NgChartsModule, TableModule],
-  templateUrl: './control1-v2.component.html',
-  styleUrls: ['./control1-v2.component.scss']
+  templateUrl: './jatin-dashboard.component.html',
+  styleUrls: ['./jatin-dashboard.component.scss']
 })
-export class Control1V2Component implements OnInit {
+export class JatinDashboardComponent implements OnInit {
 
   // =========================
   // DEMO STABLE DATE
@@ -36,7 +36,6 @@ export class Control1V2Component implements OnInit {
   amendmentsToday = 0;
   issuanceToday = 0;
   cancellationToday = 0;
-  undefinedToday = 0;
 
   due24 = 0;
   due48 = 0;
@@ -112,6 +111,7 @@ export class Control1V2Component implements OnInit {
 
     const target = this.targetDate.toDateString();
 
+    // TOTAL TODAY (for KPI display only)
     this.totalToday = this.batchEmails.filter(e =>
       new Date(e.EMAIL_RECEIVEDTIME).toDateString() === target
     ).length;
@@ -122,26 +122,18 @@ export class Control1V2Component implements OnInit {
     ).length;
 
     this.amendmentsToday = this.batchEmails.filter(e =>
-      new Date(e.EMAIL_RECEIVEDTIME).toDateString() === target &&
       e.OPERATION?.toLowerCase().includes('amend')
     ).length;
 
     this.issuanceToday = this.batchEmails.filter(e =>
-      new Date(e.EMAIL_RECEIVEDTIME).toDateString() === target &&
       e.OPERATION?.toLowerCase().includes('issu')
     ).length;
 
     this.cancellationToday = this.batchEmails.filter(e =>
-      new Date(e.EMAIL_RECEIVEDTIME).toDateString() === target &&
       e.OPERATION?.toLowerCase().includes('cancel')
     ).length;
 
-    this.undefinedToday =
-      this.totalToday -
-      this.amendmentsToday -
-      this.issuanceToday -
-      this.cancellationToday;
-
+    // SLA / Due
     const d24 = new Date(this.targetDate);
     d24.setDate(d24.getDate() + 1);
 
@@ -171,17 +163,14 @@ export class Control1V2Component implements OnInit {
   }
 
   // =========================
-  // CHART BUILDERS
+  // CHARTS
   // =========================
   private buildCharts(): void {
 
     this.slaLineData = {
       labels: ['SLA Met', 'SLA Breach'],
       datasets: [
-        {
-          data: [this.slaMet, this.slaBreach],
-          label: 'SLA Status'
-        }
+        { data: [this.slaMet, this.slaBreach], label: 'SLA Status' }
       ]
     };
 
@@ -193,10 +182,7 @@ export class Control1V2Component implements OnInit {
     this.dueBarData = {
       labels: ['Due 24h', 'Due 48h', 'Overdue'],
       datasets: [
-        {
-          data: [this.due24, this.due48, this.overdue],
-          label: 'Requests'
-        }
+        { data: [this.due24, this.due48, this.overdue], label: 'Requests' }
       ]
     };
 
@@ -207,10 +193,51 @@ export class Control1V2Component implements OnInit {
   }
 
   // =========================
-  // FILTERING
+  // FILTER LOGIC
   // =========================
   onFilter(type: string): void {
+
     this.activeFilter = type;
+    const target = this.targetDate.toDateString();
+
+    this.displayedEmails = this.batchEmails.filter(e => {
+
+      switch (type) {
+
+        case 'total':
+          return true;
+
+        case 'urgent':
+          return new Date(e.EMAIL_RECEIVEDTIME).toDateString() === target &&
+                 e.EMAIL_CLASSIFICATION === 'Urgent';
+
+        case 'amendment':
+          return e.OPERATION?.toLowerCase().includes('amend');
+
+        case 'issuance':
+          return e.OPERATION?.toLowerCase().includes('issu');
+
+        case 'cancellation':
+          return e.OPERATION?.toLowerCase().includes('cancel');
+
+        case 'due24':
+          const d24 = new Date(this.targetDate);
+          d24.setDate(d24.getDate() + 1);
+          return new Date(e.SLA_DATE).toDateString() === d24.toDateString();
+
+        case 'due48':
+          const d48 = new Date(this.targetDate);
+          d48.setDate(d48.getDate() + 2);
+          return new Date(e.SLA_DATE).toDateString() === d48.toDateString();
+
+        case 'overdue':
+          return new Date(e.SLA_DATE) < this.targetDate &&
+                 e.SLA_MET !== 'Y';
+
+        default:
+          return true;
+      }
+    });
   }
 
   clearFilter(): void {
