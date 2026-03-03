@@ -1,0 +1,169 @@
+<div class="page">
+
+  <!-- ========================= -->
+  <!-- PAGE HEADER -->
+  <!-- ========================= -->
+  <div class="page-header">
+    <h1>C4 CONTROLS AGENT</h1>
+  </div>
+
+  <!-- ========================= -->
+  <!-- TODAY AT A GLANCE -->
+  <!-- ========================= -->
+  <div class="section">
+    <h2>Today at a Glance</h2>
+
+    <div class="kpi-grid">
+
+      <div class="kpi large"
+           [class.active]="activeFilter === 'total'"
+           (click)="onFilter('total')">
+        <h3>{{ totalToday }}</h3>
+        <span>Total Requests Today</span>
+      </div>
+
+      <div class="kpi urgent"
+           [class.active]="activeFilter === 'urgent'"
+           (click)="onFilter('urgent')">
+        <h3>{{ urgentToday }}</h3>
+        <span>Urgent Requests</span>
+      </div>
+
+      <div class="kpi"
+           [class.active]="activeFilter === 'amendment'"
+           (click)="onFilter('amendment')">
+        <h3>{{ amendmentsToday }}</h3>
+        <span>Amendment</span>
+      </div>
+
+      <div class="kpi"
+           [class.active]="activeFilter === 'issuance'"
+           (click)="onFilter('issuance')">
+        <h3>{{ issuanceToday }}</h3>
+        <span>Issuance</span>
+      </div>
+
+      <div class="kpi"
+           [class.active]="activeFilter === 'cancellation'"
+           (click)="onFilter('cancellation')">
+        <h3>{{ cancellationToday }}</h3>
+        <span>Cancellation</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!-- MIDDLE SECTION -->
+  <!-- ========================= -->
+  <div class="middle-grid">
+
+    <!-- SLA HEALTH -->
+    <div class="card sla-card">
+      <h2>SLA Health</h2>
+
+      <div class="sla-content">
+
+        <div class="sla-percentage">
+          <div class="circle">
+            <span>{{ slaPercentage }}%</span>
+          </div>
+          <p>SLA Met</p>
+          <small>{{ slaBreach }} Breaches</small>
+        </div>
+
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="slaLineData"
+                  [options]="slaLineOptions"
+                  chartType="bar">
+          </canvas>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- IMMEDIATE ATTENTION -->
+    <div class="card attention-card">
+      <h2>Immediate Attention</h2>
+
+      <div class="attention-grid">
+
+        <div class="attention green"
+             [class.active]="activeFilter === 'due24'"
+             (click)="onFilter('due24')">
+          <span>Due in 24 Hrs</span>
+          <h3>{{ due24 }}</h3>
+        </div>
+
+        <div class="attention yellow"
+             [class.active]="activeFilter === 'due48'"
+             (click)="onFilter('due48')">
+          <span>Due in 48 Hrs</span>
+          <h3>{{ due48 }}</h3>
+        </div>
+
+        <div class="attention red"
+             [class.active]="activeFilter === 'overdue'"
+             (click)="onFilter('overdue')">
+          <span>Overdue</span>
+          <h3>{{ overdue }}</h3>
+        </div>
+
+        <div class="attention orange"
+             [class.active]="activeFilter === 'urgent'"
+             (click)="onFilter('urgent')">
+          <span>Urgent</span>
+          <h3>{{ urgentToday }}</h3>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- ACTIVE FILTER BAR -->
+  <!-- ========================= -->
+  <div class="filter-bar" *ngIf="activeFilter">
+    <div class="filter-info">
+      <span>Active Filter: <strong>{{ activeFilter }}</strong></span>
+    </div>
+    <button class="clear-btn" (click)="clearFilter()">
+      Clear Filter
+    </button>
+  </div>
+
+  <!-- ========================= -->
+  <!-- TABLE SECTION -->
+  <!-- ========================= -->
+  <div class="card table-card">
+
+    <p-table
+      [value]="displayedEmails"
+      [paginator]="true"
+      [rows]="10"
+      [responsiveLayout]="'scroll'"
+      styleClass="p-datatable-sm">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of cols">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td *ngFor="let col of cols">
+            {{ row[col.field] }}
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+
+  </div>
+
+</div>
