@@ -48,8 +48,8 @@ export class JatinDashboardComponent implements OnInit {
   // =========================
   // CHARTS
   // =========================
-  slaLineData!: ChartData<'bar'>;
-  slaLineOptions!: ChartOptions<'bar'>;
+  slaLineData!: ChartData<'doughnut'>;
+  slaLineOptions!: ChartOptions<'doughnut'>;
 
   dueBarData!: ChartData<'bar'>;
   dueBarOptions!: ChartOptions<'bar'>;
@@ -111,7 +111,6 @@ export class JatinDashboardComponent implements OnInit {
 
     const target = this.targetDate.toDateString();
 
-    // TOTAL TODAY (for KPI display only)
     this.totalToday = this.batchEmails.filter(e =>
       new Date(e.EMAIL_RECEIVEDTIME).toDateString() === target
     ).length;
@@ -133,7 +132,6 @@ export class JatinDashboardComponent implements OnInit {
       e.OPERATION?.toLowerCase().includes('cancel')
     ).length;
 
-    // SLA / Due
     const d24 = new Date(this.targetDate);
     d24.setDate(d24.getDate() + 1);
 
@@ -163,22 +161,31 @@ export class JatinDashboardComponent implements OnInit {
   }
 
   // =========================
-  // CHARTS
+  // BUILD CHARTS
   // =========================
   private buildCharts(): void {
 
+    // ✅ SLA DOUGHNUT (Pixel Style)
     this.slaLineData = {
       labels: ['SLA Met', 'SLA Breach'],
-      datasets: [
-        { data: [this.slaMet, this.slaBreach], label: 'SLA Status' }
-      ]
+      datasets: [{
+        data: [this.slaMet, this.slaBreach],
+        backgroundColor: ['#2e7d32', '#e0e0e0'],
+        borderWidth: 0
+      }]
     };
 
     this.slaLineOptions = {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      cutout: '78%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      }
     };
 
+    // Due Bar (unchanged)
     this.dueBarData = {
       labels: ['Due 24h', 'Due 48h', 'Overdue'],
       datasets: [
