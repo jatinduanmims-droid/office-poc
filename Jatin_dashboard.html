@@ -1,83 +1,93 @@
 <div class="page">
 
-  <!-- ========================= -->
-  <!-- PAGE HEADER -->
-  <!-- ========================= -->
+  <!-- HEADER -->
   <div class="page-header">
     <h1>C4 CONTROLS AGENT</h1>
   </div>
 
-  <!-- ========================= -->
   <!-- TODAY AT A GLANCE -->
-  <!-- ========================= -->
-  <div class="section">
+  <div class="card section-card">
     <h2>Today at a Glance</h2>
 
-    <div class="kpi-grid">
+    <div class="kpi-row">
 
-      <div class="kpi large"
+      <div class="kpi-box total"
            [class.active]="activeFilter === 'total'"
            (click)="onFilter('total')">
-        <h3>{{ totalToday }}</h3>
-        <span>Total Requests Today</span>
+        <div class="kpi-value">{{ totalToday }}</div>
+        <div class="kpi-label">Total Requests Today</div>
+        <div class="kpi-sub">Total Emails Received</div>
       </div>
 
-      <div class="kpi urgent"
+      <div class="kpi-box urgent"
            [class.active]="activeFilter === 'urgent'"
            (click)="onFilter('urgent')">
-        <h3>{{ urgentToday }}</h3>
-        <span>Urgent Requests</span>
+        <div class="kpi-value orange">{{ urgentToday }}</div>
+        <div class="kpi-label">Urgent Requests</div>
+        <div class="kpi-sub">Total Urgent Emails</div>
       </div>
 
-      <div class="kpi"
-           [class.active]="activeFilter === 'amendment'"
+      <div class="kpi-box"
            (click)="onFilter('amendment')">
-        <h3>{{ amendmentsToday }}</h3>
-        <span>Amendment</span>
+        <div class="kpi-value">{{ amendmentsToday }}</div>
+        <div class="kpi-label">Amendment Requests</div>
       </div>
 
-      <div class="kpi"
-           [class.active]="activeFilter === 'issuance'"
+      <div class="kpi-box"
            (click)="onFilter('issuance')">
-        <h3>{{ issuanceToday }}</h3>
-        <span>Issuance</span>
+        <div class="kpi-value">{{ issuanceToday }}</div>
+        <div class="kpi-label">Issuance Requests</div>
       </div>
 
-      <div class="kpi"
-           [class.active]="activeFilter === 'cancellation'"
+      <div class="kpi-box"
            (click)="onFilter('cancellation')">
-        <h3>{{ cancellationToday }}</h3>
-        <span>Cancellation</span>
+        <div class="kpi-value orange">{{ cancellationToday }}</div>
+        <div class="kpi-label">Cancellation Requests</div>
       </div>
 
     </div>
   </div>
 
-  <!-- ========================= -->
   <!-- MIDDLE SECTION -->
-  <!-- ========================= -->
-  <div class="middle-grid">
+  <div class="middle-layout">
 
     <!-- SLA HEALTH -->
     <div class="card sla-card">
+
       <h2>SLA Health</h2>
 
-      <div class="sla-content">
+      <div class="sla-layout">
 
-        <div class="sla-percentage">
-          <div class="circle">
-            <span>{{ slaPercentage }}%</span>
+        <div class="sla-chart-wrapper">
+
+          <canvas
+            baseChart
+            [data]="slaLineData"
+            [options]="slaLineOptions"
+            chartType="doughnut">
+          </canvas>
+
+          <div class="sla-center">
+            <div class="sla-percentage">{{ slaPercentage }}%</div>
+            <div class="sla-text">SLA Met</div>
           </div>
-          <p>SLA Met</p>
-          <small>{{ slaBreach }} Breaches</small>
+
         </div>
 
-        <div class="chart-container">
-          <canvas baseChart
-                  [data]="slaLineData"
-                  [options]="slaLineOptions"
-                  chartType="bar">
-          </canvas>
+        <div class="sla-right">
+
+          <div class="breach-number">
+            {{ slaBreach }}
+          </div>
+
+          <div class="breach-label">
+            SLA Breaches
+          </div>
+
+          <div class="sla-footer">
+            Total Emails Evaluated Today
+          </div>
+
         </div>
 
       </div>
@@ -85,59 +95,77 @@
 
     <!-- IMMEDIATE ATTENTION -->
     <div class="card attention-card">
-      <h2>Immediate Attention</h2>
 
-      <div class="attention-grid">
+      <div class="attention-header">
+        <h2>Immediate Attention</h2>
+        <button class="clear-btn" (click)="clearFilter()">Clear Filters</button>
+      </div>
 
-        <div class="attention green"
+      <div class="attention-chips">
+
+        <div class="chip"
              [class.active]="activeFilter === 'due24'"
              (click)="onFilter('due24')">
-          <span>Due in 24 Hrs</span>
-          <h3>{{ due24 }}</h3>
+          Due in 24 Hrs
         </div>
 
-        <div class="attention yellow"
+        <div class="chip"
              [class.active]="activeFilter === 'due48'"
              (click)="onFilter('due48')">
-          <span>Due in 48 Hrs</span>
-          <h3>{{ due48 }}</h3>
+          Due in 48 Hrs
         </div>
 
-        <div class="attention red"
+        <div class="chip red"
              [class.active]="activeFilter === 'overdue'"
              (click)="onFilter('overdue')">
-          <span>Overdue</span>
-          <h3>{{ overdue }}</h3>
-        </div>
-
-        <div class="attention orange"
-             [class.active]="activeFilter === 'urgent'"
-             (click)="onFilter('urgent')">
-          <span>Urgent</span>
-          <h3>{{ urgentToday }}</h3>
+          Overdue
         </div>
 
       </div>
+
+      <div class="attention-tiles">
+
+        <div class="tile green"
+             (click)="onFilter('due24')">
+          <div class="tile-title">Due File</div>
+          <div class="tile-number">{{ due24 }}</div>
+          <div class="tile-sub">Requests</div>
+        </div>
+
+        <div class="tile yellow"
+             (click)="onFilter('overdue')">
+          <div class="tile-title">Overdue</div>
+          <div class="tile-number">{{ overdue }}</div>
+          <div class="tile-sub">Requests</div>
+        </div>
+
+        <div class="tile orange"
+             (click)="onFilter('urgent')">
+          <div class="tile-title">Urgent Today</div>
+          <div class="tile-number">{{ urgentToday }}</div>
+          <div class="tile-sub">Requests</div>
+        </div>
+
+      </div>
+
     </div>
 
   </div>
 
-  <!-- ========================= -->
-  <!-- ACTIVE FILTER BAR -->
-  <!-- ========================= -->
-  <div class="filter-bar" *ngIf="activeFilter">
-    <div class="filter-info">
-      <span>Active Filter: <strong>{{ activeFilter }}</strong></span>
+  <!-- FILTER CHIPS ABOVE TABLE -->
+  <div class="filter-row" *ngIf="activeFilter">
+    <div class="active-chip">
+      {{ activeFilter | titlecase }}
     </div>
-    <button class="clear-btn" (click)="clearFilter()">
-      Clear Filter
-    </button>
+    <button class="clear-btn" (click)="clearFilter()">Clear All</button>
   </div>
 
-  <!-- ========================= -->
-  <!-- TABLE SECTION -->
-  <!-- ========================= -->
+  <!-- TABLE -->
   <div class="card table-card">
+
+    <div class="table-top">
+      <input type="text" placeholder="Search" />
+    </div>
 
     <p-table
       [value]="displayedEmails"
