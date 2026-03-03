@@ -51,6 +51,9 @@ export class JatinDashboardComponent implements OnInit {
   slaLineData!: ChartData<'doughnut'>;
   slaLineOptions!: ChartOptions<'doughnut'>;
 
+  slaTrendData!: ChartData<'line'>;
+  slaTrendOptions!: ChartOptions<'line'>;
+
   dueBarData!: ChartData<'bar'>;
   dueBarOptions!: ChartOptions<'bar'>;
 
@@ -165,7 +168,7 @@ export class JatinDashboardComponent implements OnInit {
   // =========================
   private buildCharts(): void {
 
-    // ✅ SLA DOUGHNUT (Pixel Style)
+    // SLA Doughnut
     this.slaLineData = {
       labels: ['SLA Met', 'SLA Breach'],
       datasets: [{
@@ -182,6 +185,75 @@ export class JatinDashboardComponent implements OnInit {
       plugins: {
         legend: { display: false },
         tooltip: { enabled: false }
+      }
+    };
+
+    // SLA Trend: last 7 available dates (up to targetDate)
+    const trendMap = new Map<string, { date: Date; met: number; breach: number }>();
+
+    this.batchEmails
+      .filter(e => new Date(e.EMAIL_RECEIVEDTIME) <= this.targetDate)
+      .forEach(e => {
+        const d = new Date(e.EMAIL_RECEIVEDTIME);
+        d.setHours(0, 0, 0, 0);
+        const key = d.toISOString().slice(0, 10);
+
+        if (!trendMap.has(key)) {
+          trendMap.set(key, { date: d, met: 0, breach: 0 });
+        }
+
+        const point = trendMap.get(key)!;
+        if (e.SLA_MET === 'Y') point.met += 1;
+        if (e.SLA_MET === 'N') point.breach += 1;
+      });
+
+    let trendPoints = Array.from(trendMap.values())
+      .sort((a, b) => a.date.getTime() - b.date.getTime())
+      .slice(-7);
+
+    if (!trendPoints.length) {
+      trendPoints = [{ date: new Date(this.targetDate), met: 0, breach: 0 }];
+    }
+
+    this.slaTrendData = {
+      labels: trendPoints.map(p => p.date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })),
+      datasets: [
+        {
+          label: 'SLA Met',
+          data: trendPoints.map(p => p.met),
+          borderColor: '#2e7d32',
+          backgroundColor: 'rgba(46, 125, 50, 0.15)',
+          pointRadius: 3,
+          pointHoverRadius: 4,
+          tension: 0.35
+        },
+        {
+          label: 'SLA Breach',
+          data: trendPoints.map(p => p.breach),
+          borderColor: '#c62828',
+          backgroundColor: 'rgba(198, 40, 40, 0.12)',
+          pointRadius: 3,
+          pointHoverRadius: 4,
+          tension: 0.35
+        }
+      ]
+    };
+
+    this.slaTrendOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top' },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: {
+          grid: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { precision: 0 }
+        }
       }
     };
 
