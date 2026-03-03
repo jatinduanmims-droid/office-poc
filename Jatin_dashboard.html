@@ -67,7 +67,7 @@
             baseChart
             [data]="slaLineData"
             [options]="slaLineOptions"
-            chartType="doughnut">
+            type="doughnut" chartType="doughnut">
           </canvas>
 
           <div class="sla-center-text">
@@ -79,12 +79,13 @@
         <div class="sla-side">
           <p class="muted">Breach Count</p>
           <strong class="breach-count">{{ slaBreach }}</strong>
-          <div class="mini-chart" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+          <div class="sla-trend-wrapper">
+            <canvas
+              baseChart
+              [data]="slaTrendData"
+              [options]="slaTrendOptions"
+              type="line" chartType="line">
+            </canvas>
           </div>
         </div>
       </div>
