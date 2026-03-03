@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmailService } from '../services/email.service';
-import { EmailDetail } from '../models/email-detail.model';
+import { EmailDetail } from '../services/email.service';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { TableModule } from 'primeng/table';
@@ -10,8 +10,8 @@ import { TableModule } from 'primeng/table';
   selector: 'app-jatin-dashboard',
   standalone: true,
   imports: [CommonModule, NgChartsModule, TableModule],
-  templateUrl: './jatin-dashboard.component.html',
-  styleUrls: ['./jatin-dashboard.component.scss']
+  templateUrl: './jatin-dashboard.html',
+  styleUrls: ['./jatin-dashboard.scss']
 })
 export class JatinDashboardComponent implements OnInit {
 
@@ -65,7 +65,7 @@ export class JatinDashboardComponent implements OnInit {
     { field: 'LC_REFERENCE_NUMBER', header: 'LC Ref' },
     { field: 'APPROVEDATE_FMT', header: 'Approval Date' },
     { field: 'SLA_DATE_FMT', header: 'SLA Date' },
-    { field: 'SLA_MET', header: 'SLA Met' }
+    { field: 'SLAMEET', header: 'SLA Met' }
   ];
 
   constructor(private emailSrv: EmailService) {}
