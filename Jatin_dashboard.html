@@ -1,64 +1,67 @@
-<div class="page">
+<div class="dashboard-shell">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
 
-  <!-- PAGE HEADER -->
-  <div class="page-header">
-    <h1>C4 CONTROLS AGENT</h1>
-  </div>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Operations Monitor</p>
+      <h1>C4 Controls Agent Dashboard</h1>
+    </div>
+    <div class="date-pill">Snapshot: {{ targetDate | date: 'dd MMM yyyy' }}</div>
+  </header>
 
-  <!-- TODAY AT A GLANCE -->
-  <div class="section">
-    <h2>Today at a Glance</h2>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Today At A Glance</h2>
+      <p>Click any metric card to filter the table</p>
+    </div>
 
     <div class="kpi-grid">
+      <button class="kpi kpi-total"
+              [class.active]="activeFilter === 'total'"
+              (click)="onFilter('total')">
+        <span class="kpi-label">Total Requests</span>
+        <strong>{{ totalToday }}</strong>
+      </button>
 
-      <div class="kpi large"
-           [class.active]="activeFilter === 'total'"
-           (click)="onFilter('total')">
-        <h3>{{ totalToday }}</h3>
-        <span>Total Requests Today</span>
-      </div>
+      <button class="kpi kpi-urgent"
+              [class.active]="activeFilter === 'urgent'"
+              (click)="onFilter('urgent')">
+        <span class="kpi-label">Urgent Requests</span>
+        <strong>{{ urgentToday }}</strong>
+      </button>
 
-      <div class="kpi urgent"
-           [class.active]="activeFilter === 'urgent'"
-           (click)="onFilter('urgent')">
-        <h3>{{ urgentToday }}</h3>
-        <span>Urgent Requests</span>
-      </div>
+      <button class="kpi"
+              [class.active]="activeFilter === 'amendment'"
+              (click)="onFilter('amendment')">
+        <span class="kpi-label">Amendment</span>
+        <strong>{{ amendmentsToday }}</strong>
+      </button>
 
-      <div class="kpi"
-           [class.active]="activeFilter === 'amendment'"
-           (click)="onFilter('amendment')">
-        <h3>{{ amendmentsToday }}</h3>
-        <span>Amendment</span>
-      </div>
+      <button class="kpi"
+              [class.active]="activeFilter === 'issuance'"
+              (click)="onFilter('issuance')">
+        <span class="kpi-label">Issuance</span>
+        <strong>{{ issuanceToday }}</strong>
+      </button>
 
-      <div class="kpi"
-           [class.active]="activeFilter === 'issuance'"
-           (click)="onFilter('issuance')">
-        <h3>{{ issuanceToday }}</h3>
-        <span>Issuance</span>
-      </div>
-
-      <div class="kpi"
-           [class.active]="activeFilter === 'cancellation'"
-           (click)="onFilter('cancellation')">
-        <h3>{{ cancellationToday }}</h3>
-        <span>Cancellation</span>
-      </div>
-
+      <button class="kpi"
+              [class.active]="activeFilter === 'cancellation'"
+              (click)="onFilter('cancellation')">
+        <span class="kpi-label">Cancellation</span>
+        <strong>{{ cancellationToday }}</strong>
+      </button>
     </div>
-  </div>
+  </section>
 
-  <!-- MIDDLE GRID -->
-  <div class="middle-grid">
-
-    <!-- SLA HEALTH -->
-    <div class="card sla-card">
-      <h2>SLA Health</h2>
+  <section class="middle-grid">
+    <article class="panel sla-card">
+      <div class="panel-head">
+        <h2>SLA Health</h2>
+        <p>Real-time service-level performance</p>
+      </div>
 
       <div class="sla-container">
-
-        <!-- DOUGHNUT -->
         <div class="sla-chart-wrapper">
           <canvas
             baseChart
@@ -73,107 +76,89 @@
           </div>
         </div>
 
-        <!-- RIGHT SIDE -->
-        <div class="sla-right-section">
-          <div class="breach-count">
-            {{ slaBreach }}
-          </div>
-
-          <div class="breach-label">
-            SLA Breaches
-          </div>
-
-          <div class="mini-chart">
-            <div class="mini-line"></div>
+        <div class="sla-side">
+          <p class="muted">Breach Count</p>
+          <strong class="breach-count">{{ slaBreach }}</strong>
+          <div class="mini-chart" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
-
       </div>
 
       <div class="sla-footer-strip">
         <div>Total Emails Received Today</div>
         <div class="delta">+12 from yesterday</div>
       </div>
+    </article>
 
-    </div>
-
-    <!-- IMMEDIATE ATTENTION -->
-    <div class="card attention-card">
-      <h2>Immediate Attention</h2>
+    <article class="panel attention-card">
+      <div class="panel-head">
+        <h2>Immediate Attention</h2>
+        <p>Critical SLA windows and aging items</p>
+      </div>
 
       <div class="attention-grid">
-
-        <div class="attention green"
-             [class.active]="activeFilter === 'due24'"
-             (click)="onFilter('due24')">
+        <button class="attention green"
+                [class.active]="activeFilter === 'due24'"
+                (click)="onFilter('due24')">
           <span>Due in 24 Hrs</span>
-          <h3>{{ due24 }}</h3>
-        </div>
+          <strong>{{ due24 }}</strong>
+        </button>
 
-        <div class="attention yellow"
-             [class.active]="activeFilter === 'due48'"
-             (click)="onFilter('due48')">
+        <button class="attention yellow"
+                [class.active]="activeFilter === 'due48'"
+                (click)="onFilter('due48')">
           <span>Due in 48 Hrs</span>
-          <h3>{{ due48 }}</h3>
-        </div>
+          <strong>{{ due48 }}</strong>
+        </button>
 
-        <div class="attention red"
-             [class.active]="activeFilter === 'overdue'"
-             (click)="onFilter('overdue')">
+        <button class="attention red"
+                [class.active]="activeFilter === 'overdue'"
+                (click)="onFilter('overdue')">
           <span>Overdue</span>
-          <h3>{{ overdue }}</h3>
-        </div>
+          <strong>{{ overdue }}</strong>
+        </button>
 
-        <div class="attention orange"
-             [class.active]="activeFilter === 'urgent'"
-             (click)="onFilter('urgent')">
+        <button class="attention orange"
+                [class.active]="activeFilter === 'urgent'"
+                (click)="onFilter('urgent')">
           <span>Urgent</span>
-          <h3>{{ urgentToday }}</h3>
-        </div>
-
+          <strong>{{ urgentToday }}</strong>
+        </button>
       </div>
-    </div>
+    </article>
+  </section>
 
-  </div>
-
-  <!-- FILTER BAR -->
-  <div class="filter-bar" *ngIf="activeFilter">
+  <section class="filter-bar" *ngIf="activeFilter">
     <div class="filter-info">
-      <span>Active Filter: <strong>{{ activeFilter }}</strong></span>
+      Active Filter: <strong>{{ activeFilter }}</strong>
     </div>
-    <button class="clear-btn" (click)="clearFilter()">
-      Clear Filter
-    </button>
-  </div>
+    <button class="clear-btn" (click)="clearFilter()">Clear Filter</button>
+  </section>
 
-  <!-- TABLE -->
-  <div class="card table-card">
-
+  <section class="panel table-card">
     <p-table
       [value]="displayedEmails"
       [paginator]="true"
       [rows]="10"
       [responsiveLayout]="'scroll'"
-      styleClass="p-datatable-sm">
+      styleClass="p-datatable-sm modern-table">
 
       <ng-template pTemplate="header">
         <tr>
-          <th *ngFor="let col of cols">
-            {{ col.header }}
-          </th>
+          <th *ngFor="let col of cols">{{ col.header }}</th>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-row>
         <tr>
-          <td *ngFor="let col of cols">
-            {{ row[col.field] }}
-          </td>
+          <td *ngFor="let col of cols">{{ row[col.field] }}</td>
         </tr>
       </ng-template>
-
     </p-table>
-
-  </div>
-
+  </section>
 </div>
