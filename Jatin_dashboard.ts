@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmailService } from '../services/email.service';
 import { EmailDetail } from '../services/email.service';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { TableModule } from 'primeng/table';
 
@@ -13,7 +13,9 @@ import { TableModule } from 'primeng/table';
   templateUrl: './jatin-dashboard.html',
   styleUrls: ['./jatin-dashboard.scss']
 })
-export class JatinDashboardComponent implements OnInit {
+export class JatinDashboardComponent implements OnInit, AfterViewInit {
+
+  @ViewChildren(BaseChartDirective) private charts!: QueryList<BaseChartDirective>;
 
   // =========================
   // DEMO STABLE DATE
@@ -77,6 +79,15 @@ export class JatinDashboardComponent implements OnInit {
     this.loadBatchEmails();
   }
 
+  ngAfterViewInit(): void {
+    this.refreshChartLayout();
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    this.refreshChartLayout();
+  }
+
   // =========================
   // LOAD DATA
   // =========================
@@ -100,6 +111,7 @@ export class JatinDashboardComponent implements OnInit {
 
         this.calculateKpis();
         this.buildCharts();
+        this.refreshChartLayout();
 
         this.loading = false;
       },
@@ -322,6 +334,23 @@ export class JatinDashboardComponent implements OnInit {
   clearFilter(): void {
     this.activeFilter = null;
     this.displayedEmails = [...this.batchEmails];
+  }
+
+  private refreshChartLayout(): void {
+    // Run twice to handle route/layout settling before chart sizing locks in.
+    setTimeout(() => {
+      this.charts?.forEach(chart => {
+        chart.chart?.resize();
+        chart.update();
+      });
+    }, 0);
+
+    setTimeout(() => {
+      this.charts?.forEach(chart => {
+        chart.chart?.resize();
+        chart.update();
+      });
+    }, 180);
   }
 
   private formatDate(value: string | Date): string {
