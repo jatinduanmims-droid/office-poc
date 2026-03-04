@@ -131,6 +131,27 @@
           <strong>{{ urgentToday }}</strong>
         </button>
       </div>
+
+      <div class="attention-insight">
+        <div class="insight-head">
+          <span>Current SLA Pressure Mix</span>
+          <strong>{{ due24 + due48 + overdue + urgentToday }} items</strong>
+        </div>
+
+        <div class="insight-bar">
+          <span class="seg due24" [style.width.%]="(due24 + due48 + overdue + urgentToday) ? (due24 * 100 / (due24 + due48 + overdue + urgentToday)) : 0"></span>
+          <span class="seg due48" [style.width.%]="(due24 + due48 + overdue + urgentToday) ? (due48 * 100 / (due24 + due48 + overdue + urgentToday)) : 0"></span>
+          <span class="seg overdue" [style.width.%]="(due24 + due48 + overdue + urgentToday) ? (overdue * 100 / (due24 + due48 + overdue + urgentToday)) : 0"></span>
+          <span class="seg urgent" [style.width.%]="(due24 + due48 + overdue + urgentToday) ? (urgentToday * 100 / (due24 + due48 + overdue + urgentToday)) : 0"></span>
+        </div>
+
+        <div class="insight-legend">
+          <div><i class="dot due24"></i>Due 24h ({{ due24 }})</div>
+          <div><i class="dot due48"></i>Due 48h ({{ due48 }})</div>
+          <div><i class="dot overdue"></i>Overdue ({{ overdue }})</div>
+          <div><i class="dot urgent"></i>Urgent ({{ urgentToday }})</div>
+        </div>
+      </div>
     </article>
   </section>
 
