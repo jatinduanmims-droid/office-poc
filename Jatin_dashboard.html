@@ -165,22 +165,75 @@
   <section class="panel table-card">
     <p-table
       [value]="displayedEmails"
+      [loading]="loading"
+      [filterDelay]="300"
       [paginator]="true"
       [rows]="10"
-      [responsiveLayout]="'scroll'"
-      styleClass="p-datatable-sm modern-table">
+      [totalRecords]="totalEmails"
+      (onPage)="handlePage($event)"
+      [scrollable]="true"
+      scrollHeight="auto"
+      responsiveLayout="scroll"
+      class="compact-table custom-header modern-table">
 
       <ng-template pTemplate="header">
         <tr>
-          <th *ngFor="let col of cols">{{ col.header }}</th>
+          <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+            <div class="table-head-cell">
+              {{ col.header }}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </div>
+          </th>
+        </tr>
+
+        <tr>
+          <th *ngFor="let col of cols">
+            <div class="filter-wrapper">
+              <i class="pi pi-search"></i>
+              <p-columnFilter
+                [field]="col.field"
+                type="text"
+                [showMenu]="false"
+                class="filter-input">
+              </p-columnFilter>
+            </div>
+          </th>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-row>
         <tr>
-          <td *ngFor="let col of cols">{{ row[col.field] }}</td>
+          <td
+            *ngFor="let col of cols"
+            (click)="openDetail(row)"
+            [ngClass]="{ 'center-cell': col.align === 'center' }">
+
+            <ng-container *ngIf="col.field === 'SLAMEET'; else defaultCell">
+              <span
+                class="sla-icon"
+                [ngClass]="row[col.field] === 'Y' ? 'sla-ok' : 'sla-nok'">
+                {{ row[col.field] === 'Y' ? '✔' : '✘' }}
+              </span>
+            </ng-container>
+
+            <ng-template #defaultCell>
+              {{ row[col.field] }}
+            </ng-template>
+
+          </td>
         </tr>
       </ng-template>
+
     </p-table>
   </section>
+</div>
+
+<div class="modal-backdrop" *ngIf="selectedRow" (click)="closeDetail()"></div>
+
+<div class="modal-window" *ngIf="selectedRow">
+  <app-email-detail
+    [rowId]="selectedRow.ROW_ID"
+    [control]="'all'"
+    (close)="closeDetail()">
+  </app-email-detail>
 </div>
