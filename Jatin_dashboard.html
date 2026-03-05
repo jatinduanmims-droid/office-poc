@@ -51,6 +51,13 @@
         <span class="kpi-label">Cancellation</span>
         <strong>{{ cancellationToday }}</strong>
       </button>
+
+      <button class="kpi"
+              [class.active]="activeFilter === 'unknown'"
+              (click)="onFilter('unknown')">
+        <span class="kpi-label">Unknown Operation</span>
+        <strong>{{ unknownToday }}</strong>
+      </button>
     </div>
   </section>
 
