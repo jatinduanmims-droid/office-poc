@@ -175,6 +175,7 @@
       [loading]="loading"
       [filterDelay]="300"
       [paginator]="true"
+      [removableSort]="true"
       [rows]="10"
       [totalRecords]="totalEmails"
       (onPage)="handlePage($event)"
@@ -185,7 +186,13 @@
 
       <ng-template pTemplate="header">
         <tr>
-          <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          <th
+            *ngFor="let col of cols"
+            [pSortableColumn]="col.field"
+            [ngClass]="{
+              'sender-col': col.field === 'SENDER',
+              'operation-col': col.field === 'OPERATION'
+            }">
             <div class="table-head-cell">
               {{ col.header }}
               <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -194,7 +201,12 @@
         </tr>
 
         <tr>
-          <th *ngFor="let col of cols">
+          <th
+            *ngFor="let col of cols"
+            [ngClass]="{
+              'sender-col': col.field === 'SENDER',
+              'operation-col': col.field === 'OPERATION'
+            }">
             <div class="filter-wrapper">
               <i class="pi pi-search"></i>
               <p-columnFilter
@@ -213,7 +225,11 @@
           <td
             *ngFor="let col of cols"
             (click)="openDetail(row)"
-            [ngClass]="{ 'center-cell': col.align === 'center' }">
+            [ngClass]="{
+              'center-cell': col.align === 'center',
+              'sender-col': col.field === 'SENDER',
+              'operation-col': col.field === 'OPERATION'
+            }">
 
             <ng-container *ngIf="col.field === 'SLAMEET'; else defaultCell">
               <span
