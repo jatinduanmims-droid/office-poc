@@ -535,10 +535,63 @@
 :host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) > th {
   background: #f8fbf9;
   border-bottom: 1px solid #e3ebe7;
+  padding: 3px 5px;
 }
 
 :host ::ng-deep .modern-table .p-datatable-tbody > tr > td {
   cursor: pointer;
+}
+
+/* Keep filter row visually smaller than the main header row. */
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) .filter-wrapper {
+  gap: 4px;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) .pi {
+  font-size: 0.62rem;
+  color: #7a8a84;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) .p-column-filter {
+  width: 100%;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) .p-column-filter-element {
+  min-width: 0;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) .p-inputtext {
+  height: 20px;
+  font-size: 0.68rem;
+  padding: 0 0.28rem;
+  line-height: 1.1;
+}
+
+/* Hide extra filter control buttons to keep the filter row compact. */
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) .p-column-filter-menu-button,
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) .p-column-filter-clear-button {
+  width: 18px;
+  height: 18px;
+}
+
+/* Make sender/operation columns clearly separate and readable. */
+:host ::ng-deep .modern-table th.sender-col,
+:host ::ng-deep .modern-table td.sender-col {
+  min-width: 230px;
+  border-right: 1px solid #edf2ef;
+  padding-right: 10px;
+}
+
+:host ::ng-deep .modern-table th.operation-col,
+:host ::ng-deep .modern-table td.operation-col {
+  min-width: 130px;
+  padding-left: 10px;
+}
+
+:host ::ng-deep .modern-table td.sender-col {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal-backdrop {
