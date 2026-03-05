@@ -5,7 +5,7 @@ import { EmailDetail } from '../services/email.service';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { TableModule } from 'primeng/table';
-import { EmailDetailComponent } from '../email-detail/email-detail.component';
+import { EmailDetailComponent } from '../components/email-detail/email-detail.component';
 
 @Component({
   selector: 'app-jatin-dashboard',
@@ -32,9 +32,6 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
   loading = false;
   selectedRow?: EmailDetail;
   totalEmails = 0;
-  private unsortedSnapshot: EmailDetail[] = [];
-  private sortFieldState: string | null = null;
-  private sortOrderState: -1 | 0 | 1 = 0;
 
   // =========================
   // KPI COUNTERS
@@ -117,7 +114,6 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
         } as EmailDetail));
 
         this.displayedEmails = [...this.batchEmails];
-        this.unsortedSnapshot = [...this.displayedEmails];
         this.totalEmails = this.batchEmails.length;
 
         this.calculateKpis();
@@ -351,52 +347,12 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
     });
 
     this.totalEmails = this.displayedEmails.length;
-    this.unsortedSnapshot = [...this.displayedEmails];
-    this.sortFieldState = null;
-    this.sortOrderState = 0;
   }
 
   clearFilter(): void {
     this.activeFilter = null;
     this.displayedEmails = [...this.batchEmails];
     this.totalEmails = this.displayedEmails.length;
-    this.unsortedSnapshot = [...this.displayedEmails];
-    this.sortFieldState = null;
-    this.sortOrderState = 0;
-  }
-
-  onCustomSort(event: any): void {
-    const field = event?.field as string;
-    if (!field) {
-      return;
-    }
-
-    if (this.sortFieldState !== field) {
-      this.sortFieldState = field;
-      this.sortOrderState = 1;
-    } else if (this.sortOrderState === 1) {
-      this.sortOrderState = -1;
-    } else if (this.sortOrderState === -1) {
-      this.sortOrderState = 0;
-      this.sortFieldState = null;
-    } else {
-      this.sortFieldState = field;
-      this.sortOrderState = 1;
-    }
-
-    if (this.sortOrderState === 0 || !this.sortFieldState) {
-      this.displayedEmails = [...this.unsortedSnapshot];
-      return;
-    }
-
-    const order = this.sortOrderState;
-    const sortField = this.sortFieldState;
-
-    this.displayedEmails = [...this.displayedEmails].sort((a: any, b: any) => {
-      const aVal = a?.[sortField];
-      const bVal = b?.[sortField];
-      return this.compareForSort(aVal, bVal) * order;
-    });
   }
 
   openDetail(row: EmailDetail): void {
@@ -431,21 +387,5 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
 
   private formatDate(value: string | Date): string {
     return new Date(value).toLocaleDateString('en-GB');
-  }
-
-  private compareForSort(a: any, b: any): number {
-    if (a == null && b == null) return 0;
-    if (a == null) return -1;
-    if (b == null) return 1;
-
-    const aNum = Number(a);
-    const bNum = Number(b);
-    const bothNumeric = !Number.isNaN(aNum) && !Number.isNaN(bNum);
-
-    if (bothNumeric) {
-      return aNum - bNum;
-    }
-
-    return String(a).localeCompare(String(b), undefined, { sensitivity: 'base' });
   }
 }
