@@ -20,6 +20,9 @@
 }
 
 .dashboard-shell {
+  /* PAGE CANVAS:
+     - Reduce/increase outer white-space using `padding`.
+     - Keep this smaller for dense desktop layouts. */
   position: relative;
   min-height: 100vh;
   padding: 22px;
@@ -58,6 +61,10 @@
 }
 
 .topbar {
+  /* HEADER SIZE CONTROLS:
+     - Main header height comes mostly from `padding`.
+     - Rounded feel comes from `border-radius`.
+     - Vertical gap below header uses `margin-bottom`. */
   padding: 16px 18px;
   border-radius: 14px;
   margin-bottom: 16px;
@@ -95,6 +102,9 @@
 }
 
 .panel {
+  /* GENERIC CARD SIZE:
+     - Most section height can be tuned from this `padding`.
+     - Use this to compact/expand all cards uniformly. */
   background: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 14px;
@@ -126,12 +136,19 @@
 }
 
 .kpi-grid {
+  /* KPI ROW WIDTH DENSITY:
+     - `minmax(132px, 1fr)` controls minimum KPI card width.
+     - Lower value = more cards per row / tighter layout.
+     - `gap` controls space between cards. */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 8px
 }
 
 .kpi {
+  /* KPI CARD HEIGHT:
+     - Primary height control is `padding`.
+     - If cards still feel tall/short, adjust this first. */
   border: 1px solid var(--line);
   background: var(--panel-deep);
   border-radius: 10px;
@@ -148,6 +165,7 @@
 
 .kpi strong,
 .attention strong {
+  /* KPI/ATTENTION NUMBER SIZE + vertical spacing under label */
   display: block;
   margin-top: 7px;
   font-size: 1.28rem;
@@ -176,6 +194,10 @@
 }
 
 .middle-grid {
+  /* MAIN TWO-COLUMN SPLIT:
+     - First value = SLA card width share.
+     - Second value = Immediate Attention width share.
+     - Example: 1.45fr 0.75fr gives SLA more width. */
   margin-top: 14px;
   display: grid;
   grid-template-columns: 1.35fr 0.85fr;
@@ -183,6 +205,9 @@
 }
 
 .sla-container {
+  /* SLA INTERNAL LAYOUT:
+     - First column controls donut space.
+     - Second column controls breach/trend space. */
   display: grid;
   grid-template-columns: 200px minmax(150px, 1fr);
   gap: 12px;
@@ -190,6 +215,8 @@
 }
 
 .sla-chart-wrapper {
+  /* DONUT SIZE:
+     - Change width/height together to scale donut area. */
   position: relative;
   width: 176px;
   height: 176px;
@@ -226,6 +253,7 @@
 }
 
 .sla-trend-wrapper {
+  /* LINE CHART HEIGHT in SLA card */
   width: 100%;
   height: 108px;
   margin-top: 4px;
@@ -260,6 +288,8 @@
 }
 
 .attention-grid {
+  /* ATTENTION CARD GRID DENSITY:
+     - Adjust `gap` for tighter/looser card spacing. */
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
@@ -335,6 +365,8 @@
 .dot.urgent { background: #f0ad63; }
 
 .attention {
+  /* ATTENTION CARD HEIGHT:
+     - Primary control is `padding`. */
   border: 1px solid transparent;
   border-radius: 10px;
   padding: 10px;
@@ -376,6 +408,7 @@
 }
 
 .table-card {
+  /* SPACE BEFORE TABLE (table itself intentionally unchanged) */
   margin-top: 10px;
 }
 
@@ -385,6 +418,9 @@
 }
 
 :host ::ng-deep .modern-table .p-datatable-thead > tr > th {
+  /* TABLE HEADER ROW HEIGHT/TEXT:
+     - Reduce `font-size` and add small `padding` if needed.
+     - Keep bolder than filter row for hierarchy. */
   background: #edf5f0;
   color: #22352d;
   font-size: 0.78rem;
@@ -459,6 +495,8 @@
 }
 
 .filter-wrapper {
+  /* FILTER ROW COMPACTNESS:
+     - Controls icon/input spacing in 2nd header row. */
   display: flex;
   align-items: center;
   gap: 6px;
@@ -469,6 +507,9 @@
 }
 
 :host ::ng-deep .filter-input .p-inputtext {
+  /* FILTER INPUT HEIGHT:
+     - `padding` + `font-size` control perceived row height.
+     - For very compact row, lower both values slightly. */
   width: 100%;
   font-size: 0.72rem;
   padding: 0.22rem 0.36rem;
