@@ -22,7 +22,7 @@
 .dashboard-shell {
   position: relative;
   min-height: 100vh;
-  padding: 28px;
+  padding: 22px;
   overflow: hidden;
   background: linear-gradient(140deg, var(--bg-top), var(--bg-bottom));
 }
@@ -58,48 +58,48 @@
 }
 
 .topbar {
-  padding: 22px 24px;
-  border-radius: 16px;
-  margin-bottom: 22px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  margin-bottom: 16px;
   background: linear-gradient(132deg, var(--brand-dark), var(--brand));
   box-shadow: var(--glow);
   color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 16px;
+  gap: 12px;
   animation: rise 0.35s ease;
 }
 
 .eyebrow {
   margin: 0;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   opacity: 0.88;
 }
 
 .topbar h1 {
-  margin: 6px 0 0;
-  font-size: clamp(1.4rem, 2vw, 2rem);
+  margin: 4px 0 0;
+  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
   letter-spacing: 0.01em;
 }
 
 .date-pill {
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   backdrop-filter: blur(4px);
 }
 
 .panel {
   background: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 16px;
+  border-radius: 14px;
   box-shadow: var(--glow);
-  padding: 20px;
+  padding: 14px;
   backdrop-filter: blur(6px);
   animation: rise 0.4s ease;
 }
@@ -109,33 +109,33 @@
   justify-content: space-between;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .panel-head h2 {
   margin: 0;
-  font-size: 1.12rem;
+  font-size: 0.98rem;
 }
 
 .panel-head p,
 .muted {
   margin: 0;
   color: var(--ink-500);
-  font-size: 0.86rem;
+  font-size: 0.78rem;
 }
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
 }
 
 .kpi {
   border: 1px solid var(--line);
   background: var(--panel-deep);
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 10px;
+  padding: 10px;
   text-align: left;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
@@ -149,14 +149,14 @@
 .kpi strong,
 .attention strong {
   display: block;
-  margin-top: 10px;
-  font-size: 1.55rem;
+  margin-top: 7px;
+  font-size: 1.28rem;
   line-height: 1;
 }
 
 .kpi-label,
 .attention span {
-  font-size: 0.82rem;
+  font-size: 0.74rem;
   color: var(--ink-700);
   letter-spacing: 0.02em;
 }
@@ -176,23 +176,23 @@
 }
 
 .middle-grid {
-  margin-top: 20px;
+  margin-top: 14px;
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 18px;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 12px;
 }
 
 .sla-container {
   display: grid;
-  grid-template-columns: 240px minmax(160px, 1fr);
-  gap: 20px;
+  grid-template-columns: 200px minmax(150px, 1fr);
+  gap: 12px;
   align-items: center;
 }
 
 .sla-chart-wrapper {
   position: relative;
-  width: 220px;
-  height: 220px;
+  width: 176px;
+  height: 176px;
 }
 
 .sla-chart-wrapper canvas {
@@ -209,14 +209,14 @@
 }
 
 .sla-percent {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--brand-dark);
 }
 
 .sla-label {
   color: var(--ink-500);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   margin-top: 2px;
 }
 
@@ -227,7 +227,7 @@
 
 .sla-trend-wrapper {
   width: 100%;
-  height: 140px;
+  height: 108px;
   margin-top: 4px;
 }
 
@@ -237,21 +237,21 @@
 }
 
 .breach-count {
-  font-size: 2.3rem;
+  font-size: 1.8rem;
   color: var(--alert);
   line-height: 1;
 }
 
 .sla-footer-strip {
-  margin-top: 14px;
-  padding: 10px 12px;
-  border-radius: 10px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
   background: #f3f8f5;
   border: 1px solid #dde9e2;
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  font-size: 0.82rem;
+  font-size: 0.74rem;
 }
 
 .delta {
@@ -262,12 +262,12 @@
 .attention-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
 
 .attention-insight {
-  margin-top: 14px;
-  padding: 12px;
+  margin-top: 10px;
+  padding: 9px;
   border: 1px solid #e0e7e4;
   background: #f8fbfa;
   border-radius: 10px;
@@ -277,10 +277,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  font-size: 0.8rem;
+  gap: 8px;
+  font-size: 0.72rem;
   color: var(--ink-700);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .insight-head strong {
@@ -290,7 +290,7 @@
 
 .insight-bar {
   width: 100%;
-  height: 10px;
+  height: 7px;
   border-radius: 999px;
   overflow: hidden;
   display: flex;
@@ -311,8 +311,8 @@
 .insight-legend {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px 10px;
-  font-size: 0.76rem;
+  gap: 5px 8px;
+  font-size: 0.68rem;
   color: var(--ink-700);
 }
 
@@ -323,8 +323,8 @@
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 999px;
   display: inline-block;
 }
@@ -336,8 +336,8 @@
 
 .attention {
   border: 1px solid transparent;
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 10px;
+  padding: 10px;
   text-align: left;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -376,7 +376,7 @@
 }
 
 .table-card {
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
 :host ::ng-deep .modern-table .p-datatable-table {
@@ -443,4 +443,80 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.table-head-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.center-cell {
+  text-align: center;
+}
+
+.filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:host ::ng-deep .filter-input .p-column-filter {
+  width: 100%;
+}
+
+:host ::ng-deep .filter-input .p-inputtext {
+  width: 100%;
+  font-size: 0.72rem;
+  padding: 0.22rem 0.36rem;
+}
+
+.sla-icon {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.sla-ok {
+  color: #2e7d32;
+}
+
+.sla-nok {
+  color: #c62828;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead > tr:first-child > th {
+  font-weight: 700;
+}
+
+:host ::ng-deep .modern-table .p-datatable-thead > tr:nth-child(2) > th {
+  background: #f8fbf9;
+  border-bottom: 1px solid #e3ebe7;
+}
+
+:host ::ng-deep .modern-table .p-datatable-tbody > tr > td {
+  cursor: pointer;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1200;
+}
+
+.modal-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1100px, 92vw);
+  max-height: 88vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  z-index: 1201;
 }
