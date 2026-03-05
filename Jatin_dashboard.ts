@@ -5,11 +5,12 @@ import { EmailDetail } from '../services/email.service';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { TableModule } from 'primeng/table';
+import { EmailDetailComponent } from '../email-detail/email-detail.component';
 
 @Component({
   selector: 'app-jatin-dashboard',
   standalone: true,
-  imports: [CommonModule, NgChartsModule, TableModule],
+  imports: [CommonModule, NgChartsModule, TableModule, EmailDetailComponent],
   templateUrl: './jatin-dashboard.html',
   styleUrls: ['./jatin-dashboard.scss']
 })
@@ -29,6 +30,8 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
   displayedEmails: EmailDetail[] = [];
   activeFilter: string | null = null;
   loading = false;
+  selectedRow?: EmailDetail;
+  totalEmails = 0;
 
   // =========================
   // KPI COUNTERS
@@ -65,12 +68,12 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
   cols = [
     { field: 'SENDER', header: 'Sender' },
     { field: 'OPERATION', header: 'Operation' },
-    { field: 'EMAIL_RECEIVEDTIME_FMT', header: 'Received On' },
+    { field: 'EMAIL_RECEIVEDTIME_FMT', header: 'Received On', align: 'center' },
     { field: 'EMAIL_CLASSIFICATION', header: 'Classification' },
-    { field: 'LC_REFERENCE_NUMBER', header: 'LC Ref' },
-    { field: 'APPROVEDATE_FMT', header: 'Approval Date' },
-    { field: 'SLA_DATE_FMT', header: 'SLA Date' },
-    { field: 'SLAMEET', header: 'SLA Met' }
+    { field: 'LC_REFERENCE_NUMBER', header: 'LC Ref', align: 'center' },
+    { field: 'APPROVEDATE_FMT', header: 'Approval Date', align: 'center' },
+    { field: 'SLA_DATE_FMT', header: 'SLA Date', align: 'center' },
+    { field: 'SLAMEET', header: 'SLA Met', align: 'center' }
   ];
 
   constructor(private emailSrv: EmailService) {}
@@ -104,10 +107,13 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
           APPROVEDATE: e.APPROVEDATE ? new Date(e.APPROVEDATE) : undefined,
           SLA_DATE_FMT: this.formatDate(e.SLA_DATE),
           EMAIL_RECEIVEDTIME_FMT: this.formatDate(e.EMAIL_RECEIVEDTIME),
-          APPROVEDATE_FMT: e.APPROVEDATE ? this.formatDate(e.APPROVEDATE) : ''
-        }));
+          APPROVEDATE_FMT: e.APPROVEDATE ? this.formatDate(e.APPROVEDATE) : '',
+          // Normalize SLA field for table icon rendering
+          SLAMEET: (e as any).SLAMEET ?? e.SLA_MET ?? ''
+        } as EmailDetail));
 
         this.displayedEmails = [...this.batchEmails];
+        this.totalEmails = this.batchEmails.length;
 
         this.calculateKpis();
         this.buildCharts();
@@ -329,11 +335,27 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
           return true;
       }
     });
+
+    this.totalEmails = this.displayedEmails.length;
   }
 
   clearFilter(): void {
     this.activeFilter = null;
     this.displayedEmails = [...this.batchEmails];
+    this.totalEmails = this.displayedEmails.length;
+  }
+
+  openDetail(row: EmailDetail): void {
+    this.selectedRow = row;
+  }
+
+  closeDetail(): void {
+    this.selectedRow = undefined;
+    this.loadBatchEmails();
+  }
+
+  handlePage(_event: any): void {
+    // Reserved for pagination hooks.
   }
 
   private refreshChartLayout(): void {
