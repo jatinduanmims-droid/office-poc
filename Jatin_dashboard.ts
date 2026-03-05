@@ -41,6 +41,7 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
   amendmentsToday = 0;
   issuanceToday = 0;
   cancellationToday = 0;
+  unknownToday = 0;
 
   due24 = 0;
   due48 = 0;
@@ -152,6 +153,11 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
     this.cancellationToday = this.batchEmails.filter(e =>
       e.OPERATION?.toLowerCase().includes('cancel')
     ).length;
+
+    this.unknownToday = this.batchEmails.filter(e => {
+      const op = e.OPERATION;
+      return !op || op.trim() === '' || op.trim().toLowerCase() === 'none';
+    }).length;
 
     const d24 = new Date(this.targetDate);
     d24.setDate(d24.getDate() + 1);
@@ -316,6 +322,10 @@ export class JatinDashboardComponent implements OnInit, AfterViewInit {
 
         case 'cancellation':
           return e.OPERATION?.toLowerCase().includes('cancel');
+
+        case 'unknown':
+          const op = e.OPERATION;
+          return !op || op.trim() === '' || op.trim().toLowerCase() === 'none';
 
         case 'due24':
           const d24 = new Date(this.targetDate);
