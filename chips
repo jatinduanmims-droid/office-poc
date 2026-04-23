@@ -1,0 +1,118 @@
+Create a full-stack enterprise application with Angular (frontend) and Node.js (backend) using a clean, scalable architecture.
+
+=====================
+PROJECT REQUIREMENTS
+=====================
+
+Frontend: Angular (latest version)
+Backend: Node.js with Express
+Database: MySQL (or PostgreSQL)
+UI Library: Angular Material
+Excel Generation: xlsx library
+Email Sending: Outlook SMTP (nodemailer)
+
+=====================
+FEATURES
+=====================
+
+1. DATA TABLE (FRONTEND)
+- Fetch data from backend API and display in a table
+- Use Angular Material table (mat-table)
+- Columns should be dynamically generated based on API response
+- Enable inline editing for each cell (input fields inside table)
+- Track edited rows and fields (dirty state)
+
+2. INLINE EDIT FUNCTIONALITY
+- User should be able to click on any cell and edit value
+- On blur or save click, update should be stored locally
+- Provide a "Save Changes" button
+- On save:
+  → Send updated rows to backend via API (PUT request)
+  → Backend updates database
+  → UI refreshes with latest data
+
+3. BACKEND APIs
+Create REST APIs:
+- GET /data → fetch all records
+- PUT /data → update edited records in bulk
+- POST /send-email → generate excel and send email
+
+4. DATABASE LAYER
+- Create a sample table with 5–6 columns (id, name, status, amount, date, etc.)
+- Use a repository/service pattern
+- Handle bulk updates efficiently
+
+5. EXCEL GENERATION
+- On clicking "Send" button:
+  → Backend fetches latest data
+  → Convert JSON to Excel using xlsx
+  → Generate file in memory (no disk storage)
+
+6. EMAIL FUNCTIONALITY
+- Use nodemailer with Outlook SMTP
+- Send email with:
+  → Subject: "Data Validation Required"
+  → Body: simple message
+  → Attachment: generated Excel file
+
+7. UI ACTIONS
+- Buttons:
+  → "Save Changes"
+  → "Send for Validation"
+- Disable Send button until data is saved
+- Show success/error notifications
+
+=====================
+ARCHITECTURE
+=====================
+
+Frontend Structure:
+- src/app/
+  - core/
+  - shared/
+  - features/
+    - data-table/
+      - components/
+      - services/
+      - models/
+
+Backend Structure:
+- src/
+  - controllers/
+  - services/
+  - repositories/
+  - routes/
+  - config/
+
+=====================
+BEST PRACTICES
+=====================
+
+- Use TypeScript everywhere
+- Use environment configs for email credentials
+- Proper error handling (frontend + backend)
+- Use RxJS for API calls
+- Follow separation of concerns
+- Clean, enterprise-level UI (minimal and professional)
+- No hardcoded values
+- Reusable components
+
+=====================
+BONUS (if possible)
+=====================
+
+- Add pagination and sorting in table
+- Add loading spinner during API calls
+- Highlight edited cells
+- Add confirmation before sending email
+
+=====================
+DELIVERABLE
+=====================
+
+Provide:
+1. Angular frontend code
+2. Node.js backend code
+3. Database schema (SQL)
+4. Sample API responses
+5. Instructions to run project locally
